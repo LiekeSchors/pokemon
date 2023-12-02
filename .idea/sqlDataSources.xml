@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="518c5e58-6207-4ced-92bb-d9f6795829c6" name="pokemon_karten@localhost Mapping">
+      <data-sources db="fee274bd-0c20-4b15-a9ae-a7e0fd4d1bb0" ddl="53ae2999-d530-4472-941c-2f00b5a30a42" />
+      <scope>
+        <node kind="database" qname="pokemon_karten" />
+      </scope>
+    </mapping>
+  </component>
+</project>
