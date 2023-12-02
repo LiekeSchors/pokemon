@@ -13,7 +13,7 @@ public class PokemonKartenBearbeiten extends JFrame {
 
         // Auswahl, wo Daten hinzugefuegt werden sollen
         JTextField hinzufuegen = new JTextField("Zu welcher Tabelle möchten Sie die Daten bearbeiten?");
-// Test Änderungen
+
 
         JPanel hinzufuegenPanel = new JPanel(new GridLayout(1, 5));
 
