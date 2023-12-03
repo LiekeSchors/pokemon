@@ -1,4 +1,7 @@
+import org.w3c.dom.css.RGBColor;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +11,9 @@ public class PokemonKarten extends JFrame {
         setTitle("Willkommen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
 
         JButton btnInsert = new JButton("Karten hinzufügen");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
@@ -76,7 +82,33 @@ public class PokemonKarten extends JFrame {
             }
         });
 
-        JPanel panel = new JPanel();
+        MyColor hellBlau = new MyColor(51, 102, 255);
+        Color javaColorHellBlau = hellBlau.toColor();
+
+        MyColor pink = new MyColor(255, 102, 255);
+        Color javaColorPink = pink.toColor();
+
+        MyColor tuerkis = new MyColor(0, 153, 153);
+        Color javaColorTuerkis = tuerkis.toColor();
+
+        MyColor orange = new MyColor(255, 153, 51);
+        Color javaColorOrange = orange.toColor();
+
+        btnInsert.setBackground(javaColorPink);
+        btnBesonderheitenView.setBackground(javaColorHellBlau);
+        btnSeltenheitenView.setBackground(Color.green);
+        btnErweiterungenView.setBackground(Color.yellow);
+        btnOrdnerView.setBackground(javaColorOrange);
+        btnSammlungView.setBackground(javaColorTuerkis);
+
+        btnInsert.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnBesonderheitenView.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnSeltenheitenView.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnErweiterungenView.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnOrdnerView.setFont(new Font("Arial", Font.PLAIN, 40));
+        btnSammlungView.setFont(new Font("Arial", Font.PLAIN, 40));
+
+
         panel.add(btnInsert);
         panel.add(btnBesonderheitenView);
         panel.add(btnSeltenheitenView);
