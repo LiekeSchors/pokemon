@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PokemonKarten extends JFrame {
+    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
+    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
+    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
+    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     public PokemonKarten() {
         setTitle("Willkommen");
@@ -82,24 +86,12 @@ public class PokemonKarten extends JFrame {
             }
         });
 
-        MyColor hellBlau = new MyColor(51, 102, 255);
-        Color javaColorHellBlau = hellBlau.toColor();
-
-        MyColor pink = new MyColor(255, 102, 255);
-        Color javaColorPink = pink.toColor();
-
-        MyColor tuerkis = new MyColor(0, 153, 153);
-        Color javaColorTuerkis = tuerkis.toColor();
-
-        MyColor orange = new MyColor(255, 153, 51);
-        Color javaColorOrange = orange.toColor();
-
-        btnInsert.setBackground(javaColorPink);
-        btnBesonderheitenView.setBackground(javaColorHellBlau);
+        btnInsert.setBackground(JAVA_COLOR_PINK);
+        btnBesonderheitenView.setBackground(JAVA_COLOR_HELLBLAU);
         btnSeltenheitenView.setBackground(Color.green);
         btnErweiterungenView.setBackground(Color.yellow);
-        btnOrdnerView.setBackground(javaColorOrange);
-        btnSammlungView.setBackground(javaColorTuerkis);
+        btnOrdnerView.setBackground(JAVA_COLOR_ORANGE);
+        btnSammlungView.setBackground(JAVA_COLOR_TUERKIS);
 
         btnInsert.setFont(new Font("Arial", Font.PLAIN, 40));
         btnBesonderheitenView.setFont(new Font("Arial", Font.PLAIN, 40));
