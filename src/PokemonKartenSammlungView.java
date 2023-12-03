@@ -9,6 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PokemonKartenSammlungView extends JFrame {
+    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
+    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
+    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
+    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     private JTable table;
 
@@ -152,6 +156,13 @@ public class PokemonKartenSammlungView extends JFrame {
             pokemonKarten.setVisible(true);
             setVisible(false);
         });
+
+        btnInsert.setBackground(JAVA_COLOR_PINK);
+        btnBesonderheitenView.setBackground(JAVA_COLOR_HELLBLAU);
+        btnSeltenheitenView.setBackground(Color.green);
+        btnErweiterungenView.setBackground(Color.yellow);
+        btnOrdnerView.setBackground(JAVA_COLOR_ORANGE);
+        btnSammlungView.setBackground(JAVA_COLOR_TUERKIS);
 
         JPanel panel = new JPanel();
         panel.add(btnInsert);
