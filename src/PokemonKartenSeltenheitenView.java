@@ -174,3 +174,4 @@ public class PokemonKartenSeltenheitenView extends JFrame {
         new PokemonKartenSeltenheitenView().setVisible(true);
     }
 }
+//Just a test
