@@ -1,5 +1,7 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,12 +52,24 @@ public class PokemonKartenSeltenheitenView extends JFrame {
 
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
+            table.setRowHeight(40);
+
+            // Tabellenkopf anzeigen
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
 
             // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
 
-            // Füge das ScrollPane zum Frame hinzu
-            add(scrollPane);
+            // Textgröße ändern
+            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
+            table.setFont(font);
+            header.setFont(font);
+
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            panel.add(scrollPane);
+            add(panel);
 
         } catch (SQLException e) {
             System.out.println(e);
