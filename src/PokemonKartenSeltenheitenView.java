@@ -31,7 +31,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM seltenheit";
+            String sql = "SELECT * FROM seltenheit ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 

@@ -29,7 +29,10 @@ public class PokemonKartenErweiterungenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM erweiterungen";
+            String sql = "SELECT * " +
+                    "     FROM erweiterungen " +
+                    "     WHERE anzahl_karten_gesammelt IS NOT NULL" +
+                    "     ORDER BY anzahl_karten_gesammelt DESC";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
