@@ -1,5 +1,5 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,25 +29,25 @@ public class PokemonKartenSammlungView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM sammlung";
+            String sql = "SELECT * FROM sammlung ORDER BY karten_id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
             // Erstelle ein DefaultTableModel für die JTable
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("Karten-ID");
-            model.addColumn("Abkürzung Erweiterung");
-            model.addColumn("Pokémon-Name");
+            model.addColumn("ID");
+            model.addColumn("Erweiterung");
+            model.addColumn("Name");
             model.addColumn("Energie-Typ");
             model.addColumn("Entwicklung von");
-            model.addColumn("Kartennummer");
-            model.addColumn("Besonderheiten-ID");
-            model.addColumn("Seltenheiten-ID");
+            model.addColumn("Kartennr.");
+            model.addColumn("Besonderheit-ID");
+            model.addColumn("Seltenheit-ID");
             model.addColumn("Wert in €");
             model.addColumn("Datum Werteingabe");
-            model.addColumn("Zusatz für Name");
-            model.addColumn("Zusatz für Trainer");
-            model.addColumn("Zusatz für Kartennummer");
+            model.addColumn("Zusatz Name");
+            model.addColumn("Zusatz Trainer");
+            model.addColumn("Zusatz Kartennummer");
 
             while (rs.next()) {
                 // Füge die Zeilen zum Model hinzu
@@ -71,9 +71,71 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
+            table.setRowHeight(40);
+                    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+                    // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
+                    for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+                        TableColumn column = table.getColumnModel().getColumn(columnIndex);
+                        int preferredWidth = column.getMinWidth();
+
+                        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+                            TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
+                            Component cellComponent = table.prepareRenderer(cellRenderer, rowIndex, columnIndex);
+                            preferredWidth = Math.max(preferredWidth, cellComponent.getPreferredSize().width);
+                        }
+                column.setPreferredWidth(preferredWidth);
+            }
+
+            // Tool-Tip-Texte
+            String tooltipTextID = "<html>Karten-ID<br>Fortlaufende und eindeutige Nummer für die Karte</html>";
+            table.getColumnModel().getColumn(0).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextID));
+
+            String tooltipTextErweiterung = "Abkürzung für die Erweiterung";
+            table.getColumnModel().getColumn(1).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextErweiterung));
+
+            String tooltipTextName = "Name des Pokémons";
+            table.getColumnModel().getColumn(2).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextName));
+
+            String tooltipTextEnergieTyp = "Energietyp des Pokémons";
+            table.getColumnModel().getColumn(3).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextEnergieTyp));
+
+            String tooltipTextEntwicklung = "Pokémon, aus dem sich dieses Pokémon entwickelt hat";
+            table.getColumnModel().getColumn(4).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextEntwicklung));
+
+            String tooltipTextKartenNr = "Kartennummer in der jeweiligen Erweiterung";
+            table.getColumnModel().getColumn(5).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextKartenNr));
+
+            String tooltipTextBesonderheitenID = "<html>Identifikationsnummer für die Besonderheit<br><ul><li>0: Ohne</li><li>1: Glitzer-Karte</li><li>2: Glitzer-Rand</li><li>3: Glitzer-Komplett</li><li>4: Gold-Shiny</li></ul></html>";
+            table.getColumnModel().getColumn(6).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextBesonderheitenID));
+
+            String tooltipTextSeltenheitenID = "<html>Identifikationsnummer für die Seltenheit<br><ol><li>common</li><li>uncommon</li><li>rare</li><li>holo rare</li><li>double rare</li><li>triple star</li><li>rare illustration</li><li>special illustration rare</li><li>hype rare</li><li>ultra rare</li><li>ultra rare double</li><li>shiny holo rare</li><li>ultra rare fullart</li><li>secret rare</li><li>silver star</li><li>holo rare legende</li><li>promo</li><li>amazing rare</li></ol></html>";
+            table.getColumnModel().getColumn(7).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextSeltenheitenID));
+
+            String tooltipTextWertEuro = "Wert der Karte in Euro";
+            table.getColumnModel().getColumn(8).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextWertEuro));
+
+            String tooltipTextDatumWert = "Datum, wann der Wert auf cardmarket.com abgerufen wurde";
+            table.getColumnModel().getColumn(9).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextDatumWert));
+
+            String tooltipTextZusatzName = "Namenszusätze wie 'V' und 'V Star'";
+            table.getColumnModel().getColumn(10).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzName));
+
+            String tooltipTextZusatzTrainer = "Nähere Beschreibung der 'Trainerart'";
+            table.getColumnModel().getColumn(11).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzTrainer));
+
+            String tooltipTextZusatzKartenNr = "<html>Karten mit anderer Kartennummer als gewöhnlich<br>(z.B. Kombi aus Buchstaben und Zahlen)</html>";
+            table.getColumnModel().getColumn(12).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzKartenNr));
+
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
 
             // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
+
+            Font font = new Font("Arial", Font.PLAIN, 20);
+            table.setFont(font);
+            header.setFont(font);
 
             // Füge das ScrollPane zum Frame hinzu
             add(scrollPane);

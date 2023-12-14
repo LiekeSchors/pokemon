@@ -1,5 +1,8 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,13 +32,13 @@ public class PokemonKartenOrdnerView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM ordner";
+            String sql = "SELECT * FROM ordner ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
             // Erstelle ein DefaultTableModel für die JTable
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Ornder");
+            model.addColumn("Ordner-ID");
             model.addColumn("Enthält Zyklus");
             model.addColumn("Farbe");
 
@@ -51,12 +54,37 @@ public class PokemonKartenOrdnerView extends JFrame {
 
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
+            table.setRowHeight(30);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+            // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
+            for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+                TableColumn column = table.getColumnModel().getColumn(columnIndex);
+                int preferredWidth = column.getMinWidth();
+
+                for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+                    TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
+                    Component cellComponent = table.prepareRenderer(cellRenderer, rowIndex, columnIndex);
+                    preferredWidth = Math.max(preferredWidth, cellComponent.getPreferredSize().width);
+                }
+                column.setPreferredWidth(preferredWidth);
+            }
+
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
 
             // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
 
-            // Füge das ScrollPane zum Frame hinzu
-            add(scrollPane);
+            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
+            table.setFont(font);
+            header.setFont(font);
+
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            panel.add(scrollPane);
+            add(panel);
+
 
         } catch (SQLException e) {
             System.out.println(e);

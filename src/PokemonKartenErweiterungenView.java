@@ -1,5 +1,5 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +29,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM erweiterungen";
+            String sql = "SELECT * FROM erweiterungen ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
@@ -62,9 +62,57 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
+            table.setRowHeight(40);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+            // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
+            for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+                TableColumn column = table.getColumnModel().getColumn(columnIndex);
+                int preferredWidth = column.getMinWidth();
+
+                for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+                    TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
+                    Component cellComponent = table.prepareRenderer(cellRenderer, rowIndex, columnIndex);
+                    preferredWidth = Math.max(preferredWidth, cellComponent.getPreferredSize().width);
+                }
+                column.setPreferredWidth(preferredWidth);
+            }
+
+            // Tool-Tip-Texte
+            String tooltipTextID = "ID für die Erweiterung";
+            table.getColumnModel().getColumn(0).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextID));
+
+            String tooltipTextErweiterungName = "Name der Erweiterung";
+            table.getColumnModel().getColumn(1).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextErweiterungName));
+
+            String tooltipTextZyklus = "Zyklus, in dem die Erweiterung erschienen ist";
+            table.getColumnModel().getColumn(2).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZyklus));
+
+            String tooltipTextAbkuerzung = "Abkürzung der Erweiterung";
+            table.getColumnModel().getColumn(3).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAbkuerzung));
+
+            String tooltipTextJahr = "Jahr, in dem die Erweiterung erschienen ist";
+            table.getColumnModel().getColumn(4).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextJahr));
+
+            String tooltipTextAnzahlSammlung = "Anzahl der 'normalen' Karten in der Sammlung, ohne Extra-Karten";
+            table.getColumnModel().getColumn(5).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlSammlung));
+
+            String tooltipTextAnzahlGesammelt = "Anzahl der Karten, die bereits gesammelt wurden";
+            table.getColumnModel().getColumn(6).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlGesammelt));
+
+            String tooltipTextOrdnerID = "Ordner, in dem sich die Erweiterung befindet";
+            table.getColumnModel().getColumn(7).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextOrdnerID));
+
+
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
 
             // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
+
+            Font font = new Font("Arial", Font.PLAIN, 20);
+            table.setFont(font);
+            header.setFont(font);
 
             // Füge das ScrollPane zum Frame hinzu
             add(scrollPane);
