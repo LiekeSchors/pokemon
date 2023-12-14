@@ -56,6 +56,7 @@ public class PokemonKartenOrdnerView extends JFrame {
             table = new JTable(model);
             table.setRowHeight(30);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setEnabled(false);
 
             // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
             for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {

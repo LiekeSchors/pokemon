@@ -72,18 +72,20 @@ public class PokemonKartenSammlungView extends JFrame {
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
             table.setRowHeight(40);
-                    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+            table.setEnabled(false);
 
-                    // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
-                    for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
-                        TableColumn column = table.getColumnModel().getColumn(columnIndex);
-                        int preferredWidth = column.getMinWidth();
 
-                        for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
-                            TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
-                            Component cellComponent = table.prepareRenderer(cellRenderer, rowIndex, columnIndex);
-                            preferredWidth = Math.max(preferredWidth, cellComponent.getPreferredSize().width);
-                        }
+            // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
+            for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
+                TableColumn column = table.getColumnModel().getColumn(columnIndex);
+                int preferredWidth = column.getMinWidth();
+
+                for (int rowIndex = 0; rowIndex < table.getRowCount(); rowIndex++) {
+                    TableCellRenderer cellRenderer = table.getCellRenderer(rowIndex, columnIndex);
+                    Component cellComponent = table.prepareRenderer(cellRenderer, rowIndex, columnIndex);
+                    preferredWidth = Math.max(preferredWidth, cellComponent.getPreferredSize().width);
+                }
                 column.setPreferredWidth(preferredWidth);
             }
 

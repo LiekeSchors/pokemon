@@ -53,6 +53,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
             table.setRowHeight(40);
+            table.setEnabled(false);
 
             // Tabellenkopf anzeigen
             JTableHeader header = table.getTableHeader();
