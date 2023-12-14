@@ -15,6 +15,8 @@ public class PokemonKarten extends JFrame {
         setTitle("Willkommen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(800, 600));
+
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 2));

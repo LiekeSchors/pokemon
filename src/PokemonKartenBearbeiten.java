@@ -14,6 +14,8 @@ public class PokemonKartenBearbeiten extends JFrame {
     public PokemonKartenBearbeiten() {
         setTitle("Karten hinzufügen");
         setExtendedState(MAXIMIZED_BOTH);
+        setMinimumSize(new Dimension(800, 600));
+
 
         // Auswahl, wo Daten hinzugefuegt werden sollen
         JTextField hinzufuegen = new JTextField("Zu welcher Tabelle möchten Sie die Daten bearbeiten?");

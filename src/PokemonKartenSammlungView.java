@@ -20,6 +20,7 @@ public class PokemonKartenSammlungView extends JFrame {
         setTitle("Karten anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setMinimumSize(new Dimension(800, 600));
 
         // DB-Verbindung herstellen
         Connection con = null;
