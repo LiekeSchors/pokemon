@@ -61,7 +61,7 @@ public class PokemonKartenSammlungView extends JFrame {
                         rs.getInt("karten_nr"),
                         rs.getInt("besonderheit_id"),
                         rs.getInt("seltenheit_id"),
-                        rs.getDouble("wert_in_€"),
+                        rs.getDouble("wert_in_euro"),
                         rs.getString("wert_eingegeben_am"),
                         rs.getString("name_zusatz"),
                         rs.getString("trainer_zusatz"),
@@ -148,7 +148,7 @@ public class PokemonKartenSammlungView extends JFrame {
         }
 
         // Menue-Anzeige
-        JButton btnInsert = new JButton("Karten hinzufügen");
+        JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
         JButton btnSeltenheitenView = new JButton("Seltenheiten anzeigen");
         JButton btnErweiterungenView = new JButton("Erweiterungen anzeigen");

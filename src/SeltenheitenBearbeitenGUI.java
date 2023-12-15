@@ -1,0 +1,165 @@
+/*
+ * Copyright (c) 2023.
+ * Lieke Schors
+ * GUI zum Bearbeiten der Tabelle 'seltenheit'
+ */
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+public class SeltenheitenBearbeitenGUI extends JFrame {
+    private JLabel idSeltenheitLabel, beschreibungSeltenheitLabel;
+    private JTextField idSeltenheitTextField, beschreibungSeltenheitTextField;
+    private JButton speichernButton;
+
+    public SeltenheitenBearbeitenGUI() {
+        setTitle("Seltenheiten bearbeiten");
+        setExtendedState(MAXIMIZED_BOTH);
+        setMinimumSize(new Dimension(800, 600));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        idSeltenheitLabel = new JLabel("ID Seltenheit");
+        idSeltenheitTextField = new JTextField();
+        idSeltenheitTextField.setEditable(false); // Die ID ist schreibgeschützt (autoincrement)
+        idSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
+        idSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        idSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+
+
+        beschreibungSeltenheitLabel = new JLabel("Beschreibung Seltenheit");
+        beschreibungSeltenheitTextField = new JTextField();
+        beschreibungSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
+        beschreibungSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+
+
+        speichernButton = new JButton("Änderungen speichern");
+        speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
+
+
+        speichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateDataInDatabase();
+            }
+        });
+
+        JPanel panel = new JPanel(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Abstand zwischen den Komponenten
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(idSeltenheitLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panel.add(idSeltenheitTextField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        panel.add(beschreibungSeltenheitLabel, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        panel.add(beschreibungSeltenheitTextField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        panel.add(speichernButton, gbc);
+
+        add(panel);
+
+        // ID beim Laden des GUIs generieren
+        generateNextID();
+
+        JButton btnBack = new JButton("Zurück");
+        btnBack.addActionListener(e -> {
+            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
+            pokemonKartenBearbeiten.setVisible(true);
+            setVisible(false);
+        });
+
+        btnBack.setFont(new Font("Arial", Font.PLAIN, 24));
+
+        JPanel navPanel = new JPanel();
+        navPanel.add(btnBack);
+        add(navPanel, BorderLayout.SOUTH);
+
+        setLocationRelativeTo(null);
+    }
+
+    private void generateNextID() {
+        Connection con = DatenbankVerbindung.connectDB();
+        try {
+            // Abrufen der nächsten verfügbaren ID
+            String sqlSelectMaxID = "SELECT MAX(id) + 1 AS next_id FROM seltenheit";
+            PreparedStatement preparedStatementSelectMaxID = con.prepareStatement(sqlSelectMaxID);
+            ResultSet resultSet = preparedStatementSelectMaxID.executeQuery();
+            if (resultSet.next()) {
+                int nextID = resultSet.getInt("next_id");
+                idSeltenheitTextField.setText(String.valueOf(nextID));
+            }
+            resultSet.close();
+            preparedStatementSelectMaxID.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDataInDatabase() {
+        String neueBeschreibung = beschreibungSeltenheitTextField.getText();
+
+        // Code zum Einfuegen der Daten in die Datenbank
+        Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
+
+        try {
+            // Einfuegen der Daten mit automatisch inkrementierter ID
+            String sqlInsert = "INSERT INTO seltenheit (beschreibung) VALUES (?)";
+            PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatementInsert.setString(1, neueBeschreibung);
+            preparedStatementInsert.executeUpdate();
+
+            // Abrufen der generierten ID
+            ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int generatedID = generatedKeys.getInt(1);
+                idSeltenheitTextField.setText(String.valueOf(generatedID));
+            }
+
+            generatedKeys.close();
+            preparedStatementInsert.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            SeltenheitenBearbeitenGUI gui = new SeltenheitenBearbeitenGUI();
+            gui.setVisible(true);
+        });
+    }
+}

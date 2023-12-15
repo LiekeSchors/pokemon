@@ -12,7 +12,7 @@ public class PokemonKartenBearbeiten extends JFrame {
     public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     public PokemonKartenBearbeiten() {
-        setTitle("Karten hinzufügen");
+        setTitle("Sammlung bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
 
@@ -21,11 +21,79 @@ public class PokemonKartenBearbeiten extends JFrame {
         JTextField hinzufuegen = new JTextField("Zu welcher Tabelle möchten Sie die Daten bearbeiten?");
 
 
-        JPanel hinzufuegenPanel = new JPanel(new GridLayout(1, 5));
+        JPanel hinzufuegenPanel = new JPanel(new GridLayout(5, 1));
+        JButton btnBesonderheitenHinzufuegen = new JButton("Besonderheit hinzufügen");
+        JButton btnSeltenheitenHinzufuegen = new JButton("Seltenheit hinzufügen");
+        JButton btnErweiterungenHinzufuegen = new JButton("Erweiterung hinzufügen");
+        JButton btnOrdnerHinzufuegen = new JButton("Ordner hinzufügen");
+        JButton btnKartenHinzufuegen = new JButton("Karte hinzufügen");
+
+        // Besonderheiten bearbeiten
+        /*btnBesonderheitenHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BesonderheitenBearbeiten besonderheitenBearbeiten = new BesonderheitenBearbeiten();
+                besonderheitenBearbeiten.setVisible(true);
+                setVisible(false);
+            }
+        }); */
+
+        // Seltenheiten bearbeiten
+        btnSeltenheitenHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SeltenheitenBearbeitenGUI seltenheitenBearbeitenGUI = new SeltenheitenBearbeitenGUI();
+                seltenheitenBearbeitenGUI.setVisible(true);
+                setVisible(false);
+            }
+        });
+        /*
+        // Erweiterungen bearbeiten
+        btnErweiterungenHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ErweiterungenBearbeiten erweiterungenBearbeiten = new ErweiterungenBearbeiten();
+                erweiterungenBearbeiten.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+        // Ordner bearbeiten
+        btnOrdnerHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OrdnerBearbeiten ordnerBearbeiten = new OrdnerBearbeiten();
+                ordnerBearbeiten.setVisible(true);
+                setVisible(false);
+            }
+        });*/
+
+        // Karten bearbeiten
+        btnKartenHinzufuegen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                KartenBearbeitenGUI kartenBearbeiten = new KartenBearbeitenGUI();
+                kartenBearbeiten.setVisible(true);
+                setVisible(false);
+            }
+        });
+
+        btnBesonderheitenHinzufuegen.setBackground(JAVA_COLOR_HELLBLAU);
+        btnSeltenheitenHinzufuegen.setBackground(Color.green);
+        btnErweiterungenHinzufuegen.setBackground(Color.yellow);
+        btnOrdnerHinzufuegen.setBackground(JAVA_COLOR_ORANGE);
+        btnKartenHinzufuegen.setBackground(JAVA_COLOR_TUERKIS);
+
+        hinzufuegenPanel.add(btnBesonderheitenHinzufuegen);
+        hinzufuegenPanel.add(btnSeltenheitenHinzufuegen);
+        hinzufuegenPanel.add(btnErweiterungenHinzufuegen);
+        hinzufuegenPanel.add(btnOrdnerHinzufuegen);
+        hinzufuegenPanel.add(btnKartenHinzufuegen);
+
+        add(hinzufuegenPanel);
 
 
-
-        JButton btnInsert = new JButton("Karten hinzufügen");
+        JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
         JButton btnSeltenheitenView = new JButton("Seltenheiten anzeigen");
         JButton btnErweiterungenView = new JButton("Erweiterungen anzeigen");
@@ -117,8 +185,6 @@ public class PokemonKartenBearbeiten extends JFrame {
         panel.add(btnBack);
 
         add(panel, BorderLayout.SOUTH);
-
-        setLocationRelativeTo(null);
 
         setLocationRelativeTo(null);
     }

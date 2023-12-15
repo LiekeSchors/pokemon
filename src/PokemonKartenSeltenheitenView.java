@@ -77,7 +77,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             System.out.println(e);
         }
 
-        JButton btnInsert = new JButton("Karten hinzufügen");
+        JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
         JButton btnSeltenheitenView = new JButton("Seltenheiten anzeigen");
         JButton btnErweiterungenView = new JButton("Erweiterungen anzeigen");
