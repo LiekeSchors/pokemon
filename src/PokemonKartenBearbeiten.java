@@ -47,17 +47,17 @@ public class PokemonKartenBearbeiten extends JFrame {
                 setVisible(false);
             }
         });
-        /*
+
         // Erweiterungen bearbeiten
         btnErweiterungenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ErweiterungenBearbeiten erweiterungenBearbeiten = new ErweiterungenBearbeiten();
+                ErweiterungenBearbeitenGUI erweiterungenBearbeiten = new ErweiterungenBearbeitenGUI();
                 erweiterungenBearbeiten.setVisible(true);
                 setVisible(false);
             }
         });
-
+        /*
         // Ordner bearbeiten
         btnOrdnerHinzufuegen.addActionListener(new ActionListener() {
             @Override

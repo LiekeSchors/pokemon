@@ -304,7 +304,7 @@ public class KartenBearbeitenGUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            SeltenheitenBearbeitenGUI gui = new SeltenheitenBearbeitenGUI();
+            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
             gui.setVisible(true);
         });
     }
