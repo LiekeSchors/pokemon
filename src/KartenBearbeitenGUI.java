@@ -11,9 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,6 +40,9 @@ public class KartenBearbeitenGUI extends JFrame {
 
     private JButton hinzufuegenButton;
 
+    // Code zum Einfuegen der Daten in die Datenbank
+    Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
+
     public KartenBearbeitenGUI() {
         setTitle("GUI Karten bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
@@ -57,56 +58,56 @@ public class KartenBearbeitenGUI extends JFrame {
         kartenIDTextField = new JTextField();
         kartenIDTextField.setPreferredSize(new Dimension(150, 30));
         kartenIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
 
         erweiterungAbkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
         erweiterungAbkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         erweiterungAbkuerzungTextField = new JTextField();
         erweiterungAbkuerzungTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungAbkuerzungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungTextField, gbc, 0, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungTextField, gbc, 0, 2);
 
         pokemonNameLabel = new JLabel("Pokémon-Name");
         pokemonNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         pokemonNameTextField = new JTextField();
         pokemonNameTextField.setPreferredSize(new Dimension(150, 30));
         pokemonNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
 
         energieTypLabel = new JLabel("Energie-Typ");
         energieTypLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         energieTypTextField = new JTextField();
         energieTypTextField.setPreferredSize(new Dimension(150, 30));
         energieTypTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, energieTypLabel, energieTypTextField, gbc, 1, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, energieTypLabel, energieTypTextField, gbc, 1, 2);
 
         ursprungNameLabel = new JLabel("Ursprung des Pokémons");
         ursprungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         ursprungNameTextField = new JTextField();
         ursprungNameTextField.setPreferredSize(new Dimension(150, 30));
         ursprungNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, ursprungNameLabel, ursprungNameTextField, gbc, 2, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, ursprungNameLabel, ursprungNameTextField, gbc, 2, 0);
 
         kartenNummerLabel = new JLabel("Kartennummer");
         kartenNummerLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         kartenNummerTextField = new JTextField();
         kartenNummerTextField.setPreferredSize(new Dimension(150, 30));
         kartenNummerTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
 
         seltenheitIDLabel = new JLabel("Seltenheit-ID");
         seltenheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         seltenheitIDTextField = new JTextField();
         seltenheitIDTextField.setPreferredSize(new Dimension(150, 30));
         seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
 
         wertInEuroLabel = new JLabel("Wert der Karte in €");
         wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         wertInEuroTextField = new JTextField();
         wertInEuroTextField.setPreferredSize(new Dimension(150, 30));
         wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 3, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 3, 2);
 
 
         besonderheitIDLabel = new JLabel("Besonderheit-ID");
@@ -114,7 +115,7 @@ public class KartenBearbeitenGUI extends JFrame {
         besonderheitIDTextField = new JTextField();
         besonderheitIDTextField.setPreferredSize(new Dimension(150, 30));
         besonderheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 4, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 4, 0);
 
 
         datumWertEingabeLabel = new JLabel("Datum der Werteingabe");
@@ -122,7 +123,7 @@ public class KartenBearbeitenGUI extends JFrame {
         datumWertEingabeTextField = new JTextField();
         datumWertEingabeTextField.setPreferredSize(new Dimension(150, 30));
         datumWertEingabeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
 
         nameZusatzLabel = new JLabel("Zusatz zum Namen des Pokémons (z.B. 'V' oder 'V-Star')");
@@ -130,7 +131,7 @@ public class KartenBearbeitenGUI extends JFrame {
         nameZusatzTextField = new JTextField();
         nameZusatzTextField.setPreferredSize(new Dimension(150, 30));
         nameZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
 
 
         trainerZusatzLabel = new JLabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
@@ -138,7 +139,7 @@ public class KartenBearbeitenGUI extends JFrame {
         trainerZusatzTextField = new JTextField();
         trainerZusatzTextField.setPreferredSize(new Dimension(150, 30));
         trainerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
 
 
         kartenNummerZusatzLabel = new JLabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
@@ -146,7 +147,7 @@ public class KartenBearbeitenGUI extends JFrame {
         kartenNummerZusatzTextField = new JTextField();
         kartenNummerZusatzTextField.setPreferredSize(new Dimension(150, 30));
         kartenNummerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
 
 
         hinzufuegenButton = new JButton("Karte hinzufügen");
@@ -168,7 +169,7 @@ public class KartenBearbeitenGUI extends JFrame {
 
         add(panel);
 
-        generateNextID();
+        GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -184,16 +185,6 @@ public class KartenBearbeitenGUI extends JFrame {
 
         setLocationRelativeTo(null);
         setFocusable(true);
-    }
-
-    private void addLabelAndTextField(JPanel panel, JLabel label, JTextField textField, GridBagConstraints gbc, int row, int column) {
-        gbc.gridx = column;
-        gbc.gridy = row;
-        panel.add(label, gbc);
-
-        gbc.gridx = column + 1;
-        gbc.gridy = row;
-        panel.add(textField, gbc);
     }
 
     private void updateDataInDatabase() {
@@ -217,9 +208,6 @@ public class KartenBearbeitenGUI extends JFrame {
         String kartenNummerZusatz = kartenNummerZusatzTextField.getText();
         kartenNummerZusatz = (kartenNummerZusatz.isEmpty()) ? null : kartenNummerZusatz;
 
-
-        // Code zum Einfuegen der Daten in die Datenbank
-        Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
         try {
             // Einfuegen der Daten mit automatisch inkrementierter ID
@@ -248,7 +236,7 @@ public class KartenBearbeitenGUI extends JFrame {
             }
 
             clearFields();
-            generateNextID();
+            GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
             generatedKeys.close();
             preparedStatementInsert.close();
@@ -257,26 +245,6 @@ public class KartenBearbeitenGUI extends JFrame {
             e.printStackTrace();
         }
     }
-
-    private void generateNextID() {
-        Connection con = DatenbankVerbindung.connectDB();
-        try {
-            // Abrufen der nächsten verfügbaren ID
-            String sqlSelectMaxID = "SELECT MAX(karten_id) + 1 AS next_id FROM sammlung";
-            PreparedStatement preparedStatementSelectMaxID = con.prepareStatement(sqlSelectMaxID);
-            ResultSet resultSet = preparedStatementSelectMaxID.executeQuery();
-            if (resultSet.next()) {
-                int nextID = resultSet.getInt("next_id");
-                kartenIDTextField.setText(String.valueOf(nextID));
-            }
-            resultSet.close();
-            preparedStatementSelectMaxID.close();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void clearFields() {
         erweiterungAbkuerzungTextField.setText("");

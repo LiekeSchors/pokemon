@@ -1,9 +1,14 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.border.LineBorder;
-import javax.swing.border.Border;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class PokemonKartenBearbeiten extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
@@ -16,11 +21,6 @@ public class PokemonKartenBearbeiten extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
 
-
-        // Auswahl, wo Daten hinzugefuegt werden sollen
-        JTextField hinzufuegen = new JTextField("Zu welcher Tabelle möchten Sie die Daten bearbeiten?");
-
-
         JPanel hinzufuegenPanel = new JPanel(new GridLayout(5, 1));
         JButton btnBesonderheitenHinzufuegen = new JButton("Besonderheit hinzufügen");
         JButton btnSeltenheitenHinzufuegen = new JButton("Seltenheit hinzufügen");
@@ -29,20 +29,20 @@ public class PokemonKartenBearbeiten extends JFrame {
         JButton btnKartenHinzufuegen = new JButton("Karte hinzufügen");
 
         // Besonderheiten bearbeiten
-        /*btnBesonderheitenHinzufuegen.addActionListener(new ActionListener() {
+        btnBesonderheitenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BesonderheitenBearbeiten besonderheitenBearbeiten = new BesonderheitenBearbeiten();
-                besonderheitenBearbeiten.setVisible(true);
+                BesonderheitenBearbeitenGUI besonderheitenBearbeitenGUI = new BesonderheitenBearbeitenGUI();
+                besonderheitenBearbeitenGUI.setVisible(true);
                 setVisible(false);
             }
-        }); */
+        });
 
         // Seltenheiten bearbeiten
         btnSeltenheitenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SeltenheitenBearbeitenGUI seltenheitenBearbeitenGUI = new SeltenheitenBearbeitenGUI();
+                BesonderheitenBearbeitenGUI seltenheitenBearbeitenGUI = new BesonderheitenBearbeitenGUI();
                 seltenheitenBearbeitenGUI.setVisible(true);
                 setVisible(false);
             }
@@ -52,21 +52,21 @@ public class PokemonKartenBearbeiten extends JFrame {
         btnErweiterungenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ErweiterungenBearbeitenGUI erweiterungenBearbeiten = new ErweiterungenBearbeitenGUI();
+                OrdnerBearbeitenGUI erweiterungenBearbeiten = new OrdnerBearbeitenGUI();
                 erweiterungenBearbeiten.setVisible(true);
                 setVisible(false);
             }
         });
-        /*
+
         // Ordner bearbeiten
         btnOrdnerHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrdnerBearbeiten ordnerBearbeiten = new OrdnerBearbeiten();
-                ordnerBearbeiten.setVisible(true);
+                OrdnerBearbeitenGUI ordnerBearbeitenGUI = new OrdnerBearbeitenGUI();
+                ordnerBearbeitenGUI.setVisible(true);
                 setVisible(false);
             }
-        });*/
+        });
 
         // Karten bearbeiten
         btnKartenHinzufuegen.addActionListener(new ActionListener() {

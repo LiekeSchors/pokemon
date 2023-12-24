@@ -29,10 +29,11 @@ import javax.swing.SwingUtilities;
 
 public class ErweiterungenBearbeitenGUI extends JFrame {
     private JLabel erweiterungIDLabel, erweiterungNameLabel, zyklusLabel, abkuerzungLabel, jahrLabel, anzahlKartenSammlungLabel, ordnerIDLabel;
-
     private JTextField erweiterungIDTextField, erweiterungNameTextField, zyklusTextField, abkuerzungTextField, jahrTextField, anzahlKartenSammlungTextField, ordnerIDTextField;
-
     private JButton hinzufuegenButton;
+
+    // Code zum Einfuegen der Daten in die Datenbank
+    Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
     public ErweiterungenBearbeitenGUI() {
         setTitle("GUI Erweiterungen bearbeiten");
@@ -49,42 +50,42 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         erweiterungIDTextField = new JTextField();
         erweiterungIDTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
 
         erweiterungNameLabel = new JLabel("Name der Erweiterung");
         erweiterungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         erweiterungNameTextField = new JTextField();
         erweiterungNameTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, erweiterungNameLabel, erweiterungNameTextField, gbc, 0, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungNameLabel, erweiterungNameTextField, gbc, 0, 2);
 
         zyklusLabel = new JLabel("Zyklus");
         zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         zyklusTextField = new JTextField();
         zyklusTextField.setPreferredSize(new Dimension(150, 30));
         zyklusTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
 
         abkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
         abkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         abkuerzungTextField = new JTextField();
         abkuerzungTextField.setPreferredSize(new Dimension(150, 30));
         abkuerzungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, abkuerzungLabel, abkuerzungTextField, gbc, 1, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, abkuerzungLabel, abkuerzungTextField, gbc, 1, 2);
 
         jahrLabel = new JLabel("Jahr Herausgabe");
         jahrLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         jahrTextField = new JTextField();
         jahrTextField.setPreferredSize(new Dimension(150, 30));
         jahrTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, jahrLabel, jahrTextField, gbc, 2, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, jahrLabel, jahrTextField, gbc, 2, 0);
 
         anzahlKartenSammlungLabel = new JLabel("Anzahl der Karten in Erweiterung");
         anzahlKartenSammlungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         anzahlKartenSammlungTextField = new JTextField();
         anzahlKartenSammlungTextField.setPreferredSize(new Dimension(150, 30));
         anzahlKartenSammlungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, anzahlKartenSammlungLabel, anzahlKartenSammlungTextField, gbc, 2, 2);
+        AddLabelAndTextField.addLabelAndTextField(panel, anzahlKartenSammlungLabel, anzahlKartenSammlungTextField, gbc, 2, 2);
 
 
         ordnerIDLabel = new JLabel("Ordner-ID");
@@ -92,7 +93,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         ordnerIDTextField = new JTextField();
         ordnerIDTextField.setPreferredSize(new Dimension(150, 30));
         ordnerIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
 
 
 
@@ -115,7 +116,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
 
         add(panel);
 
-        generateNextID();
+        GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -133,16 +134,6 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         setFocusable(true);
     }
 
-    private void addLabelAndTextField(JPanel panel, JLabel label, JTextField textField, GridBagConstraints gbc, int row, int column) {
-        gbc.gridx = column;
-        gbc.gridy = row;
-        panel.add(label, gbc);
-
-        gbc.gridx = column + 1;
-        gbc.gridy = row;
-        panel.add(textField, gbc);
-    }
-
     private void updateDataInDatabase() {
         String erweiterungName = erweiterungNameTextField.getText();
         String zyklus = zyklusTextField.getText();
@@ -150,10 +141,6 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         String jahr = jahrTextField.getText();
         String anzahlKartenSammlung = anzahlKartenSammlungTextField.getText();
         String ordnerID = ordnerIDTextField.getText();
-
-
-        // Code zum Einfuegen der Daten in die Datenbank
-        Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
         try {
             // Einfuegen der Daten mit automatisch inkrementierter ID
@@ -178,8 +165,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
                 }
 
                 clearFields();
-                generateNextID();
-
+                GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
                 generatedKeys.close();
             }
 
@@ -189,26 +175,6 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
             e.printStackTrace();
         }
     }
-
-    private void generateNextID() {
-        Connection con = DatenbankVerbindung.connectDB();
-        try {
-            // Abrufen der nächsten verfügbaren ID
-            String sqlSelectMaxID = "SELECT MAX(id) + 1 AS next_id FROM erweiterungen";
-            PreparedStatement preparedStatementSelectMaxID = con.prepareStatement(sqlSelectMaxID);
-            ResultSet resultSet = preparedStatementSelectMaxID.executeQuery();
-            if (resultSet.next()) {
-                int nextID = resultSet.getInt("next_id");
-                erweiterungIDTextField.setText(String.valueOf(nextID));
-            }
-            resultSet.close();
-            preparedStatementSelectMaxID.close();
-            con.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private void clearFields() {
         erweiterungNameTextField.setText("");
@@ -221,7 +187,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
+            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
             gui.setVisible(true);
             dispose();
         });
@@ -230,7 +196,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
+            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
             gui.setVisible(true);
         });
     }
