@@ -4,6 +4,8 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -77,6 +79,9 @@ public class PokemonKartenSammlungView extends JFrame {
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             table.setEnabled(false);
 
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+            table.setRowSorter(sorter);
+
 
             // Iteriere durch die Spalten und passe die Breite basierend auf dem Inhalt an
             for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
@@ -140,6 +145,15 @@ public class PokemonKartenSammlungView extends JFrame {
             Font font = new Font("Arial", Font.PLAIN, 20);
             table.setFont(font);
             header.setFont(font);
+
+            header.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int columnIndex = table.columnAtPoint(e.getPoint());
+                    sorter.toggleSortOrder(columnIndex);
+                }
+            });
+
 
             // Füge das ScrollPane zum Frame hinzu
             add(scrollPane);

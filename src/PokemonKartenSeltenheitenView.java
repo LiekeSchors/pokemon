@@ -2,9 +2,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,6 +60,10 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             table.setRowHeight(40);
             table.setEnabled(false);
 
+            // Füge einen TableRowSorter zum Sortieren hinzu
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+            table.setRowSorter(sorter);
+
             // Tabellenkopf anzeigen
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
@@ -67,6 +75,14 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
             table.setFont(font);
             header.setFont(font);
+
+            header.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int columnIndex = table.columnAtPoint(e.getPoint());
+                    sorter.toggleSortOrder(columnIndex);
+                }
+            });
 
             JPanel panel = new JPanel(new GridBagLayout());
 

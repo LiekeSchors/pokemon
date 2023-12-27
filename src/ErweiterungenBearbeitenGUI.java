@@ -28,12 +28,23 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 public class ErweiterungenBearbeitenGUI extends JFrame {
-    private JLabel erweiterungIDLabel, erweiterungNameLabel, zyklusLabel, abkuerzungLabel, jahrLabel, anzahlKartenSammlungLabel, ordnerIDLabel;
-    private JTextField erweiterungIDTextField, erweiterungNameTextField, zyklusTextField, abkuerzungTextField, jahrTextField, anzahlKartenSammlungTextField, ordnerIDTextField;
-    private JButton hinzufuegenButton;
-
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
+    private final JLabel erweiterungIDLabel;
+    private final JLabel erweiterungNameLabel;
+    private final JLabel zyklusLabel;
+    private final JLabel abkuerzungLabel;
+    private final JLabel jahrLabel;
+    private final JLabel anzahlKartenSammlungLabel;
+    private final JLabel ordnerIDLabel;
+    private final JTextField erweiterungIDTextField;
+    private final JTextField erweiterungNameTextField;
+    private final JTextField zyklusTextField;
+    private final JTextField abkuerzungTextField;
+    private final JTextField jahrTextField;
+    private final JTextField anzahlKartenSammlungTextField;
+    private final JTextField ordnerIDTextField;
+    private final JButton hinzufuegenButton;
 
     public ErweiterungenBearbeitenGUI() {
         setTitle("GUI Erweiterungen bearbeiten");
@@ -96,7 +107,6 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         AddLabelAndTextField.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
 
 
-
         hinzufuegenButton = new JButton("Erweiterung hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
         gbc.gridwidth = 2;
@@ -132,6 +142,13 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
 
         setLocationRelativeTo(null);
         setFocusable(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
+            gui.setVisible(true);
+        });
     }
 
     private void updateDataInDatabase() {
@@ -187,17 +204,9 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
+            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
             gui.setVisible(true);
             dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
-            gui.setVisible(true);
         });
     }
 }

@@ -52,8 +52,8 @@ public class PokemonKartenBearbeiten extends JFrame {
         btnErweiterungenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrdnerBearbeitenGUI erweiterungenBearbeiten = new OrdnerBearbeitenGUI();
-                erweiterungenBearbeiten.setVisible(true);
+                ErweiterungenBearbeitenGUI erweiterungenBearbeitenGUI = new ErweiterungenBearbeitenGUI();
+                erweiterungenBearbeitenGUI.setVisible(true);
                 setVisible(false);
             }
         });
