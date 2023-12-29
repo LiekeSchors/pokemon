@@ -3,101 +3,99 @@
  * Lieke Schors
  */
 
-package GUIs;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-public class PokemonKartenBearbeiten extends JFrame {
+public class PokemonKartenBesonderheitenView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
     public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
     public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
     public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
-    public PokemonKartenBearbeiten() {
-        setTitle("Sammlung bearbeiten");
+    private JTable table;
+
+    public PokemonKartenBesonderheitenView() {
+        setTitle("Erweiterungen anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
 
-        JPanel hinzufuegenPanel = new JPanel(new GridLayout(5, 1));
-        JButton btnBesonderheitenHinzufuegen = new JButton("Besonderheit hinzufügen");
-        JButton btnSeltenheitenHinzufuegen = new JButton("Seltenheit hinzufügen");
-        JButton btnErweiterungenHinzufuegen = new JButton("Erweiterung hinzufügen");
-        JButton btnOrdnerHinzufuegen = new JButton("Ordner hinzufügen");
-        JButton btnKartenHinzufuegen = new JButton("Karte hinzufügen");
 
-        // Besonderheiten bearbeiten
-        btnBesonderheitenHinzufuegen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BesonderheitenBearbeitenGUI besonderheitenBearbeitenGUI = new BesonderheitenBearbeitenGUI();
-                besonderheitenBearbeitenGUI.setVisible(true);
-                setVisible(false);
+        // DB-Verbindung herstellen
+        Connection con = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        con = DatenbankVerbindung.connectDB();
+
+        try {
+            String sql = "SELECT * FROM besonderheiten ORDER BY id";
+            p = con.prepareStatement(sql);
+            rs = p.executeQuery();
+
+            // Erstelle ein DefaultTableModel für die JTable
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID Besonderheit");
+            model.addColumn("Beschreibung");
+
+            while (rs.next()) {
+                // Füge die Zeilen zum Model hinzu
+                Object[] row = {
+                        rs.getInt("id"),
+                        rs.getString("beschreibung")
+
+                };
+                model.addRow(row);
             }
-        });
 
-        // Seltenheiten bearbeiten
-        btnSeltenheitenHinzufuegen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                BesonderheitenBearbeitenGUI seltenheitenBearbeitenGUI = new BesonderheitenBearbeitenGUI();
-                seltenheitenBearbeitenGUI.setVisible(true);
-                setVisible(false);
-            }
-        });
+            // Erstelle die JTable mit dem Model
+            table = new JTable(model);
+            table.setRowHeight(40);
+            table.setEnabled(false);
 
-        // Erweiterungen bearbeiten
-        btnErweiterungenHinzufuegen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ErweiterungenBearbeitenGUI erweiterungenBearbeitenGUI = new ErweiterungenBearbeitenGUI();
-                erweiterungenBearbeitenGUI.setVisible(true);
-                setVisible(false);
-            }
-        });
+            // Füge einen TableRowSorter zum Sortieren hinzu
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+            table.setRowSorter(sorter);
 
-        // Ordner bearbeiten
-        btnOrdnerHinzufuegen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                OrdnerBearbeitenGUI ordnerBearbeitenGUI = new OrdnerBearbeitenGUI();
-                ordnerBearbeitenGUI.setVisible(true);
-                setVisible(false);
-            }
-        });
+            // Tabellenkopf anzeigen
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
 
-        // Karten bearbeiten
-        btnKartenHinzufuegen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                KartenBearbeitenGUI kartenBearbeiten = new KartenBearbeitenGUI();
-                kartenBearbeiten.setVisible(true);
-                setVisible(false);
-            }
-        });
+            // Setze die Tabelle in ein ScrollPane
+            JScrollPane scrollPane = new JScrollPane(table);
 
-        btnBesonderheitenHinzufuegen.setBackground(JAVA_COLOR_HELLBLAU);
-        btnSeltenheitenHinzufuegen.setBackground(Color.green);
-        btnErweiterungenHinzufuegen.setBackground(Color.yellow);
-        btnOrdnerHinzufuegen.setBackground(JAVA_COLOR_ORANGE);
-        btnKartenHinzufuegen.setBackground(JAVA_COLOR_TUERKIS);
+            // Textgröße ändern
+            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
+            table.setFont(font);
+            header.setFont(font);
 
-        hinzufuegenPanel.add(btnBesonderheitenHinzufuegen);
-        hinzufuegenPanel.add(btnSeltenheitenHinzufuegen);
-        hinzufuegenPanel.add(btnErweiterungenHinzufuegen);
-        hinzufuegenPanel.add(btnOrdnerHinzufuegen);
-        hinzufuegenPanel.add(btnKartenHinzufuegen);
+            header.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int columnIndex = table.columnAtPoint(e.getPoint());
+                    sorter.toggleSortOrder(columnIndex);
+                }
+            });
 
-        add(hinzufuegenPanel);
+            JPanel panel = new JPanel(new GridBagLayout());
 
+            panel.add(scrollPane);
+            add(panel);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
         JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
@@ -126,7 +124,7 @@ public class PokemonKartenBearbeiten extends JFrame {
             }
         });
 
-        // Besonderheiten anzeigen
+        // Seltenheiten anzeigen
         btnSeltenheitenView.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -173,7 +171,6 @@ public class PokemonKartenBearbeiten extends JFrame {
             setVisible(false);
         });
 
-
         btnInsert.setBackground(JAVA_COLOR_PINK);
         btnBesonderheitenView.setBackground(JAVA_COLOR_HELLBLAU);
         btnSeltenheitenView.setBackground(Color.green);
@@ -193,5 +190,9 @@ public class PokemonKartenBearbeiten extends JFrame {
         add(panel, BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+        new PokemonKartenBesonderheitenView().setVisible(true);
     }
 }

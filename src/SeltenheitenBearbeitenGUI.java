@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package GUIs;import java.awt.BorderLayout;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -11,49 +11,45 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-public class BesonderheitenBearbeitenGUI extends JFrame {
-    private JLabel idBesonderheitLabel, beschreibungBesonderheitLabel;
-    private JTextField idBesonderheitTextField, beschreibungBesonderheitTextField;
+public class SeltenheitenBearbeitenGUI extends JFrame {
+    private JLabel idSeltenheitLabel, beschreibungSeltenheitLabel;
+    private JTextField idSeltenheitTextField, beschreibungSeltenheitTextField;
     private JButton speichernButton;
 
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
-    public BesonderheitenBearbeitenGUI() {
+    public SeltenheitenBearbeitenGUI() {
         setTitle("Seltenheiten bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        idBesonderheitLabel = new JLabel("ID Besonderheit");
-        idBesonderheitTextField = new JTextField();
-        idBesonderheitTextField.setEditable(false); // Die ID ist schreibgeschützt (autoincrement)
-        idBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
-        idBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        idBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        idSeltenheitLabel = new JLabel("ID Seltenheit");
+        idSeltenheitTextField = new JTextField();
+        idSeltenheitTextField.setEditable(false); // Die ID ist schreibgeschützt (autoincrement)
+        idSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
+        idSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        idSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
 
-        beschreibungBesonderheitLabel = new JLabel("Beschreibung Besonderheit");
-        beschreibungBesonderheitTextField = new JTextField();
-        beschreibungBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
-        beschreibungBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitLabel = new JLabel("Beschreibung Seltenheit");
+        beschreibungSeltenheitTextField = new JTextField();
+        beschreibungSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
+        beschreibungSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
 
         speichernButton = new JButton("Änderungen speichern");
@@ -74,39 +70,29 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(idBesonderheitLabel, gbc);
+        panel.add(idSeltenheitLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        panel.add(idBesonderheitTextField, gbc);
+        panel.add(idSeltenheitTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        panel.add(beschreibungBesonderheitLabel, gbc);
+        panel.add(beschreibungSeltenheitLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        panel.add(beschreibungBesonderheitTextField, gbc);
+        panel.add(beschreibungSeltenheitTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         panel.add(speichernButton, gbc);
 
-        // Button zum hinzufuegen einer Karte und gleichzeitigem Neuladen mit Enter
-        speichernButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
-        speichernButton.getActionMap().put("enter", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateDataInDatabase();
-                reloadPage();
-            }
-        });
-
         add(panel);
 
         // ID beim Laden des GUIs generieren
-        GenerateNextID.generateNextID(con, "besonderheiten", "id",idBesonderheitTextField);
+        GenerateNextID.generateNextID(con, "seltenheit", "id",idSeltenheitTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -124,13 +110,12 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
         setFocusable(true);
     }
 
-
     private void updateDataInDatabase() {
-        String neueBeschreibung = beschreibungBesonderheitTextField.getText();
+        String neueBeschreibung = beschreibungSeltenheitTextField.getText();
 
         try {
             // Einfuegen der Daten mit automatisch inkrementierter ID
-            String sqlInsert = "INSERT INTO besonderheiten (beschreibung) VALUES (?)";
+            String sqlInsert = "INSERT INTO seltenheit (beschreibung) VALUES (?)";
             PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatementInsert.setString(1, neueBeschreibung);
             preparedStatementInsert.executeUpdate();
@@ -139,11 +124,11 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
             ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int generatedID = generatedKeys.getInt(1);
-                idBesonderheitTextField.setText(String.valueOf(generatedID));
+                idSeltenheitTextField.setText(String.valueOf(generatedID));
             }
 
             clearFields();
-            GenerateNextID.generateNextID(con, "besonderheiten", "id", idBesonderheitTextField);
+            GenerateNextID.generateNextID(con, "seltenheit", "id", idSeltenheitTextField);
 
             generatedKeys.close();
             preparedStatementInsert.close();
@@ -153,8 +138,9 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
         }
 
     }
+
     private void clearFields() {
-        beschreibungBesonderheitTextField.setText("");
+        beschreibungSeltenheitTextField.setText("");
     }
 
     private void reloadPage() {

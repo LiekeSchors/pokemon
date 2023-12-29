@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package GUIs;import java.awt.GridBagConstraints;
+import java.awt.GridBagConstraints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

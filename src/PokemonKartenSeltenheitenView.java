@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package Views;import javax.swing.*;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
@@ -18,9 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import GUIs.PokemonKartenBearbeiten;
-
-public class PokemonKartenBesonderheitenView extends JFrame {
+public class PokemonKartenSeltenheitenView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
     public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
     public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
@@ -28,12 +26,11 @@ public class PokemonKartenBesonderheitenView extends JFrame {
 
     private JTable table;
 
-    public PokemonKartenBesonderheitenView() {
+    public PokemonKartenSeltenheitenView() {
         setTitle("Erweiterungen anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
-
 
         // DB-Verbindung herstellen
         Connection con = null;
@@ -43,21 +40,21 @@ public class PokemonKartenBesonderheitenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM besonderheiten ORDER BY id";
+            String sql = "SELECT * FROM seltenheit ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
             // Erstelle ein DefaultTableModel für die JTable
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Besonderheit");
+            model.addColumn("ID Seltenheit");
             model.addColumn("Beschreibung");
+
 
             while (rs.next()) {
                 // Füge die Zeilen zum Model hinzu
                 Object[] row = {
                         rs.getInt("id"),
                         rs.getString("beschreibung")
-
                 };
                 model.addRow(row);
             }
@@ -95,6 +92,7 @@ public class PokemonKartenBesonderheitenView extends JFrame {
 
             panel.add(scrollPane);
             add(panel);
+
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -195,6 +193,6 @@ public class PokemonKartenBesonderheitenView extends JFrame {
     }
 
     public static void main(String[] args) {
-        new PokemonKartenBesonderheitenView().setVisible(true);
+        new PokemonKartenSeltenheitenView().setVisible(true);
     }
 }

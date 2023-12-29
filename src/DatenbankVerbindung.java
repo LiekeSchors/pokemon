@@ -1,4 +1,7 @@
-package GUIs;
+/*
+ * Copyright (c) 2023.
+ * Lieke Schors
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
