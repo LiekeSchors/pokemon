@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-public class OrdnerBearbeitenGUI extends JFrame {
+public class OrdnerHinzufuegenGUI extends JFrame {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
     private JTextField ordnerIDTextField, zyklusTextField, farbeTextField;
     private JButton hinzufuegenButton;
@@ -34,8 +34,8 @@ public class OrdnerBearbeitenGUI extends JFrame {
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
-    public OrdnerBearbeitenGUI() {
-        setTitle("GUI Ordner bearbeiten");
+    public OrdnerHinzufuegenGUI() {
+        setTitle("GUI Ordner hinzufügen");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,7 +65,7 @@ public class OrdnerBearbeitenGUI extends JFrame {
         farbeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddLabelAndTextField.addLabelAndTextField(panel, farbeLabel, farbeTextField, gbc, 2, 0);
 
-        hinzufuegenButton = new JButton("Änderungen speichern");
+        hinzufuegenButton = new JButton("Ordner hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
         gbc.gridwidth = 2;
         gbc.gridx = 0;
@@ -77,7 +77,7 @@ public class OrdnerBearbeitenGUI extends JFrame {
         hinzufuegenButton.getActionMap().put("enter", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateExistingDataInDatabase();
+                updateDataInDatabase();
                 reloadPage();
             }
         });
@@ -100,56 +100,34 @@ public class OrdnerBearbeitenGUI extends JFrame {
         setFocusable(true);
     }
 
-    private void updateExistingDataInDatabase() {
-        String zyklus = zyklusTextField.getText().trim();
-        String farbe = farbeTextField.getText().trim();
-        int ordnerID = Integer.parseInt(ordnerIDTextField.getText().trim());
+    private void updateDataInDatabase() {
+        String zyklus = zyklusTextField.getText();
+        String farbe = farbeTextField.getText();
 
         try {
-            // Initialize the SQL statement
-            StringBuilder sqlUpdate = new StringBuilder("UPDATE ordner SET ");
-            boolean isFieldAdded = false;
+            // Einfuegen der Daten mit automatisch inkrementierter ID
+            String sqlInsert = "INSERT INTO ordner (zyklus, farbe) VALUES (?, ?)";
+            PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatementInsert.setString(1, zyklus);
+            preparedStatementInsert.setString(2, farbe);
 
-            // Add non-empty fields to the SQL statement
+            int affectedRows = preparedStatementInsert.executeUpdate();
 
-            if (!zyklus.isEmpty()) {
-                sqlUpdate.append("zyklus = ?, ");
-                isFieldAdded = true;
-            }
-            if (!farbe.isEmpty()) {
-                sqlUpdate.append("farbe = ?, ");
-                isFieldAdded = true;
-            }
+            if (affectedRows > 0) {
+                // Abrufen der generierten ID
+                ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedID = generatedKeys.getInt(1);
+                    ordnerIDTextField.setText(String.valueOf(generatedID));
+                }
 
-            // Remove the trailing comma and space
-            if (isFieldAdded) {
-                sqlUpdate.delete(sqlUpdate.length() - 2, sqlUpdate.length());
-            }
-
-            // Complete the SQL statement
-            sqlUpdate.append(" WHERE id = ?"); // Änderung hier
-            PreparedStatement preparedStatementUpdate = con.prepareStatement(sqlUpdate.toString());
-
-            // Set parameter values for non-empty fields
-            int parameterIndex = 1;
-
-            if (!zyklus.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, zyklus);
-            }
-            if (!farbe.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, farbe);
+                clearFields();
+                GenerateNextID.generateNextID(con, "ordner", "id", ordnerIDTextField);
+                generatedKeys.close();
             }
 
-            // Set the last parameter for the WHERE clause
-            preparedStatementUpdate.setInt(parameterIndex, ordnerID); // Änderung hier
-
-            // Execute the update
-            preparedStatementUpdate.executeUpdate();
-
-            // Clear fields
-            clearFields();
-
-            preparedStatementUpdate.close();
+            preparedStatementInsert.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -158,12 +136,11 @@ public class OrdnerBearbeitenGUI extends JFrame {
     private void clearFields() {
         zyklusTextField.setText("");
         farbeTextField.setText("");
-        ordnerIDTextField.setText("");
     }
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
+            OrdnerHinzufuegenGUI gui = new OrdnerHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
         });
@@ -172,7 +149,7 @@ public class OrdnerBearbeitenGUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
+            OrdnerHinzufuegenGUI gui = new OrdnerHinzufuegenGUI();
             gui.setVisible(true);
         });
     }

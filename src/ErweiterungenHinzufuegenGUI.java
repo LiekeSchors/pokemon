@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.AbstractAction;
@@ -25,18 +26,17 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-public class ErweiterungenBearbeitenGUI extends JFrame {
-
+public class ErweiterungenHinzufuegenGUI extends JFrame {
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
-    private final JLabel editErweiterungIDLabel;
+    private final JLabel erweiterungIDLabel;
     private final JLabel erweiterungNameLabel;
     private final JLabel zyklusLabel;
     private final JLabel abkuerzungLabel;
     private final JLabel jahrLabel;
     private final JLabel anzahlKartenSammlungLabel;
     private final JLabel ordnerIDLabel;
-    private final JTextField editErweiterungIDTextField;
+    private final JTextField erweiterungIDTextField;
     private final JTextField erweiterungNameTextField;
     private final JTextField zyklusTextField;
     private final JTextField abkuerzungTextField;
@@ -45,8 +45,8 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
     private final JTextField ordnerIDTextField;
     private final JButton hinzufuegenButton;
 
-    public ErweiterungenBearbeitenGUI() {
-        setTitle("GUI Erweiterungen bearbeiten");
+    public ErweiterungenHinzufuegenGUI() {
+        setTitle("GUI Erweiterungen hinzufuegen");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,12 +55,12 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 6, 6, 6); // Abstand zwischen den Komponenten
 
-        editErweiterungIDLabel = new JLabel("Erweiterung-ID");
-        editErweiterungIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        editErweiterungIDTextField = new JTextField();
-        editErweiterungIDTextField.setPreferredSize(new Dimension(150, 30));
-        editErweiterungIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, editErweiterungIDLabel, editErweiterungIDTextField, gbc, 0, 0);
+        erweiterungIDLabel = new JLabel("Erweiterung-ID");
+        erweiterungIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        erweiterungIDTextField = new JTextField();
+        erweiterungIDTextField.setPreferredSize(new Dimension(150, 30));
+        erweiterungIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
 
         erweiterungNameLabel = new JLabel("Name der Erweiterung");
         erweiterungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -106,7 +106,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         AddLabelAndTextField.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
 
 
-        hinzufuegenButton = new JButton("Änderungen speichern");
+        hinzufuegenButton = new JButton("Erweiterung hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
         gbc.gridwidth = 2;
         gbc.gridx = 2;
@@ -118,12 +118,14 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         hinzufuegenButton.getActionMap().put("enter", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateExistingDataInDatabase();
+                updateDataInDatabase();
                 reloadPage();
             }
         });
 
         add(panel);
+
+        GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -141,85 +143,54 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         setFocusable(true);
     }
 
-    private void updateExistingDataInDatabase() {
-        String zyklus = zyklusTextField.getText().trim();
-        String abkuerzung = abkuerzungTextField.getText().trim();
-        String jahr = jahrTextField.getText().trim();
-        String anzahlKartenSammlung = anzahlKartenSammlungTextField.getText().trim();
-        String ordnerID = ordnerIDTextField.getText().trim();
-        String editName = erweiterungNameTextField.getText().trim(); // Änderung hier
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            ErweiterungenHinzufuegenGUI gui = new ErweiterungenHinzufuegenGUI();
+            gui.setVisible(true);
+        });
+    }
+
+    private void updateDataInDatabase() {
+        String erweiterungName = erweiterungNameTextField.getText();
+        String zyklus = zyklusTextField.getText();
+        String abkuerzung = abkuerzungTextField.getText();
+        String jahr = jahrTextField.getText();
+        String anzahlKartenSammlung = anzahlKartenSammlungTextField.getText();
+        String ordnerID = ordnerIDTextField.getText();
 
         try {
-            // Initialize the SQL statement
-            StringBuilder sqlUpdate = new StringBuilder("UPDATE erweiterungen SET ");
-            boolean isFieldAdded = false;
+            // Einfuegen der Daten mit automatisch inkrementierter ID
+            String sqlInsert = "INSERT INTO erweiterungen (erweiterung_name, zyklus, abkuerzung, jahr, anzahl_karten_sammlung, ordner_id) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatementInsert.setString(1, erweiterungName);
+            preparedStatementInsert.setString(2, zyklus);
+            preparedStatementInsert.setString(3, abkuerzung);
+            preparedStatementInsert.setInt(4, Integer.parseInt(jahr));
+            preparedStatementInsert.setInt(5, Integer.parseInt(anzahlKartenSammlung));
+            preparedStatementInsert.setInt(6, Integer.parseInt(ordnerID));
 
-            // Add non-empty fields to the SQL statement
 
-            if (!zyklus.isEmpty()) {
-                sqlUpdate.append("zyklus = ?, ");
-                isFieldAdded = true;
-            }
-            if (!abkuerzung.isEmpty()) {
-                sqlUpdate.append("abkuerzung = ?, ");
-                isFieldAdded = true;
-            }
-            if (!jahr.isEmpty()) {
-                sqlUpdate.append("jahr = ?, ");
-                isFieldAdded = true;
-            }
-            if (!anzahlKartenSammlung.isEmpty()) {
-                sqlUpdate.append("anzahl_karten_sammlung = ?, ");
-                isFieldAdded = true;
-            }
-            if (!ordnerID.isEmpty()) {
-                sqlUpdate.append("ordner_id = ?, ");
-                isFieldAdded = true;
-            }
+            int affectedRows = preparedStatementInsert.executeUpdate();
 
-            // Remove the trailing comma and space
-            if (isFieldAdded) {
-                sqlUpdate.delete(sqlUpdate.length() - 2, sqlUpdate.length());
+            if (affectedRows > 0) {
+                // Abrufen der generierten ID
+                ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedID = generatedKeys.getInt(1);
+                    erweiterungIDTextField.setText(String.valueOf(generatedID));
+                }
+
+                clearFields();
+                GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
+                generatedKeys.close();
             }
 
-            // Complete the SQL statement
-            sqlUpdate.append(" WHERE erweiterung_name = ?"); // Änderung hier
-            PreparedStatement preparedStatementUpdate = con.prepareStatement(sqlUpdate.toString());
-
-            // Set parameter values for non-empty fields
-            int parameterIndex = 1;
-
-            if (!zyklus.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, zyklus);
-            }
-            if (!abkuerzung.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, abkuerzung);
-            }
-            if (!jahr.isEmpty()) {
-                preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(jahr));
-            }
-            if (!anzahlKartenSammlung.isEmpty()) {
-                preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(anzahlKartenSammlung));
-            }
-            if (!ordnerID.isEmpty()) {
-                preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(ordnerID));
-            }
-
-            // Set the last parameter for the WHERE clause
-            preparedStatementUpdate.setString(parameterIndex, editName); // Änderung hier
-
-            // Execute the update
-            preparedStatementUpdate.executeUpdate();
-
-            // Clear fields
-            clearFields();
-
-            preparedStatementUpdate.close();
+            preparedStatementInsert.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     private void clearFields() {
         erweiterungNameTextField.setText("");
@@ -228,22 +199,13 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         jahrTextField.setText("");
         anzahlKartenSammlungTextField.setText("");
         ordnerIDTextField.setText("");
-        editErweiterungIDTextField.setText("");
     }
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
+            ErweiterungenHinzufuegenGUI gui = new ErweiterungenHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
-            gui.setVisible(true);
         });
     }
 }
