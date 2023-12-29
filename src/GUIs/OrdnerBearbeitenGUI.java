@@ -1,10 +1,9 @@
 /*
  * Copyright (c) 2023.
  * Lieke Schors
- * GUI zum Bearbeiten der Tabelle 'sammlung'
  */
 
-import java.awt.BorderLayout;
+package GUIs;import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

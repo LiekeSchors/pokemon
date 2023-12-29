@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-import java.util.Comparator;
+package Views;import java.util.Comparator;
 
 /**
  * Comparator zum Sortieren von Integers, die zuvor als String sortiert wurden.

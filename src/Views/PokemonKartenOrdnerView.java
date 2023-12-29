@@ -1,5 +1,17 @@
+/*
+ * Copyright (c) 2023.
+ * Lieke Schors
+ */
+
+package Views;
+
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,15 +22,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PokemonKartenErweiterungenView extends JFrame {
+import GUIs.PokemonKartenBearbeiten;
+
+public class PokemonKartenOrdnerView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
     public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
     public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
     public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
-    public JTable table;
+    private JTable table;
 
-    public PokemonKartenErweiterungenView() {
+    public PokemonKartenOrdnerView() {
         setTitle("Erweiterungen anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,40 +46,29 @@ public class PokemonKartenErweiterungenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM erweiterungen ORDER BY id";
+            String sql = "SELECT * FROM ordner ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
             // Erstelle ein DefaultTableModel für die JTable
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Erweiterung");
-            model.addColumn("Name Erweiterung");
-            model.addColumn("Zyklus");
-            model.addColumn("Abkürzung Erweiterung");
-            model.addColumn("Jahr");
-            model.addColumn("Anzahl der Karten in der Sammlung");
-            model.addColumn("Anzahl Karten bereits gesammelt");
-            model.addColumn("ID Ordner");
-
+            model.addColumn("Ordner-ID");
+            model.addColumn("Enthält Zyklus");
+            model.addColumn("Farbe");
 
             while (rs.next()) {
                 // Füge die Zeilen zum Model hinzu
                 Object[] row = {
                         rs.getInt("id"),
-                        rs.getString("erweiterung_name"),
                         rs.getString("zyklus"),
-                        rs.getString("abkuerzung"),
-                        rs.getInt("jahr"),
-                        rs.getInt("anzahl_karten_sammlung"),
-                        rs.getInt("anzahl_karten_gesammelt"),
-                        rs.getInt("ordner_id")
+                        rs.getString("farbe"),
                 };
                 model.addRow(row);
             }
 
             // Erstelle die JTable mit dem Model
             table = new JTable(model);
-            table.setRowHeight(40);
+            table.setRowHeight(30);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             table.setEnabled(false);
 
@@ -85,39 +88,13 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 column.setPreferredWidth(preferredWidth);
             }
 
-            // Tool-Tip-Texte
-            String tooltipTextID = "ID für die Erweiterung";
-            table.getColumnModel().getColumn(0).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextID));
-
-            String tooltipTextErweiterungName = "Name der Erweiterung";
-            table.getColumnModel().getColumn(1).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextErweiterungName));
-
-            String tooltipTextZyklus = "Zyklus, in dem die Erweiterung erschienen ist";
-            table.getColumnModel().getColumn(2).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZyklus));
-
-            String tooltipTextAbkuerzung = "Abkürzung der Erweiterung";
-            table.getColumnModel().getColumn(3).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAbkuerzung));
-
-            String tooltipTextJahr = "Jahr, in dem die Erweiterung erschienen ist";
-            table.getColumnModel().getColumn(4).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextJahr));
-
-            String tooltipTextAnzahlSammlung = "Anzahl der 'normalen' Karten in der Sammlung, ohne Extra-Karten";
-            table.getColumnModel().getColumn(5).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlSammlung));
-
-            String tooltipTextAnzahlGesammelt = "Anzahl der Karten, die bereits gesammelt wurden";
-            table.getColumnModel().getColumn(6).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlGesammelt));
-
-            String tooltipTextOrdnerID = "Ordner, in dem sich die Erweiterung befindet";
-            table.getColumnModel().getColumn(7).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextOrdnerID));
-
-
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
 
             // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
 
-            Font font = new Font("Arial", Font.PLAIN, 20);
+            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
             table.setFont(font);
             header.setFont(font);
 
@@ -129,13 +106,15 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            // Füge das ScrollPane zum Frame hinzu
-            add(scrollPane);
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            panel.add(scrollPane);
+            add(panel);
+
 
         } catch (SQLException e) {
             System.out.println(e);
         }
-
         JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
         JButton btnSeltenheitenView = new JButton("Seltenheiten anzeigen");
@@ -227,10 +206,12 @@ public class PokemonKartenErweiterungenView extends JFrame {
         panel.add(btnBack);
 
         add(panel, BorderLayout.SOUTH);
+
         setLocationRelativeTo(null);
     }
 
+
     public static void main(String[] args) {
-        new PokemonKartenErweiterungenView().setVisible(true);
+        new PokemonKartenOrdnerView().setVisible(true);
     }
 }

@@ -1,9 +1,9 @@
-
 /*
  * Copyright (c) 2023.
  * Lieke Schors
- * Zur automatischen Anpassung der Zellen an die Inhalte.
  */
+
+package Views;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

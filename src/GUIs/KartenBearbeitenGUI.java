@@ -1,10 +1,9 @@
 /*
  * Copyright (c) 2023.
  * Lieke Schors
- * GUI zum Bearbeiten der Tabelle 'sammlung'
  */
 
-import java.awt.BorderLayout;
+package GUIs;import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -102,21 +101,19 @@ public class KartenBearbeitenGUI extends JFrame {
         seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddLabelAndTextField.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
 
-        wertInEuroLabel = new JLabel("Wert der Karte in €");
-        wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        wertInEuroTextField = new JTextField();
-        wertInEuroTextField.setPreferredSize(new Dimension(150, 30));
-        wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 3, 2);
-
-
         besonderheitIDLabel = new JLabel("Besonderheit-ID");
         besonderheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         besonderheitIDTextField = new JTextField();
         besonderheitIDTextField.setPreferredSize(new Dimension(150, 30));
         besonderheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 4, 0);
+        AddLabelAndTextField.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 3, 2);
 
+        wertInEuroLabel = new JLabel("Wert der Karte in €");
+        wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        wertInEuroTextField = new JTextField();
+        wertInEuroTextField.setPreferredSize(new Dimension(150, 30));
+        wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddLabelAndTextField.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
 
         datumWertEingabeLabel = new JLabel("Datum der Werteingabe");
         datumWertEingabeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -194,10 +191,8 @@ public class KartenBearbeitenGUI extends JFrame {
         String ursprungName = ursprungNameTextField.getText();
         ursprungName = (ursprungName.isEmpty()) ? null : ursprungName;
         String kartenNummer = kartenNummerTextField.getText();
-        kartenNummer = (kartenNummer.isEmpty()) ? null : kartenNummer;
         String seltenheitID = seltenheitIDTextField.getText();
         String wertInEuro = wertInEuroTextField.getText();
-        wertInEuro = (wertInEuro.isEmpty()) ? null : wertInEuro;
         String besonderheitID = besonderheitIDTextField.getText();
         String datumWertEingabe = datumWertEingabeTextField.getText();
         datumWertEingabe = (datumWertEingabe.isEmpty()) ? null : datumWertEingabe;
@@ -217,9 +212,9 @@ public class KartenBearbeitenGUI extends JFrame {
             preparedStatementInsert.setString(2, pokemonName);
             preparedStatementInsert.setString(3, energieTyp);
             preparedStatementInsert.setString(4, ursprungName);
-            preparedStatementInsert.setString(5, kartenNummer);
+            preparedStatementInsert.setInt(5, Integer.parseInt(kartenNummer));
             preparedStatementInsert.setInt(6, Integer.parseInt(seltenheitID));
-            preparedStatementInsert.setString(7, wertInEuro);
+            preparedStatementInsert.setDouble(7, Double.parseDouble(wertInEuro));
             preparedStatementInsert.setInt(8, Integer.parseInt(besonderheitID));
             preparedStatementInsert.setString(9, datumWertEingabe);
             preparedStatementInsert.setString(10, nameZusatz);

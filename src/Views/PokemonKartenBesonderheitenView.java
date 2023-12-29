@@ -1,30 +1,103 @@
-import GUIs.PokemonKartenBearbeiten;
-import Views.PokemonKartenBesonderheitenView;
-import Views.PokemonKartenErweiterungenView;
-import Views.PokemonKartenOrdnerView;
-import Views.PokemonKartenSammlungView;
-import Views.PokemonKartenSeltenheitenView;
+/*
+ * Copyright (c) 2023.
+ * Lieke Schors
+ */
 
-import javax.swing.*;
+package Views;import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class PokemonKarten extends JFrame {
+import GUIs.PokemonKartenBearbeiten;
+
+public class PokemonKartenBesonderheitenView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
     public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
     public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
     public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
-    public PokemonKarten() {
-        setTitle("Willkommen");
+    private JTable table;
+
+    public PokemonKartenBesonderheitenView() {
+        setTitle("Erweiterungen anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
 
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2));
+        // DB-Verbindung herstellen
+        Connection con = null;
+        PreparedStatement p = null;
+        ResultSet rs = null;
+
+        con = DatenbankVerbindung.connectDB();
+
+        try {
+            String sql = "SELECT * FROM besonderheiten ORDER BY id";
+            p = con.prepareStatement(sql);
+            rs = p.executeQuery();
+
+            // Erstelle ein DefaultTableModel für die JTable
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID Besonderheit");
+            model.addColumn("Beschreibung");
+
+            while (rs.next()) {
+                // Füge die Zeilen zum Model hinzu
+                Object[] row = {
+                        rs.getInt("id"),
+                        rs.getString("beschreibung")
+
+                };
+                model.addRow(row);
+            }
+
+            // Erstelle die JTable mit dem Model
+            table = new JTable(model);
+            table.setRowHeight(40);
+            table.setEnabled(false);
+
+            // Füge einen TableRowSorter zum Sortieren hinzu
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+            table.setRowSorter(sorter);
+
+            // Tabellenkopf anzeigen
+            JTableHeader header = table.getTableHeader();
+            header.setReorderingAllowed(false);
+
+            // Setze die Tabelle in ein ScrollPane
+            JScrollPane scrollPane = new JScrollPane(table);
+
+            // Textgröße ändern
+            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
+            table.setFont(font);
+            header.setFont(font);
+
+            header.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int columnIndex = table.columnAtPoint(e.getPoint());
+                    sorter.toggleSortOrder(columnIndex);
+                }
+            });
+
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            panel.add(scrollPane);
+            add(panel);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
         JButton btnInsert = new JButton("Sammlung bearbeiten");
         JButton btnBesonderheitenView = new JButton("Besonderheiten anzeigen");
@@ -53,7 +126,7 @@ public class PokemonKarten extends JFrame {
             }
         });
 
-        // Besonderheiten anzeigen
+        // Seltenheiten anzeigen
         btnSeltenheitenView.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +166,13 @@ public class PokemonKarten extends JFrame {
             }
         });
 
+        JButton btnBack = new JButton("Zurück");
+        btnBack.addActionListener(e -> {
+            PokemonKarten pokemonKarten = new PokemonKarten();
+            pokemonKarten.setVisible(true);
+            setVisible(false);
+        });
+
         btnInsert.setBackground(JAVA_COLOR_PINK);
         btnBesonderheitenView.setBackground(JAVA_COLOR_HELLBLAU);
         btnSeltenheitenView.setBackground(Color.green);
@@ -100,28 +180,21 @@ public class PokemonKarten extends JFrame {
         btnOrdnerView.setBackground(JAVA_COLOR_ORANGE);
         btnSammlungView.setBackground(JAVA_COLOR_TUERKIS);
 
-        btnInsert.setFont(new Font("Arial", Font.PLAIN, 40));
-        btnBesonderheitenView.setFont(new Font("Arial", Font.PLAIN, 40));
-        btnSeltenheitenView.setFont(new Font("Arial", Font.PLAIN, 40));
-        btnErweiterungenView.setFont(new Font("Arial", Font.PLAIN, 40));
-        btnOrdnerView.setFont(new Font("Arial", Font.PLAIN, 40));
-        btnSammlungView.setFont(new Font("Arial", Font.PLAIN, 40));
-
-
+        JPanel panel = new JPanel();
         panel.add(btnInsert);
         panel.add(btnBesonderheitenView);
         panel.add(btnSeltenheitenView);
         panel.add(btnErweiterungenView);
         panel.add(btnOrdnerView);
         panel.add(btnSammlungView);
+        panel.add(btnBack);
 
-        add(panel);
+        add(panel, BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PokemonKarten().setVisible(true));
+        new PokemonKartenBesonderheitenView().setVisible(true);
     }
 }
-

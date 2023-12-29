@@ -1,10 +1,9 @@
 /*
  * Copyright (c) 2023.
  * Lieke Schors
- * Zur automatischen Anpassung der Header an den Header-Inhalt.
  */
 
-import javax.swing.*;
+package Views;import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
