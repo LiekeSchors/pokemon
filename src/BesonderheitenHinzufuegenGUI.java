@@ -56,7 +56,7 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
         beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
 
-        speichernButton = new JButton("Änderungen speichern");
+        speichernButton = new JButton("Besonderheit hinzufügen");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
 
 
@@ -159,7 +159,7 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
+            BesonderheitenHinzufuegenGUI gui = new BesonderheitenHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
         });

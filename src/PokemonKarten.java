@@ -3,10 +3,19 @@
  * Lieke Schors
  */
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class PokemonKarten extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
@@ -16,6 +25,8 @@ public class PokemonKarten extends JFrame {
 
     public PokemonKarten() {
         setTitle("Willkommen");
+        Image icon = Toolkit.getDefaultToolkit().getImage(PokemonKarten.class.getResource("pokemon_karten.ico"));
+        setIconImage(icon);
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
