@@ -84,6 +84,8 @@ public class OrdnerHinzufuegenGUI extends JFrame {
 
         add(panel);
 
+        GenerateNextID.generateNextID(con, "ordner", "id", ordnerIDTextField);
+
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
         btnBack.addActionListener(e -> {

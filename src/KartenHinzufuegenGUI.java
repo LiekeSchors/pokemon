@@ -184,6 +184,14 @@ public class KartenHinzufuegenGUI extends JFrame {
         setFocusable(true);
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
+            gui.setVisible(true);
+        });
+    }
+
+
     private void updateDataInDatabase() {
         String erweiterungAbkuerzung = erweiterungAbkuerzungTextField.getText();
         String pokemonName = pokemonNameTextField.getText();
@@ -221,19 +229,22 @@ public class KartenHinzufuegenGUI extends JFrame {
             preparedStatementInsert.setString(11, trainerZusatz);
             preparedStatementInsert.setString(12, kartenNummerZusatz);
 
-            preparedStatementInsert.executeUpdate();
 
-            // Abrufen der generierten ID
-            ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int generatedID = generatedKeys.getInt(1);
-                kartenIDTextField.setText(String.valueOf(generatedID));
+            int affectedRows = preparedStatementInsert.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Abrufen der generierten ID
+                ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedID = generatedKeys.getInt(1);
+                    kartenIDTextField.setText(String.valueOf(generatedID));
+                }
+
+                clearFields();
+                GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
+                generatedKeys.close();
             }
 
-            clearFields();
-            GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
-
-            generatedKeys.close();
             preparedStatementInsert.close();
             con.close();
         } catch (SQLException e) {
@@ -258,19 +269,13 @@ public class KartenHinzufuegenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
+            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
         });
     }
 
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
-            gui.setVisible(true);
-        });
-    }
 }
+
 
 

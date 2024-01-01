@@ -11,16 +11,20 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 public class SeltenheitenHinzufuegenGUI extends JFrame {
@@ -44,17 +48,14 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
         idSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         idSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
-
         beschreibungSeltenheitLabel = new JLabel("Beschreibung Seltenheit");
         beschreibungSeltenheitTextField = new JTextField();
         beschreibungSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
         beschreibungSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         beschreibungSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
-
-        speichernButton = new JButton("Änderungen speichern");
+        speichernButton = new JButton("Seltenheit hinzufügen");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
-
 
         speichernButton.addActionListener(new ActionListener() {
             @Override
@@ -88,6 +89,16 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         panel.add(speichernButton, gbc);
+
+        // Button zum hinzufuegen einer Karte und gleichzeitigem Neuladen mit Enter
+        speichernButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
+        speichernButton.getActionMap().put("enter", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateDataInDatabase();
+                reloadPage();
+            }
+        });
 
         add(panel);
 
@@ -145,7 +156,7 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
+            SeltenheitenHinzufuegenGUI gui = new SeltenheitenHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
         });
@@ -153,7 +164,7 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            BesonderheitenHinzufuegenGUI gui = new BesonderheitenHinzufuegenGUI();
+            SeltenheitenHinzufuegenGUI gui = new SeltenheitenHinzufuegenGUI();
             gui.setVisible(true);
         });
     }

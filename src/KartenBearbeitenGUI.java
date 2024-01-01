@@ -147,7 +147,7 @@ public class KartenBearbeitenGUI extends JFrame {
         AddLabelAndTextField.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
 
 
-        hinzufuegenButton = new JButton("Karte hinzufügen");
+        hinzufuegenButton = new JButton("Änderungen speichern");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
         gbc.gridwidth = 2;
         gbc.gridx = 3;

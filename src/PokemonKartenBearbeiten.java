@@ -75,7 +75,7 @@ public class PokemonKartenBearbeiten extends JFrame {
         btnOrdnerHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrdnerBearbeitenGUI ordnerHinzufuegenGUI = new OrdnerBearbeitenGUI();
+                OrdnerHinzufuegenGUI ordnerHinzufuegenGUI = new OrdnerHinzufuegenGUI();
                 ordnerHinzufuegenGUI.setVisible(true);
                 setVisible(false);
             }
@@ -85,8 +85,8 @@ public class PokemonKartenBearbeiten extends JFrame {
         btnKartenHinzufuegen.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                KartenBearbeitenGUI kartenBearbeiten = new KartenBearbeitenGUI();
-                kartenBearbeiten.setVisible(true);
+                KartenHinzufuegenGUI kartenHinzufuegenGUI = new KartenHinzufuegenGUI();
+                kartenHinzufuegenGUI.setVisible(true);
                 setVisible(false);
             }
         });

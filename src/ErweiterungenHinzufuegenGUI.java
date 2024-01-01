@@ -8,7 +8,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -47,6 +49,8 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
 
     public ErweiterungenHinzufuegenGUI() {
         setTitle("GUI Erweiterungen hinzufuegen");
+        Image icon = Toolkit.getDefaultToolkit().getImage(ErweiterungenHinzufuegenGUI.class.getResource("pokemon_karten.ico"));
+        setIconImage(icon);
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
