@@ -23,8 +23,6 @@ public class PokemonKarten extends JFrame {
 
     public PokemonKarten() {
         setTitle("Willkommen");
-        Image icon = Toolkit.getDefaultToolkit().getImage(PokemonKarten.class.getResource("pokemon_karten.ico"));
-        setIconImage(icon);
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
