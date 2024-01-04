@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.AbstractAction;
@@ -49,21 +48,21 @@ public class OrdnerBearbeitenGUI extends JFrame {
         ordnerIDTextField = new JTextField();
         ordnerIDTextField.setPreferredSize(new Dimension(150, 30));
         ordnerIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 0, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 0, 0);
 
         zyklusLabel = new JLabel("Zyklus");
         zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         zyklusTextField = new JTextField();
         zyklusTextField.setPreferredSize(new Dimension(150, 30));
         zyklusTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
 
         farbeLabel = new JLabel("Farbe des Ordners");
         farbeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         farbeTextField = new JTextField();
         farbeTextField.setPreferredSize(new Dimension(150, 30));
         farbeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, farbeLabel, farbeTextField, gbc, 2, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, farbeLabel, farbeTextField, gbc, 2, 0);
 
         hinzufuegenButton = new JButton("Änderungen speichern");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));

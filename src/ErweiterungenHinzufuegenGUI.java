@@ -64,42 +64,42 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
         erweiterungIDTextField = new JTextField();
         erweiterungIDTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
 
         erweiterungNameLabel = new JLabel("Name der Erweiterung");
         erweiterungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         erweiterungNameTextField = new JTextField();
         erweiterungNameTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungNameLabel, erweiterungNameTextField, gbc, 0, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, erweiterungNameLabel, erweiterungNameTextField, gbc, 0, 2);
 
         zyklusLabel = new JLabel("Zyklus");
         zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         zyklusTextField = new JTextField();
         zyklusTextField.setPreferredSize(new Dimension(150, 30));
         zyklusTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
 
         abkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
         abkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         abkuerzungTextField = new JTextField();
         abkuerzungTextField.setPreferredSize(new Dimension(150, 30));
         abkuerzungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, abkuerzungLabel, abkuerzungTextField, gbc, 1, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, abkuerzungLabel, abkuerzungTextField, gbc, 1, 2);
 
         jahrLabel = new JLabel("Jahr Herausgabe");
         jahrLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         jahrTextField = new JTextField();
         jahrTextField.setPreferredSize(new Dimension(150, 30));
         jahrTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, jahrLabel, jahrTextField, gbc, 2, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, jahrLabel, jahrTextField, gbc, 2, 0);
 
         anzahlKartenSammlungLabel = new JLabel("Anzahl der Karten in Erweiterung");
         anzahlKartenSammlungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         anzahlKartenSammlungTextField = new JTextField();
         anzahlKartenSammlungTextField.setPreferredSize(new Dimension(150, 30));
         anzahlKartenSammlungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, anzahlKartenSammlungLabel, anzahlKartenSammlungTextField, gbc, 2, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, anzahlKartenSammlungLabel, anzahlKartenSammlungTextField, gbc, 2, 2);
 
 
         ordnerIDLabel = new JLabel("Ordner-ID");
@@ -107,7 +107,7 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
         ordnerIDTextField = new JTextField();
         ordnerIDTextField.setPreferredSize(new Dimension(150, 30));
         ordnerIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
 
 
         hinzufuegenButton = new JButton("Erweiterung hinzufügen");

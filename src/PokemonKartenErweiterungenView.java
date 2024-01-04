@@ -142,6 +142,66 @@ public class PokemonKartenErweiterungenView extends JFrame {
             // Füge das ScrollPane zum Frame hinzu
             add(scrollPane);
 
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(200, 100));
+            filterPanel.setBackground(Color.yellow);
+
+
+            // Filter fuer Zyklus
+            String[] zyklusFilter = {"Alle", "Karmesin & Purpur", "Schwert & Schild", "Sonne & Mond", "XY",
+                    "Schwarz & Weiß", "HeartGold & SoulSilver", "Platin", "Diamant & Perl", "EX", "e-Card-Serie",
+                    "Neo-Serie", "Basis-Serie", "Promos & Specials", "EX Trainer Kit"};
+            JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
+            JLabel zyklusFilterLabel = new JLabel("Nach Zyklus filtern: ");
+
+            zyklusFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selektierterZyklus = (String) zyklusFilterComboBox.getSelectedItem();
+                    FilterView.filternNachString(selektierterZyklus, table, 2);
+                }
+            });
+
+            GridBagConstraints gbc = new GridBagConstraints();
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
+            filterPanel.add(zyklusFilterComboBox);
+
+            // Filter fuer Jahr
+            Integer[] jahrFilter = {0, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012,
+                    2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000};
+            JComboBox<Integer> jahrFilterComboBox = new JComboBox<>(jahrFilter);
+            JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
+
+            jahrFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Integer selektiertesJahr = (Integer) jahrFilterComboBox.getSelectedItem();
+                    FilterView.filternNachInteger(selektiertesJahr, table, 4);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, jahrFilterLabel, jahrFilterComboBox, gbc, 2, 0);
+            filterPanel.add(jahrFilterComboBox);
+
+            // Filter fuer Ordner
+            Integer[] ordnerFilter = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+            JComboBox<Integer> ordnerFilterComboBox = new JComboBox<>(ordnerFilter);
+            JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
+
+            ordnerFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Integer selektierterOrdner = (Integer) ordnerFilterComboBox.getSelectedItem();
+                    FilterView.filternNachInteger(selektierterOrdner, table, 8);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
+            filterPanel.add(ordnerFilterComboBox);
+
+
+            add(filterPanel, BorderLayout.EAST);
         } catch (SQLException e) {
             System.out.println(e);
         }
