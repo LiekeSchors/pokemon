@@ -3,10 +3,12 @@
  * Lieke Schors
  */
 
-import javax.swing.*;
-import javax.swing.table.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,6 +17,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 public class PokemonKartenSammlungView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
@@ -162,6 +176,122 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Füge das ScrollPane zum Frame hinzu
             add(scrollPane);
+            GridBagConstraints gbc = new GridBagConstraints();
+
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(200, 100));
+            filterPanel.setBackground(JAVA_COLOR_TUERKIS);
+
+
+            // Filter fuer Abkuerzung der Erweiterung
+            String[] abkuerzungErweiterungFilter = ValuesToStringForFilter.getEindeutigeErweiterungAbkuerzung();
+            for (String erweiterungAbkuerzung : abkuerzungErweiterungFilter) {
+            }
+
+            JComboBox<String> abkuerzungErweiterungFilterComboBox = new JComboBox<>(abkuerzungErweiterungFilter);
+            JLabel abkuerzungErweiterungFilterLabel = new JLabel("Abkürzung Erweiterung: ");
+            abkuerzungErweiterungFilterLabel.setFont(font);
+            abkuerzungErweiterungFilterComboBox.setFont(font);
+
+            abkuerzungErweiterungFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selektierteAbkuerzungErweiterung = (String) abkuerzungErweiterungFilterComboBox.getSelectedItem();
+                    FilterView.filternNachString(selektierteAbkuerzungErweiterung, table, 1);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, abkuerzungErweiterungFilterLabel, abkuerzungErweiterungFilterComboBox, gbc, 0, 0);
+            filterPanel.add(abkuerzungErweiterungFilterComboBox);
+
+
+            // Filter fuer Energie-Typ
+            String[] energieTypFilter = ValuesToStringForFilter.getEnergieTyp();
+            for (String energieTyp : energieTypFilter) {
+            }
+
+            JComboBox<String> energieTypFilterComboBox = new JComboBox<>(energieTypFilter);
+            JLabel energieTypFilterLabel = new JLabel("Energie-Typ:");
+            energieTypFilterLabel.setFont(font);
+            energieTypFilterComboBox.setFont(font);
+
+            energieTypFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selektierterEnergieTyp = (String) energieTypFilterComboBox.getSelectedItem();
+                    FilterView.filternNachString(selektierterEnergieTyp, table, 3);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, energieTypFilterLabel, energieTypFilterComboBox, gbc, 0, 2);
+            filterPanel.add(energieTypFilterComboBox);
+
+            // Filter fuer Besonderheit
+            Integer[] besonderheitFilter = {0, 1, 2, 3, 4};
+            JComboBox<Integer> besonderheitFilterComboBox = new JComboBox<>(besonderheitFilter);
+            JLabel besonderheitFilterLabel = new JLabel("Nach Besonderheit filtern: ");
+            besonderheitFilterLabel.setFont(font);
+            besonderheitFilterComboBox.setFont(font);
+
+            besonderheitFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Integer selektierteBesonderheit = (Integer) besonderheitFilterComboBox.getSelectedItem();
+                    FilterView.filternNachInteger(selektierteBesonderheit, table, 6);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, besonderheitFilterLabel, besonderheitFilterComboBox, gbc, 0, 4);
+            filterPanel.add(besonderheitFilterComboBox);
+
+            /*
+
+            // Filter fuer Seltenheit-ID
+            Integer[] seltenheitIDFilter = ValuesToStringForFilter.getSeltenheitID();
+            for (Integer seltenheitID : seltenheitIDFilter) {
+            }
+            JComboBox<Integer> seltenheitFilterComboBox = new JComboBox<>(seltenheitIDFilter);
+            JLabel seltenheitFilterLabel = new JLabel("Nach Seltenheit filtern: ");
+            seltenheitFilterLabel.setFont(font);
+            seltenheitFilterComboBox.setFont(font);
+
+            seltenheitFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Integer selektierteSeltenheit = (Integer) seltenheitFilterComboBox.getSelectedItem();
+                    FilterView.filternNachInteger(selektierteSeltenheit, table, 4);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, seltenheitFilterLabel, seltenheitFilterComboBox, gbc, 0, 6);
+            filterPanel.add(seltenheitFilterComboBox);
+
+            // Filter fuer Beschreibung Seltenheit
+            String[] beschreibungSeltenheitFilter = ValuesToStringForFilter.getBeschreibungSeltenheit();
+            for (String beschreibungSeltenheit : beschreibungSeltenheitFilter) {
+            }
+            JComboBox<String> beschreibungSeltenheitFilterComboBox = new JComboBox<>(beschreibungSeltenheitFilter);
+            JLabel beschreibungSeltenheitFilterLabel = new JLabel("Beschreibung Seltenheit: ");
+            seltenheitFilterLabel.setFont(font);
+            seltenheitFilterComboBox.setFont(font);
+
+            beschreibungSeltenheitFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selektierteBeschreibungSeltenheit = (String) beschreibungSeltenheitFilterComboBox.getSelectedItem();
+                    FilterView.filternNachString(selektierteBeschreibungSeltenheit, table, 4);
+                }
+            });
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, beschreibungSeltenheitFilterLabel, beschreibungSeltenheitFilterComboBox, gbc, 0, 8);
+            filterPanel.add(beschreibungSeltenheitFilterComboBox);
+            */
+
+            // Filter nach Wert in Euro
+
+
+            add(filterPanel, BorderLayout.NORTH);
+
 
         } catch (SQLException e) {
             System.out.println(e);

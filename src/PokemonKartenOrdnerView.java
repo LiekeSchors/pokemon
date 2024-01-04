@@ -3,14 +3,13 @@
  * Lieke Schors
  */
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableRowSorter;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,6 +18,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 public class PokemonKartenOrdnerView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
@@ -103,6 +113,26 @@ public class PokemonKartenOrdnerView extends JFrame {
             });
 
             JPanel panel = new JPanel(new GridBagLayout());
+
+            String[] zyklusFilter = {"Alle", "Karmesin & Purpur", "Schwert & Schild", "Sonne & Mond", "XY",
+                    "Schwarz & Weiß", "HeartGold & SoulSilver", "Platin", "Diamant & Perl", "EX", "e-Card-Serie",
+                    "Neo-Serie", "Basis-Serie", "Promos & Specials", "EX Trainer Kit"};
+            JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
+
+            zyklusFilterComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selektierterZyklus = (String) zyklusFilterComboBox.getSelectedItem();
+                    FilterView.filternNachString(selektierterZyklus, table, 1);
+                }
+            });
+
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            gbc.anchor = GridBagConstraints.WEST;
+            panel.add(zyklusFilterComboBox, gbc);
+
 
             panel.add(scrollPane);
             add(panel);

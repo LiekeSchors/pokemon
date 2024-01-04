@@ -57,70 +57,70 @@ public class KartenHinzufuegenGUI extends JFrame {
         kartenIDTextField = new JTextField();
         kartenIDTextField.setPreferredSize(new Dimension(150, 30));
         kartenIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
 
         erweiterungAbkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
         erweiterungAbkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         erweiterungAbkuerzungTextField = new JTextField();
         erweiterungAbkuerzungTextField.setPreferredSize(new Dimension(150, 30));
         erweiterungAbkuerzungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungTextField, gbc, 0, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungTextField, gbc, 0, 2);
 
         pokemonNameLabel = new JLabel("Pokémon-Name");
         pokemonNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         pokemonNameTextField = new JTextField();
         pokemonNameTextField.setPreferredSize(new Dimension(150, 30));
         pokemonNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
 
         energieTypLabel = new JLabel("Energie-Typ");
         energieTypLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         energieTypTextField = new JTextField();
         energieTypTextField.setPreferredSize(new Dimension(150, 30));
         energieTypTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, energieTypLabel, energieTypTextField, gbc, 1, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, energieTypLabel, energieTypTextField, gbc, 1, 2);
 
         ursprungNameLabel = new JLabel("Ursprung des Pokémons");
         ursprungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         ursprungNameTextField = new JTextField();
         ursprungNameTextField.setPreferredSize(new Dimension(150, 30));
         ursprungNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, ursprungNameLabel, ursprungNameTextField, gbc, 2, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, ursprungNameLabel, ursprungNameTextField, gbc, 2, 0);
 
         kartenNummerLabel = new JLabel("Kartennummer");
         kartenNummerLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         kartenNummerTextField = new JTextField();
         kartenNummerTextField.setPreferredSize(new Dimension(150, 30));
         kartenNummerTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
 
         seltenheitIDLabel = new JLabel("Seltenheit-ID");
         seltenheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         seltenheitIDTextField = new JTextField();
         seltenheitIDTextField.setPreferredSize(new Dimension(150, 30));
         seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
 
         besonderheitIDLabel = new JLabel("Besonderheit-ID");
         besonderheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         besonderheitIDTextField = new JTextField();
         besonderheitIDTextField.setPreferredSize(new Dimension(150, 30));
         besonderheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 3, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 3, 2);
 
         wertInEuroLabel = new JLabel("Wert der Karte in €");
         wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         wertInEuroTextField = new JTextField();
         wertInEuroTextField.setPreferredSize(new Dimension(150, 30));
         wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
 
         datumWertEingabeLabel = new JLabel("Datum der Werteingabe");
         datumWertEingabeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         datumWertEingabeTextField = new JTextField();
         datumWertEingabeTextField.setPreferredSize(new Dimension(150, 30));
         datumWertEingabeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
 
         nameZusatzLabel = new JLabel("Zusatz zum Namen des Pokémons (z.B. 'V' oder 'V-Star')");
@@ -128,7 +128,7 @@ public class KartenHinzufuegenGUI extends JFrame {
         nameZusatzTextField = new JTextField();
         nameZusatzTextField.setPreferredSize(new Dimension(150, 30));
         nameZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
 
 
         trainerZusatzLabel = new JLabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
@@ -136,7 +136,7 @@ public class KartenHinzufuegenGUI extends JFrame {
         trainerZusatzTextField = new JTextField();
         trainerZusatzTextField.setPreferredSize(new Dimension(150, 30));
         trainerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
+        AddComponentsToPanel.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
 
 
         kartenNummerZusatzLabel = new JLabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
@@ -144,7 +144,7 @@ public class KartenHinzufuegenGUI extends JFrame {
         kartenNummerZusatzTextField = new JTextField();
         kartenNummerZusatzTextField.setPreferredSize(new Dimension(150, 30));
         kartenNummerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddLabelAndTextField.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
+        AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
 
 
         hinzufuegenButton = new JButton("Karte hinzufügen");
