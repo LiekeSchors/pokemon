@@ -11,7 +11,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ValuesToStringForFilter {
+public class ValuesToStringForFilterSorting {
+
+
+    // Sammlung
+    /**
+     * Methode, um die IDs zu holen und als Liste zu speichern
+     */
+    public static Integer[] getSammlungID() {
+        List<Integer> sammlungIDList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT karten_id FROM sammlung";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String sammlungID = resultSet.getString("karten_id");
+                    sammlungIDList.add(Integer.valueOf(sammlungID));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // Collections.sort(sammlungIDList);
+
+        return sammlungIDList.toArray(new Integer[0]);
+    }
 
 
     /**
@@ -69,6 +94,13 @@ public class ValuesToStringForFilter {
         return energieTypList.toArray(new String[0]);
     }
 
+    // Seltenheit
+
+    /**
+     * Methode, um die Beschreibungen der Seltenheiten zu holen und als Liste auszugeben
+     *
+     * @return
+     */
     public static String[] getBeschreibungSeltenheit() {
         List<String> beschreibungSeltenheitList = new ArrayList<>();
 
@@ -91,6 +123,11 @@ public class ValuesToStringForFilter {
         return beschreibungSeltenheitList.toArray(new String[0]);
     }
 
+    /**
+     * Methode, um die IDs der Seltenheiten zu holen und als Liste auszugeben
+     *
+     * @return
+     */
     public static Integer[] getSeltenheitID() {
         List<Integer> seltenheitIDList = new ArrayList<>();
 
