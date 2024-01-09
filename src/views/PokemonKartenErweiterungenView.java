@@ -3,9 +3,14 @@
  * Lieke Schors
  */
 
-package views;import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
+package views;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,17 +20,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
+
 import datenbank.DatenbankVerbindung;
+import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
-import funktionen.MenueAnzeigeUnten;
-import guis.AddComponentsToPanel;
+import funktionen.AddComponentsToPanel;
+import guis.ErweiterungenBearbeitenGUI;
+import guis.ErweiterungenHinzufuegenGUI;
+import layout.Schrift;
 
 public class PokemonKartenErweiterungenView extends JFrame {
-    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
-    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
-    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
-    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     public JTable table;
 
@@ -149,7 +166,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             add(scrollPane);
 
             JPanel filterPanel = new JPanel();
-            filterPanel.setPreferredSize(new Dimension(200, 100));
+            filterPanel.setPreferredSize(new Dimension(250, 100));
             filterPanel.setBackground(Color.yellow);
 
 
@@ -206,13 +223,15 @@ public class PokemonKartenErweiterungenView extends JFrame {
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
             filterPanel.add(ordnerFilterComboBox);
 
+            filterPanel.add(Buttons.btnErweiterungenHinzufuegen(Schrift.normal()));
+            filterPanel.add(Buttons.btnErweiterungenBearbeiten(Schrift.normal()));
 
             add(filterPanel, BorderLayout.EAST);
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        add(MenueAnzeigeUnten.menueAnzeigeUnten(), BorderLayout.SOUTH);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
     }
 

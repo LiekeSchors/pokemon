@@ -30,6 +30,9 @@ import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
+import funktionen.AddComponentsToPanel;
+import funktionen.Buttons;
+import layout.Schrift;
 
 public class KartenHinzufuegenGUI extends JFrame {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
@@ -127,14 +130,12 @@ public class KartenHinzufuegenGUI extends JFrame {
         datumWertEingabeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
-
         nameZusatzLabel = new JLabel("Zusatz zum Namen des Pokémons (z.B. 'V' oder 'V-Star')");
         nameZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         nameZusatzTextField = new JTextField();
         nameZusatzTextField.setPreferredSize(new Dimension(150, 30));
         nameZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
-
 
         trainerZusatzLabel = new JLabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
         trainerZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -143,14 +144,12 @@ public class KartenHinzufuegenGUI extends JFrame {
         trainerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
 
-
         kartenNummerZusatzLabel = new JLabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
         kartenNummerZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         kartenNummerZusatzTextField = new JTextField();
         kartenNummerZusatzTextField.setPreferredSize(new Dimension(150, 30));
         kartenNummerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
-
 
         hinzufuegenButton = new JButton("Karte hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -169,21 +168,17 @@ public class KartenHinzufuegenGUI extends JFrame {
             }
         });
 
-        add(panel);
-
         GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
-        JButton btnBack = new JButton("Zurück");
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
-        btnBack.addActionListener(e -> {
-            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
-            pokemonKartenBearbeiten.setVisible(true);
-            setVisible(false);
-        });
+        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        gbc.gridwidth = 2;
+        gbc.gridx = 3;
+        gbc.gridy = 7;
 
-        JPanel navPanel = new JPanel();
-        navPanel.add(btnBack);
-        add(navPanel, BorderLayout.SOUTH);
+        panel.add(zurueck, gbc);
+
+        add(panel);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setFocusable(true);

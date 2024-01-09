@@ -28,6 +28,9 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.AddComponentsToPanel;
+import funktionen.Buttons;
+import layout.Schrift;
 
 public class ErweiterungenBearbeitenGUI extends JFrame {
 
@@ -127,19 +130,15 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
             }
         });
 
+        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        gbc.gridwidth = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+
+        panel.add(zurueck, gbc);
+
         add(panel);
-
-        JButton btnBack = new JButton("Zurück");
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
-        btnBack.addActionListener(e -> {
-            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
-            pokemonKartenBearbeiten.setVisible(true);
-            setVisible(false);
-        });
-
-        JPanel navPanel = new JPanel();
-        navPanel.add(btnBack);
-        add(navPanel, BorderLayout.SOUTH);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setFocusable(true);

@@ -10,9 +10,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -32,6 +30,9 @@ import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
+import funktionen.AddComponentsToPanel;
+import funktionen.Buttons;
+import layout.Schrift;
 
 public class ErweiterungenHinzufuegenGUI extends JFrame {
     // Code zum Einfuegen der Daten in die Datenbank
@@ -54,8 +55,6 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
 
     public ErweiterungenHinzufuegenGUI() {
         setTitle("GUI Erweiterungen hinzufuegen");
-        Image icon = Toolkit.getDefaultToolkit().getImage(ErweiterungenHinzufuegenGUI.class.getResource("pokemon_karten.ico"));
-        setIconImage(icon);
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -132,21 +131,17 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
             }
         });
 
-        add(panel);
-
         GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
 
-        JButton btnBack = new JButton("Zurück");
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
-        btnBack.addActionListener(e -> {
-            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
-            pokemonKartenBearbeiten.setVisible(true);
-            setVisible(false);
-        });
+        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        gbc.gridwidth = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 5;
 
-        JPanel navPanel = new JPanel();
-        navPanel.add(btnBack);
-        add(navPanel, BorderLayout.SOUTH);
+        panel.add(zurueck, gbc);
+
+        add(panel);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setFocusable(true);

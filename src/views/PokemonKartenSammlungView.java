@@ -5,8 +5,9 @@
 
 package views;
 
+import static layout.Colors.JAVA_COLOR_TUERKIS;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -33,17 +34,14 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
-import funktionen.MenueAnzeigeUnten;
 import funktionen.ValuesToStringForFilter;
-import guis.AddComponentsToPanel;
+import funktionen.AddComponentsToPanel;
+import layout.Schrift;
 
 public class PokemonKartenSammlungView extends JFrame {
-    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
-    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
-    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
-    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     private JTable table;
 
@@ -272,7 +270,7 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
             });
 
-            guis.AddComponentsToPanel.addLabelAndComboBox(filterPanel, seltenheitFilterLabel, seltenheitFilterComboBox, gbc, 0, 6);
+            funktionen.AddComponentsToPanel.addLabelAndComboBox(filterPanel, seltenheitFilterLabel, seltenheitFilterComboBox, gbc, 0, 6);
             filterPanel.add(seltenheitFilterComboBox);
 
             // Filter fuer Beschreibung Seltenheit
@@ -292,12 +290,14 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
             });
 
-            guis.AddComponentsToPanel.addLabelAndComboBox(filterPanel, beschreibungSeltenheitFilterLabel, beschreibungSeltenheitFilterComboBox, gbc, 0, 8);
+            funktionen.AddComponentsToPanel.addLabelAndComboBox(filterPanel, beschreibungSeltenheitFilterLabel, beschreibungSeltenheitFilterComboBox, gbc, 0, 8);
             filterPanel.add(beschreibungSeltenheitFilterComboBox);
             */
 
             // Filter nach Wert in Euro
 
+            filterPanel.add(Buttons.btnKartenHinzufuegen(Schrift.schriftartButtons()));
+            filterPanel.add(Buttons.btnKartenBearbeiten(Schrift.schriftartButtons()));
 
             add(filterPanel, BorderLayout.NORTH);
 
@@ -306,7 +306,7 @@ public class PokemonKartenSammlungView extends JFrame {
             System.out.println(e);
         }
 
-        add(MenueAnzeigeUnten.menueAnzeigeUnten(), BorderLayout.SOUTH);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
     }
 

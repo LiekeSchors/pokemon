@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package guis;import java.awt.GridBagConstraints;
+package funktionen;import java.awt.GridBagConstraints;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
