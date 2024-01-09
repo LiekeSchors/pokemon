@@ -15,6 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import datenbank.DatenbankVerbindung;
+import funktionen.CustomHeaderRenderer;
+import funktionen.FilterView;
+import funktionen.MenueAnzeigeUnten;
+import guis.AddComponentsToPanel;
+
 public class PokemonKartenErweiterungenView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
     public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);

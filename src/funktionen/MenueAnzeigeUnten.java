@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import guis.PokemonKarten;
 import guis.PokemonKartenBearbeiten;
 import views.PokemonKartenBesonderheitenView;
 import views.PokemonKartenErweiterungenView;
