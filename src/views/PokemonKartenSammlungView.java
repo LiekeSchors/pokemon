@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +31,13 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+
+import datenbank.DatenbankVerbindung;
+import funktionen.CustomHeaderRenderer;
+import funktionen.FilterView;
+import funktionen.MenueAnzeigeUnten;
+import funktionen.ValuesToStringForFilter;
+import guis.AddComponentsToPanel;
 
 public class PokemonKartenSammlungView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
@@ -247,7 +256,7 @@ public class PokemonKartenSammlungView extends JFrame {
             /*
 
             // Filter fuer Seltenheit-ID
-            Integer[] seltenheitIDFilter = ValuesToStringForFilter.getSeltenheitID();
+            Integer[] seltenheitIDFilter = funktionen.ValuesToStringForFilter.getSeltenheitID();
             for (Integer seltenheitID : seltenheitIDFilter) {
             }
             JComboBox<Integer> seltenheitFilterComboBox = new JComboBox<>(seltenheitIDFilter);
@@ -259,15 +268,15 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Integer selektierteSeltenheit = (Integer) seltenheitFilterComboBox.getSelectedItem();
-                    FilterView.filternNachInteger(selektierteSeltenheit, table, 4);
+                    funktionen.FilterView.filternNachInteger(selektierteSeltenheit, table, 4);
                 }
             });
 
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, seltenheitFilterLabel, seltenheitFilterComboBox, gbc, 0, 6);
+            guis.AddComponentsToPanel.addLabelAndComboBox(filterPanel, seltenheitFilterLabel, seltenheitFilterComboBox, gbc, 0, 6);
             filterPanel.add(seltenheitFilterComboBox);
 
             // Filter fuer Beschreibung Seltenheit
-            String[] beschreibungSeltenheitFilter = ValuesToStringForFilter.getBeschreibungSeltenheit();
+            String[] beschreibungSeltenheitFilter = funktionen.ValuesToStringForFilter.getBeschreibungSeltenheit();
             for (String beschreibungSeltenheit : beschreibungSeltenheitFilter) {
             }
             JComboBox<String> beschreibungSeltenheitFilterComboBox = new JComboBox<>(beschreibungSeltenheitFilter);
@@ -279,11 +288,11 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierteBeschreibungSeltenheit = (String) beschreibungSeltenheitFilterComboBox.getSelectedItem();
-                    FilterView.filternNachString(selektierteBeschreibungSeltenheit, table, 4);
+                    funktionen.FilterView.filternNachString(selektierteBeschreibungSeltenheit, table, 4);
                 }
             });
 
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, beschreibungSeltenheitFilterLabel, beschreibungSeltenheitFilterComboBox, gbc, 0, 8);
+            guis.AddComponentsToPanel.addLabelAndComboBox(filterPanel, beschreibungSeltenheitFilterLabel, beschreibungSeltenheitFilterComboBox, gbc, 0, 8);
             filterPanel.add(beschreibungSeltenheitFilterComboBox);
             */
 

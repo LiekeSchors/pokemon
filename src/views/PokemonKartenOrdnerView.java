@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +31,10 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
+
+import datenbank.DatenbankVerbindung;
+import funktionen.FilterView;
+import funktionen.MenueAnzeigeUnten;
 
 public class PokemonKartenOrdnerView extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);

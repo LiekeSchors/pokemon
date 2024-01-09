@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
 
-import java.sql.Connection;
+package datenbank;import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 

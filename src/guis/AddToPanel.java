@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
 
-import java.awt.GridBagConstraints;
+package guis;import java.awt.GridBagConstraints;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;

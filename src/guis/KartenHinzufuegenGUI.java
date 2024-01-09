@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -13,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.AbstractAction;
@@ -25,7 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-public class KartenBearbeitenGUI extends JFrame {
+import datenbank.DatenbankVerbindung;
+import datenbank.GenerateNextID;
+
+public class KartenHinzufuegenGUI extends JFrame {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
             pokemonNameLabel, energieTypLabel, ursprungNameLabel, kartenNummerLabel,
             seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
@@ -41,8 +47,8 @@ public class KartenBearbeitenGUI extends JFrame {
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
-    public KartenBearbeitenGUI() {
-        setTitle("GUI Karten bearbeiten");
+    public KartenHinzufuegenGUI() {
+        setTitle("GUI Karten hinzufügen");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -146,7 +152,7 @@ public class KartenBearbeitenGUI extends JFrame {
         AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerZusatzLabel, kartenNummerZusatzTextField, gbc, 6, 0);
 
 
-        hinzufuegenButton = new JButton("Änderungen speichern");
+        hinzufuegenButton = new JButton("Karte hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
         gbc.gridwidth = 2;
         gbc.gridx = 3;
@@ -158,12 +164,14 @@ public class KartenBearbeitenGUI extends JFrame {
         hinzufuegenButton.getActionMap().put("enter", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateExistingDataInDatabase();
+                updateDataInDatabase();
                 reloadPage();
             }
         });
 
         add(panel);
+
+        GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -181,122 +189,73 @@ public class KartenBearbeitenGUI extends JFrame {
         setFocusable(true);
     }
 
-    private void updateExistingDataInDatabase() {
-        String erweiterungAbkuerzung = erweiterungAbkuerzungTextField.getText().trim();
-        String kartenNummer = kartenNummerTextField.getText().trim();
-        String kartenNummerZusatz = kartenNummerZusatzTextField.getText().trim();
-        String pokemonName = pokemonNameTextField.getText().trim();
-        String energieTyp = energieTypTextField.getText().trim();
-        String ursprungName = ursprungNameTextField.getText().trim();
-        String seltenheitID = seltenheitIDTextField.getText().trim();
-        String wertInEuro = wertInEuroTextField.getText().trim();
-        String besonderheitID = besonderheitIDTextField.getText().trim();
-        String datumWertEingabe = datumWertEingabeTextField.getText().trim();
-        String nameZusatz = nameZusatzTextField.getText().trim();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
+            gui.setVisible(true);
+        });
+    }
+
+
+    private void updateDataInDatabase() {
+        String erweiterungAbkuerzung = erweiterungAbkuerzungTextField.getText();
+        String pokemonName = pokemonNameTextField.getText();
+        String energieTyp = energieTypTextField.getText();
+        String ursprungName = ursprungNameTextField.getText();
+        ursprungName = (ursprungName.isEmpty()) ? null : ursprungName;
+        String kartenNummer = kartenNummerTextField.getText();
+        String seltenheitID = seltenheitIDTextField.getText();
+        String wertInEuro = wertInEuroTextField.getText();
+        String besonderheitID = besonderheitIDTextField.getText();
+        String datumWertEingabe = datumWertEingabeTextField.getText();
+        datumWertEingabe = (datumWertEingabe.isEmpty()) ? null : datumWertEingabe;
+        String nameZusatz = nameZusatzTextField.getText();
         nameZusatz = (nameZusatz.isEmpty()) ? null : nameZusatz;
-        String trainerZusatz = trainerZusatzTextField.getText().trim();
+        String trainerZusatz = trainerZusatzTextField.getText();
+        trainerZusatz = (trainerZusatz.isEmpty()) ? null : trainerZusatz;
+        String kartenNummerZusatz = kartenNummerZusatzTextField.getText();
+        kartenNummerZusatz = (kartenNummerZusatz.isEmpty()) ? null : kartenNummerZusatz;
+
 
         try {
-            // Initialize the SQL statement
-            StringBuilder sqlUpdate = new StringBuilder("UPDATE sammlung SET ");
-            boolean isFieldAdded = false;
+            // Einfuegen der Daten mit automatisch inkrementierter ID
+            String sqlInsert = "INSERT INTO sammlung (erweiterung_abkuerzung, pokemon_name, energie_typ, ursprung_name, karten_nr, seltenheit_id, wert_in_euro, besonderheit_id, wert_eingegeben_am, name_zusatz, trainer_zusatz, kartennr_zusatz) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatementInsert.setString(1, erweiterungAbkuerzung);
+            preparedStatementInsert.setString(2, pokemonName);
+            preparedStatementInsert.setString(3, energieTyp);
+            preparedStatementInsert.setString(4, ursprungName);
+            preparedStatementInsert.setInt(5, Integer.parseInt(kartenNummer));
+            preparedStatementInsert.setInt(6, Integer.parseInt(seltenheitID));
+            preparedStatementInsert.setDouble(7, Double.parseDouble(wertInEuro));
+            preparedStatementInsert.setInt(8, Integer.parseInt(besonderheitID));
+            preparedStatementInsert.setString(9, datumWertEingabe);
+            preparedStatementInsert.setString(10, nameZusatz);
+            preparedStatementInsert.setString(11, trainerZusatz);
+            preparedStatementInsert.setString(12, kartenNummerZusatz);
 
-            // Add non-empty fields to the SQL statement
-            if (!pokemonName.isEmpty()) {
-                sqlUpdate.append("pokemon_name = ?, ");
-                isFieldAdded = true;
-            }
-            if (!energieTyp.isEmpty()) {
-                sqlUpdate.append("energie_typ = ?, ");
-                isFieldAdded = true;
-            }
-            if (ursprungName != null && !ursprungName.isEmpty()) {
-                sqlUpdate.append("ursprung_name = ?, ");
-                isFieldAdded = true;
-            }
-            if (!seltenheitID.isEmpty()) {
-                sqlUpdate.append("seltenheit_id = ?, ");
-                isFieldAdded = true;
-            }
-            if (!wertInEuro.isEmpty()) {
-                sqlUpdate.append("wert_in_euro = ?, ");
-                isFieldAdded = true;
-            }
-            if (!besonderheitID.isEmpty()) {
-                sqlUpdate.append("besonderheit_id = ?, ");
-                isFieldAdded = true;
-            }
-            if (datumWertEingabe != null) {
-                sqlUpdate.append("wert_eingegeben_am = ?, ");
-                isFieldAdded = true;
-            }
-            if (nameZusatz != null) {
-                sqlUpdate.append("name_zusatz = ?, ");
-                isFieldAdded = true;
-            }
-            if (trainerZusatz != null) {
-                sqlUpdate.append("trainer_zusatz = ?, ");
-                isFieldAdded = true;
+
+            int affectedRows = preparedStatementInsert.executeUpdate();
+
+            if (affectedRows > 0) {
+                // Abrufen der generierten ID
+                ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedID = generatedKeys.getInt(1);
+                    kartenIDTextField.setText(String.valueOf(generatedID));
+                }
+
+                clearFields();
+                GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
+                generatedKeys.close();
             }
 
-            // Remove the trailing comma and space
-            if (isFieldAdded) {
-                sqlUpdate.delete(sqlUpdate.length() - 2, sqlUpdate.length());
-            }
-
-            // Complete the SQL statement
-            sqlUpdate.append(" WHERE erweiterung_abkuerzung = ? AND (karten_nr = ? OR kartennr_zusatz = ?)");
-            PreparedStatement preparedStatementUpdate = con.prepareStatement(sqlUpdate.toString());
-
-            // Set parameter values for non-empty fields
-            int parameterIndex = 1;
-            if (!pokemonName.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, pokemonName);
-            }
-            if (!energieTyp.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, energieTyp);
-            }
-            if (!ursprungName.isEmpty()) {
-                preparedStatementUpdate.setString(parameterIndex++, ursprungName);
-            }
-            if (!seltenheitID.isEmpty()) {
-                preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(seltenheitID));
-            }
-            if (!wertInEuro.isEmpty()) {
-                preparedStatementUpdate.setDouble(parameterIndex++, Double.parseDouble(wertInEuro));
-            }
-            if (!besonderheitID.isEmpty()) {
-                preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(besonderheitID));
-            }
-            if (datumWertEingabe != null) {
-                preparedStatementUpdate.setString(parameterIndex++, datumWertEingabe);
-            }
-            if (nameZusatz != null) {
-                preparedStatementUpdate.setString(parameterIndex++, nameZusatz);
-            }
-            if (trainerZusatz != null) {
-                preparedStatementUpdate.setString(parameterIndex++, trainerZusatz);
-            }
-
-            // Set the last parameters for the WHERE clause
-            preparedStatementUpdate.setString(parameterIndex++, erweiterungAbkuerzung);
-            preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(kartenNummer));
-            preparedStatementUpdate.setString(parameterIndex, kartenNummerZusatz);
-
-            // Execute the update
-            preparedStatementUpdate.executeUpdate();
-
-            // Clear fields
-            clearFields();
-
-            preparedStatementUpdate.close();
+            preparedStatementInsert.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     private void clearFields() {
         erweiterungAbkuerzungTextField.setText("");
@@ -315,19 +274,12 @@ public class KartenBearbeitenGUI extends JFrame {
 
     private void reloadPage() {
         SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
+            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
             gui.setVisible(true);
             dispose();
         });
     }
 
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
-            gui.setVisible(true);
-        });
-    }
 }
 
 

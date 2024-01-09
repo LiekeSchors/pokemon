@@ -3,6 +3,8 @@
  * Lieke Schors
  */
 
+package funktionen;
+
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;

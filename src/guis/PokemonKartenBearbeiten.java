@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,6 +16,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import views.PokemonKartenBesonderheitenView;
+import views.PokemonKartenErweiterungenView;
+import views.PokemonKartenOrdnerView;
+import views.PokemonKartenSammlungView;
+import views.PokemonKartenSeltenheitenView;
 
 public class PokemonKartenBearbeiten extends JFrame {
     public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);

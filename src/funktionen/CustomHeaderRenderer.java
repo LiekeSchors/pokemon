@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
 
-import javax.swing.*;
+package funktionen;import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 

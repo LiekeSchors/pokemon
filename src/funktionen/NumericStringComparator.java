@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
 
-import java.util.Comparator;
+package funktionen;import java.util.Comparator;
 
 /**
  * Comparator zum Sortieren von Integers, die zuvor als String sortiert wurden.

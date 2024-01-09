@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+
+import datenbank.DatenbankVerbindung;
 
 public class BesonderheitenBearbeitenGUI extends JFrame {
     private JLabel editIDLabel, beschreibungBesonderheitLabel;
@@ -50,7 +54,6 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
         beschreibungBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
         beschreibungBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
-
 
 
         speichernButton = new JButton("Änderungen speichern");

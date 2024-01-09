@@ -1,7 +1,9 @@
 /*
- * Copyright (c) 2023.
+ * Copyright (c) 2024.
  * Lieke Schors
  */
+
+package guis;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -26,6 +28,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+
+import datenbank.DatenbankVerbindung;
+import datenbank.GenerateNextID;
 
 public class BesonderheitenHinzufuegenGUI extends JFrame {
     private JLabel idBesonderheitLabel, beschreibungBesonderheitLabel;
@@ -106,7 +111,7 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
         add(panel);
 
         // ID beim Laden des GUIs generieren
-        GenerateNextID.generateNextID(con, "besonderheiten", "id",idBesonderheitTextField);
+        GenerateNextID.generateNextID(con, "besonderheiten", "id", idBesonderheitTextField);
 
         JButton btnBack = new JButton("Zurück");
         btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -153,6 +158,7 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
         }
 
     }
+
     private void clearFields() {
         beschreibungBesonderheitTextField.setText("");
     }
