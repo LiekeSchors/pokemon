@@ -3,12 +3,14 @@
  * Lieke Schors
  */
 
-package views;import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableRowSorter;
+package views;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -16,14 +18,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableRowSorter;
+
 import datenbank.DatenbankVerbindung;
-import funktionen.MenueAnzeigeUnten;
+import funktionen.Buttons;
+import guis.BesonderheitenBearbeitenGUI;
+import guis.BesonderheitenHinzufuegenGUI;
+import layout.Schrift;
 
 public class PokemonKartenBesonderheitenView extends JFrame {
-    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
-    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
-    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
-    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     private JTable table;
 
@@ -92,13 +102,16 @@ public class PokemonKartenBesonderheitenView extends JFrame {
 
             JPanel panel = new JPanel(new GridBagLayout());
 
+            panel.add(Buttons.btnBesonderheitenHinzufuegen(Schrift.normal()));
+            panel.add(Buttons.btnBesonderheitenBearbeiten(Schrift.normal()));
+
             panel.add(scrollPane);
             add(panel);
         } catch (SQLException e) {
             System.out.println(e);
         }
 
-        add(MenueAnzeigeUnten.menueAnzeigeUnten(), BorderLayout.SOUTH);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
     }
 

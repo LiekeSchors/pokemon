@@ -31,6 +31,8 @@ import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
+import funktionen.Buttons;
+import layout.Schrift;
 
 public class BesonderheitenHinzufuegenGUI extends JFrame {
     private JLabel idBesonderheitLabel, beschreibungBesonderheitLabel;
@@ -113,18 +115,14 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
         // ID beim Laden des GUIs generieren
         GenerateNextID.generateNextID(con, "besonderheiten", "id", idBesonderheitTextField);
 
-        JButton btnBack = new JButton("Zurück");
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
-        btnBack.addActionListener(e -> {
-            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
-            pokemonKartenBearbeiten.setVisible(true);
-            setVisible(false);
-        });
+        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
 
-        JPanel navPanel = new JPanel();
-        navPanel.add(btnBack);
-        add(navPanel, BorderLayout.SOUTH);
-
+        panel.add(zurueck, gbc);
+        add(panel);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setFocusable(true);
     }

@@ -6,7 +6,6 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -33,14 +32,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.Buttons;
 import funktionen.FilterView;
-import funktionen.MenueAnzeigeUnten;
+import layout.Schrift;
 
 public class PokemonKartenOrdnerView extends JFrame {
-    public static final Color JAVA_COLOR_PINK = new Color(255, 102, 255);
-    public static final Color JAVA_COLOR_HELLBLAU = new Color(51, 102, 255);
-    public static final Color JAVA_COLOR_ORANGE = new Color(255, 153, 51);
-    public static final Color JAVA_COLOR_TUERKIS = new Color(0, 153, 153);
 
     private JTable table;
 
@@ -139,7 +135,8 @@ public class PokemonKartenOrdnerView extends JFrame {
             gbc.anchor = GridBagConstraints.WEST;
             panel.add(zyklusFilterComboBox, gbc);
 
-
+            panel.add(Buttons.btnOrdnerHinzufuegen(Schrift.schriftartButtons()));
+            panel.add(Buttons.btnOrdnerBearbeiten(Schrift.schriftartButtons()));
             panel.add(scrollPane);
             add(panel);
 
@@ -148,7 +145,7 @@ public class PokemonKartenOrdnerView extends JFrame {
             System.out.println(e);
         }
 
-        add(MenueAnzeigeUnten.menueAnzeigeUnten(), BorderLayout.SOUTH);
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
     }
 

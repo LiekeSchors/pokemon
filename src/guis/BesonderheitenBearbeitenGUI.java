@@ -29,6 +29,8 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.Buttons;
+import layout.Schrift;
 
 public class BesonderheitenBearbeitenGUI extends JFrame {
     private JLabel editIDLabel, beschreibungBesonderheitLabel;
@@ -54,7 +56,6 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
         beschreibungBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
         beschreibungBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
-
 
         speichernButton = new JButton("Änderungen speichern");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -101,20 +102,15 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
             }
         });
 
+        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+
+        panel.add(zurueck, gbc);
+
         add(panel);
-
-        JButton btnBack = new JButton("Zurück");
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 22));
-        btnBack.addActionListener(e -> {
-            PokemonKartenBearbeiten pokemonKartenBearbeiten = new PokemonKartenBearbeiten();
-            pokemonKartenBearbeiten.setVisible(true);
-            setVisible(false);
-        });
-
-        JPanel navPanel = new JPanel();
-        navPanel.add(btnBack);
-        add(navPanel, BorderLayout.SOUTH);
-
+        add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
         setFocusable(true);
     }
