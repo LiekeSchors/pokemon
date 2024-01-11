@@ -6,11 +6,12 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -29,8 +30,8 @@ import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
-import guis.BesonderheitenBearbeitenGUI;
-import guis.BesonderheitenHinzufuegenGUI;
+import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenBesonderheitenView extends JFrame {
@@ -38,7 +39,7 @@ public class PokemonKartenBesonderheitenView extends JFrame {
     private JTable table;
 
     public PokemonKartenBesonderheitenView() {
-        setTitle("Erweiterungen anzeigen");
+        setTitle("Besonderheiten anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
@@ -100,13 +101,30 @@ public class PokemonKartenBesonderheitenView extends JFrame {
                 }
             });
 
+            // Panel fuer Tabelle
             JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
 
-            panel.add(Buttons.btnBesonderheitenHinzufuegen(Schrift.normal()));
-            panel.add(Buttons.btnBesonderheitenBearbeiten(Schrift.normal()));
+            // Panel fuer Filter/Buttons
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(250, 100));
+            filterPanel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
+
+            JButton besonderheitenHinzufuegen = Buttons.btnBesonderheitenHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(besonderheitenHinzufuegen, Color.WHITE);
+            filterPanel.add(besonderheitenHinzufuegen);
+
+            JButton besonderheitenBearbeiten = Buttons.btnBesonderheitenBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(besonderheitenBearbeiten, Color.WHITE);
+            filterPanel.add(besonderheitenBearbeiten);
 
             panel.add(scrollPane);
+            panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
             add(panel);
+            add(filterPanel, BorderLayout.NORTH);
+
+            con.close(); // Verbindungen schliessen --> schliesst connection leak
         } catch (SQLException e) {
             System.out.println(e);
         }

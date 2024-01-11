@@ -38,8 +38,8 @@ import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
 import funktionen.AddComponentsToPanel;
-import guis.ErweiterungenBearbeitenGUI;
-import guis.ErweiterungenHinzufuegenGUI;
+import funktionen.ValuesToStringForFilter;
+import layout.Borders;
 import layout.Schrift;
 
 public class PokemonKartenErweiterungenView extends JFrame {
@@ -171,11 +171,13 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
 
             // Filter fuer Zyklus
-            String[] zyklusFilter = {"Alle", "Karmesin & Purpur", "Schwert & Schild", "Sonne & Mond", "XY",
-                    "Schwarz & Weiß", "HeartGold & SoulSilver", "Platin", "Diamant & Perl", "EX", "e-Card-Serie",
-                    "Neo-Serie", "Basis-Serie", "Promos & Specials", "EX Trainer Kit"};
+            String[] zyklusFilter = ValuesToStringForFilter.getZyklusErweiterung();
+            for (String zyklus : zyklusFilter) {
+            }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
-            JLabel zyklusFilterLabel = new JLabel("Nach Zyklus filtern: ");
+            JLabel zyklusFilterLabel = new JLabel("Zyklus: ");
+            zyklusFilterLabel.setFont(Schrift.normal());
+            zyklusFilterComboBox.setFont(Schrift.normal());
 
             zyklusFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -191,10 +193,11 @@ public class PokemonKartenErweiterungenView extends JFrame {
             filterPanel.add(zyklusFilterComboBox);
 
             // Filter fuer Jahr
-            Integer[] jahrFilter = {0, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013, 2012,
-                    2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003, 2002, 2001, 2000};
+            Integer[] jahrFilter = ValuesToStringForFilter.getJahrErweiterung();
             JComboBox<Integer> jahrFilterComboBox = new JComboBox<>(jahrFilter);
             JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
+            jahrFilterLabel.setFont(Schrift.normal());
+            jahrFilterComboBox.setFont(Schrift.normal());
 
             jahrFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -208,9 +211,11 @@ public class PokemonKartenErweiterungenView extends JFrame {
             filterPanel.add(jahrFilterComboBox);
 
             // Filter fuer Ordner
-            Integer[] ordnerFilter = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+            Integer[] ordnerFilter = ValuesToStringForFilter.getOrdnerErweiterung();
             JComboBox<Integer> ordnerFilterComboBox = new JComboBox<>(ordnerFilter);
             JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
+            ordnerFilterLabel.setFont(Schrift.normal());
+            ordnerFilterComboBox.setFont(Schrift.normal());
 
             ordnerFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -223,10 +228,16 @@ public class PokemonKartenErweiterungenView extends JFrame {
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
             filterPanel.add(ordnerFilterComboBox);
 
-            filterPanel.add(Buttons.btnErweiterungenHinzufuegen(Schrift.normal()));
-            filterPanel.add(Buttons.btnErweiterungenBearbeiten(Schrift.normal()));
+            JButton erweiterungenHinzufuegen = Buttons.btnErweiterungenHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(erweiterungenHinzufuegen, Color.black);
+            filterPanel.add(erweiterungenHinzufuegen);
 
-            add(filterPanel, BorderLayout.EAST);
+            JButton erweiterungenBearbeiten = Buttons.btnErweiterungenBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(erweiterungenBearbeiten, Color.black);
+            filterPanel.add(erweiterungenBearbeiten);
+
+            add(filterPanel, BorderLayout.NORTH);
+            con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }

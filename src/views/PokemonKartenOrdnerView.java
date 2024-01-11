@@ -6,11 +6,12 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,8 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,8 +35,12 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.FilterView;
+import funktionen.ValuesToStringForFilter;
+import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenOrdnerView extends JFrame {
@@ -96,16 +103,24 @@ public class PokemonKartenOrdnerView extends JFrame {
                 column.setPreferredWidth(preferredWidth);
             }
 
+            // Tabelle fuer Query-Ergebnisse erstellen
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
 
-            // Setze die Tabelle in ein ScrollPane
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
+
+            // Setze die Tabelle in ein ScrollPane und lege Schriftart fest
             JScrollPane scrollPane = new JScrollPane(table);
+            table.setFont(Schrift.normal());
+            header.setFont(Schrift.normal());
 
-            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
-            table.setFont(font);
-            header.setFont(font);
+            // Panel fuer Filter
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(250, 100));
+            filterPanel.setBackground(Colors.JAVA_COLOR_ORANGE);
 
+            // Listener fuer Filter
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -114,12 +129,15 @@ public class PokemonKartenOrdnerView extends JFrame {
                 }
             });
 
-            JPanel panel = new JPanel(new GridBagLayout());
 
-            String[] zyklusFilter = {"Alle", "Karmesin & Purpur", "Schwert & Schild", "Sonne & Mond", "XY",
-                    "Schwarz & Weiß", "HeartGold & SoulSilver", "Platin", "Diamant & Perl", "EX", "e-Card-Serie",
-                    "Neo-Serie", "Basis-Serie", "Promos & Specials", "EX Trainer Kit"};
+            // Filtern nach Zyklus
+            String[] zyklusFilter = ValuesToStringForFilter.getZyklusOrdner();
+            for (String zyklus : zyklusFilter) {
+            }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
+            JLabel zyklusFilterLabel = new JLabel("Zyklus: ");
+            zyklusFilterLabel.setFont(Schrift.normal());
+            zyklusFilterComboBox.setFont(Schrift.normal());
 
             zyklusFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -129,18 +147,26 @@ public class PokemonKartenOrdnerView extends JFrame {
                 }
             });
 
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridx = 0;
-            gbc.gridy = 1;
-            gbc.anchor = GridBagConstraints.WEST;
-            panel.add(zyklusFilterComboBox, gbc);
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
+            filterPanel.add(zyklusFilterComboBox, gbc);
 
-            panel.add(Buttons.btnOrdnerHinzufuegen(Schrift.schriftartButtons()));
-            panel.add(Buttons.btnOrdnerBearbeiten(Schrift.schriftartButtons()));
+            JPanel panel = new JPanel(new GridBagLayout());
+
+            panel.setBackground(Colors.JAVA_COLOR_ORANGE);
+
+            JButton ordnerHinzufuegen = Buttons.btnOrdnerHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(ordnerHinzufuegen, Color.BLACK);
+            filterPanel.add(ordnerHinzufuegen);
+
+            JButton ordnerBearbeiten = Buttons.btnOrdnerBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(ordnerBearbeiten, Color.BLACK);
+            filterPanel.add(ordnerBearbeiten);
+
             panel.add(scrollPane);
             add(panel);
+            add(filterPanel, BorderLayout.NORTH);
 
-
+            con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }

@@ -32,9 +32,10 @@ import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
-public class OrdnerHinzufuegenGUI extends JFrame {
+public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
     private JTextField ordnerIDTextField, zyklusTextField, farbeTextField;
     private JButton hinzufuegenButton;
@@ -92,12 +93,13 @@ public class OrdnerHinzufuegenGUI extends JFrame {
 
         GenerateNextID.generateNextID(con, "ordner", "id", ordnerIDTextField);
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckOrdner(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Colors.JAVA_COLOR_ORANGE);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -142,21 +144,5 @@ public class OrdnerHinzufuegenGUI extends JFrame {
     private void clearFields() {
         zyklusTextField.setText("");
         farbeTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            OrdnerHinzufuegenGUI gui = new OrdnerHinzufuegenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            OrdnerHinzufuegenGUI gui = new OrdnerHinzufuegenGUI();
-            gui.setVisible(true);
-        });
     }
 }

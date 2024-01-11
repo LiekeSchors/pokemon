@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -32,7 +33,7 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import layout.Schrift;
 
-public class ErweiterungenBearbeitenGUI extends JFrame {
+public class ErweiterungenBearbeitenGUI extends AbstractGUI<ErweiterungenBearbeitenGUI> {
 
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
@@ -130,12 +131,13 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckErweiterungen(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 2;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Color.yellow);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -218,6 +220,7 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
             clearFields();
 
             preparedStatementUpdate.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -232,21 +235,5 @@ public class ErweiterungenBearbeitenGUI extends JFrame {
         anzahlKartenSammlungTextField.setText("");
         ordnerIDTextField.setText("");
         editErweiterungIDTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ErweiterungenBearbeitenGUI gui = new ErweiterungenBearbeitenGUI();
-            gui.setVisible(true);
-        });
     }
 }

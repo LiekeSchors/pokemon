@@ -30,9 +30,10 @@ import javax.swing.SwingUtilities;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
-public class OrdnerBearbeitenGUI extends JFrame {
+public class OrdnerBearbeitenGUI extends AbstractGUI<OrdnerBearbeitenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
     private JTextField ordnerIDTextField, zyklusTextField, farbeTextField;
     private JButton hinzufuegenButton;
@@ -88,12 +89,13 @@ public class OrdnerBearbeitenGUI extends JFrame {
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckOrdner(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Colors.JAVA_COLOR_ORANGE);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -152,6 +154,7 @@ public class OrdnerBearbeitenGUI extends JFrame {
             clearFields();
 
             preparedStatementUpdate.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -161,21 +164,5 @@ public class OrdnerBearbeitenGUI extends JFrame {
         zyklusTextField.setText("");
         farbeTextField.setText("");
         ordnerIDTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            OrdnerBearbeitenGUI gui = new OrdnerBearbeitenGUI();
-            gui.setVisible(true);
-        });
     }
 }

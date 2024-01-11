@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -26,13 +27,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
 import layout.Schrift;
 
-public class SeltenheitenBearbeitenGUI extends JFrame {
+public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeitenGUI> {
     private JLabel editIDLabel, beschreibungSeltenheitLabel;
     private JTextField editIDTextField, beschreibungSeltenheitTextField;
     private JButton speichernButton;
@@ -102,12 +102,13 @@ public class SeltenheitenBearbeitenGUI extends JFrame {
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckSeltenheiten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Color.green);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -129,6 +130,7 @@ public class SeltenheitenBearbeitenGUI extends JFrame {
             clearFields();
 
             preparedStatementUpdate.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,20 +139,5 @@ public class SeltenheitenBearbeitenGUI extends JFrame {
     private void clearFields() {
         beschreibungSeltenheitTextField.setText("");
         editIDTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            setVisible(false);
-            SeltenheitenBearbeitenGUI gui = new SeltenheitenBearbeitenGUI();
-            gui.setVisible(true);
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SeltenheitenBearbeitenGUI gui = new SeltenheitenBearbeitenGUI();
-            gui.setVisible(true);
-        });
     }
 }

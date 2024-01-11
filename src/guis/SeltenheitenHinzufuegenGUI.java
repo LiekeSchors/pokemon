@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -34,7 +35,7 @@ import datenbank.GenerateNextID;
 import funktionen.Buttons;
 import layout.Schrift;
 
-public class SeltenheitenHinzufuegenGUI extends JFrame {
+public class SeltenheitenHinzufuegenGUI extends AbstractGUI<SeltenheitenHinzufuegenGUI> {
     private JLabel idSeltenheitLabel, beschreibungSeltenheitLabel;
     private JTextField idSeltenheitTextField, beschreibungSeltenheitTextField;
     private JButton speichernButton;
@@ -110,12 +111,13 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
         // ID beim Laden des GUIs generieren
         GenerateNextID.generateNextID(con, "seltenheit", "id", idSeltenheitTextField);
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckSeltenheiten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Color.green);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -157,18 +159,4 @@ public class SeltenheitenHinzufuegenGUI extends JFrame {
         beschreibungSeltenheitTextField.setText("");
     }
 
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            SeltenheitenHinzufuegenGUI gui = new SeltenheitenHinzufuegenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SeltenheitenHinzufuegenGUI gui = new SeltenheitenHinzufuegenGUI();
-            gui.setVisible(true);
-        });
-    }
 }

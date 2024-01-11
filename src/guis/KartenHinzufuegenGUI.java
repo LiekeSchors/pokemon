@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -32,9 +33,11 @@ import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
-public class KartenHinzufuegenGUI extends JFrame {
+public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
             pokemonNameLabel, energieTypLabel, ursprungNameLabel, kartenNummerLabel,
             seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
@@ -170,15 +173,25 @@ public class KartenHinzufuegenGUI extends JFrame {
 
         GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckKarten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 3;
         gbc.gridy = 7;
 
+        JPanel filterPanel = new JPanel();
+        filterPanel.setPreferredSize(new Dimension(250, 100));
+        filterPanel.setBackground(Colors.JAVA_COLOR_TUERKIS);
+
+        JButton bearbeiten = Buttons.btnKartenBearbeiten(Schrift.schriftartButtons());
+        Borders.buttonBorder(bearbeiten, Color.WHITE);
+        filterPanel.add(bearbeiten, gbc);
+
+        panel.setBackground(Colors.JAVA_COLOR_TUERKIS);
         panel.add(zurueck, gbc);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
+        add(filterPanel, BorderLayout.NORTH);
 
         setLocationRelativeTo(null);
         setFocusable(true);
@@ -266,15 +279,6 @@ public class KartenHinzufuegenGUI extends JFrame {
         trainerZusatzTextField.setText("");
         kartenNummerZusatzTextField.setText("");
     }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
 }
 
 

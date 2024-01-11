@@ -12,7 +12,7 @@ import javax.swing.table.TableRowSorter;
 
 public class FilterView {
 
-    // Methode zum Filtern nach Zyklus
+    // Methode zum Filtern nach String
 
     public static void filternNachString(String selektierteSpalte, JTable table, int spaltenIndex) {
 

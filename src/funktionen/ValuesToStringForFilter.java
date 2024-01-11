@@ -113,4 +113,93 @@ public class ValuesToStringForFilter {
         return seltenheitIDList.toArray(new Integer[0]);
     }
 
+    /**
+     * Methode, um Zyklen zu holen und als Liste auszugeben für Ordner bzw. Erweiterung
+     *
+     * @return
+     */
+    public static String[] getZyklusOrdner() {
+        List<String> zyklenList = new ArrayList<>();
+
+        zyklenList.add("Alle");
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT zyklus FROM ordner";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String zyklen = resultSet.getString("zyklus");
+                    zyklenList.add(zyklen);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(zyklenList);
+
+        return zyklenList.toArray(new String[0]);
+    }
+
+    public static String[] getZyklusErweiterung() {
+        List<String> zyklenList = new ArrayList<>();
+
+        zyklenList.add("Alle");
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT zyklus FROM erweiterungen";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String zyklen = resultSet.getString("zyklus");
+                    zyklenList.add(zyklen);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(zyklenList);
+
+        return zyklenList.toArray(new String[0]);
+    }
+
+    public static Integer[] getJahrErweiterung() {
+        List<Integer> jahrList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT jahr FROM erweiterungen WHERE jahr iS NOT NULL";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String jahr = resultSet.getString("jahr");
+                    jahrList.add(Integer.valueOf(jahr));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(jahrList);
+
+        return jahrList.toArray(new Integer[0]);
+    }
+
+    public static Integer[] getOrdnerErweiterung() {
+        List<Integer> ordnerList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT ordner_id FROM erweiterungen WHERE ordner_id iS NOT NULL";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String ordner = resultSet.getString("ordner_id");
+                    ordnerList.add(Integer.valueOf(ordner));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(ordnerList);
+
+        return ordnerList.toArray(new Integer[0]);
+    }
+
 }

@@ -5,6 +5,7 @@
 
 package funktionen;import java.awt.GridBagConstraints;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +25,12 @@ public class AddComponentsToPanel {
         panel.add(textField, gbc);
     }
 
+    public static void addLabel(JPanel panel, JLabel label, GridBagConstraints gbc, int row, int column) {
+        gbc.gridx = column;
+        gbc.gridy = row;
+        panel.add(label, gbc);
+    }
+
     public static void addLabelAndComboBox(JPanel panel, JLabel label, JComboBox comboBox, GridBagConstraints gbc, int row, int column) {
         gbc.gridx = column;
         gbc.gridy = row;
@@ -32,5 +39,11 @@ public class AddComponentsToPanel {
         gbc.gridx = column + 1;
         gbc.gridy = row;
         panel.add(comboBox, gbc);
+    }
+
+    public static void addButtonToPanel(JPanel panel, JButton button, GridBagConstraints gbc, int row, int column) {
+        gbc.gridx = column;
+        gbc.gridy = row;
+        panel.add(button, gbc);
     }
 }

@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -34,7 +35,7 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import layout.Schrift;
 
-public class ErweiterungenHinzufuegenGUI extends JFrame {
+public class ErweiterungenHinzufuegenGUI extends AbstractGUI<ErweiterungenBearbeitenGUI> {
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
     private final JLabel erweiterungIDLabel;
@@ -133,12 +134,13 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
 
         GenerateNextID.generateNextID(con, "erweiterungen", "id", erweiterungIDTextField);
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckErweiterungen(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 2;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Color.yellow);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -203,13 +205,5 @@ public class ErweiterungenHinzufuegenGUI extends JFrame {
         jahrTextField.setText("");
         anzahlKartenSammlungTextField.setText("");
         ordnerIDTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            ErweiterungenHinzufuegenGUI gui = new ErweiterungenHinzufuegenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
     }
 }

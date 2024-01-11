@@ -8,6 +8,7 @@ package views;
 import static layout.Colors.JAVA_COLOR_TUERKIS;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,6 +41,7 @@ import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
 import funktionen.ValuesToStringForFilter;
 import funktionen.AddComponentsToPanel;
+import layout.Borders;
 import layout.Schrift;
 
 public class PokemonKartenSammlungView extends JFrame {
@@ -296,12 +299,17 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter nach Wert in Euro
 
-            filterPanel.add(Buttons.btnKartenHinzufuegen(Schrift.schriftartButtons()));
-            filterPanel.add(Buttons.btnKartenBearbeiten(Schrift.schriftartButtons()));
+            JButton kartenHinzufuegen = Buttons.btnKartenHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(kartenHinzufuegen, Color.WHITE);
+            filterPanel.add(kartenHinzufuegen);
+
+            JButton kartenBearbeiten = Buttons.btnKartenBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(kartenBearbeiten, Color.WHITE);
+            filterPanel.add(kartenBearbeiten);
 
             add(filterPanel, BorderLayout.NORTH);
 
-
+            con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }

@@ -6,9 +6,12 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -16,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,6 +30,8 @@ import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenSeltenheitenView extends JFrame {
@@ -95,12 +101,26 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             });
 
             JPanel panel = new JPanel(new GridBagLayout());
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
 
-            panel.add(Buttons.btnSeltenheitenHinzufuegen(Schrift.schriftartButtons()));
-            panel.add(Buttons.btnSeltenheitenBearbeiten(Schrift.schriftartButtons()));
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(250, 100));
+            filterPanel.setBackground(Color.green);
+
+            JButton seltenheitenHinzufuegen = Buttons.btnSeltenheitenHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(seltenheitenHinzufuegen, Color.black);
+            filterPanel.add(seltenheitenHinzufuegen);
+
+            JButton seltenheitenBearbeiten = Buttons.btnSeltenheitenBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(seltenheitenBearbeiten, Color.black);
+            filterPanel.add(seltenheitenBearbeiten);
+
             panel.add(scrollPane);
+            panel.setBackground(Color.green);
             add(panel);
-
+            add(filterPanel, BorderLayout.NORTH);
+            con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }

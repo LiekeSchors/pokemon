@@ -30,9 +30,10 @@ import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
-public class BesonderheitenBearbeitenGUI extends JFrame {
+public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearbeitenGUI> {
     private JLabel editIDLabel, beschreibungBesonderheitLabel;
     private JTextField editIDTextField, beschreibungBesonderheitTextField;
     private JButton speichernButton;
@@ -68,6 +69,7 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
         });
 
         JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -102,7 +104,7 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckBesonderheiten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -129,6 +131,7 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
             clearFields();
 
             preparedStatementUpdate.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,20 +140,5 @@ public class BesonderheitenBearbeitenGUI extends JFrame {
     private void clearFields() {
         beschreibungBesonderheitTextField.setText("");
         editIDTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            setVisible(false);
-            BesonderheitenBearbeitenGUI gui = new BesonderheitenBearbeitenGUI();
-            gui.setVisible(true);
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            BesonderheitenBearbeitenGUI gui = new BesonderheitenBearbeitenGUI();
-            gui.setVisible(true);
-        });
     }
 }

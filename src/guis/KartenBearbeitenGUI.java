@@ -6,6 +6,7 @@
 package guis;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -30,9 +31,11 @@ import javax.swing.SwingUtilities;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
-public class KartenBearbeitenGUI extends JFrame {
+public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
             pokemonNameLabel, energieTypLabel, ursprungNameLabel, kartenNummerLabel,
             seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
@@ -57,6 +60,10 @@ public class KartenBearbeitenGUI extends JFrame {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 6, 6, 6); // Abstand zwischen den Komponenten
+
+        JLabel bearbeiten = new JLabel("Karten Bearbeiten");
+        bearbeiten.setFont(new Font("Arial", Font.BOLD, 40));
+
 
         kartenIDLabel = new JLabel("Karten-ID");
         kartenIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -170,15 +177,25 @@ public class KartenBearbeitenGUI extends JFrame {
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckKarten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 3;
         gbc.gridy = 7;
 
+        JPanel filterPanel = new JPanel();
+        filterPanel.setPreferredSize(new Dimension(250, 100));
+        filterPanel.setBackground(Colors.JAVA_COLOR_TUERKIS);
+
+        JButton hinzufuegen = Buttons.btnKartenHinzufuegen(Schrift.schriftartButtons());
+        Borders.buttonBorder(hinzufuegen, Color.WHITE);
+        filterPanel.add(hinzufuegen, gbc);
+
+        panel.setBackground(Colors.JAVA_COLOR_TUERKIS);
         panel.add(zurueck, gbc);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
+        add(filterPanel, BorderLayout.NORTH);
 
         setLocationRelativeTo(null);
         setFocusable(true);
@@ -293,6 +310,7 @@ public class KartenBearbeitenGUI extends JFrame {
             clearFields();
 
             preparedStatementUpdate.close();
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -312,22 +330,6 @@ public class KartenBearbeitenGUI extends JFrame {
         nameZusatzTextField.setText("");
         trainerZusatzTextField.setText("");
         kartenNummerZusatzTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            KartenBearbeitenGUI gui = new KartenBearbeitenGUI();
-            gui.setVisible(true);
-        });
     }
 }
 

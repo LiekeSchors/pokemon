@@ -32,9 +32,10 @@ import javax.swing.SwingUtilities;
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
-public class BesonderheitenHinzufuegenGUI extends JFrame {
+public class BesonderheitenHinzufuegenGUI extends AbstractGUI<BesonderheitenHinzufuegenGUI> {
     private JLabel idBesonderheitLabel, beschreibungBesonderheitLabel;
     private JTextField idBesonderheitTextField, beschreibungBesonderheitTextField;
     private JButton speichernButton;
@@ -115,12 +116,13 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
         // ID beim Laden des GUIs generieren
         GenerateNextID.generateNextID(con, "besonderheiten", "id", idBesonderheitTextField);
 
-        JButton zurueck = Buttons.buttonZurueck(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckBesonderheiten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
@@ -159,20 +161,5 @@ public class BesonderheitenHinzufuegenGUI extends JFrame {
 
     private void clearFields() {
         beschreibungBesonderheitTextField.setText("");
-    }
-
-    private void reloadPage() {
-        SwingUtilities.invokeLater(() -> {
-            BesonderheitenHinzufuegenGUI gui = new BesonderheitenHinzufuegenGUI();
-            gui.setVisible(true);
-            dispose();
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            BesonderheitenHinzufuegenGUI gui = new BesonderheitenHinzufuegenGUI();
-            gui.setVisible(true);
-        });
     }
 }
