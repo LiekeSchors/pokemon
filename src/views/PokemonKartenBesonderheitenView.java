@@ -77,22 +77,18 @@ public class PokemonKartenBesonderheitenView extends JFrame {
             table.setRowHeight(40);
             table.setEnabled(false);
 
-            // Füge einen TableRowSorter zum Sortieren hinzu
             TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
             table.setRowSorter(sorter);
 
-            // Tabellenkopf anzeigen
+            // Header, Schriftart, Scrollpane
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
-
-            // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
 
-            // Textgröße ändern
-            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
-            table.setFont(font);
-            header.setFont(font);
+            table.setFont(Schrift.normal());
+            header.setFont(Schrift.normal());
 
+            // Sortieren, wenn auf Header geklickt wird
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -103,6 +99,9 @@ public class PokemonKartenBesonderheitenView extends JFrame {
 
             // Panel fuer Tabelle
             JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
+            panel.add(scrollPane);
+
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(5, 5, 5, 5);
 
@@ -119,21 +118,15 @@ public class PokemonKartenBesonderheitenView extends JFrame {
             Borders.buttonBorder(besonderheitenBearbeiten, Color.WHITE);
             filterPanel.add(besonderheitenBearbeiten);
 
-            panel.add(scrollPane);
-            panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
             add(panel);
             add(filterPanel, BorderLayout.NORTH);
 
-            con.close(); // Verbindungen schliessen --> schliesst connection leak
+            con.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
 
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-        new PokemonKartenBesonderheitenView().setVisible(true);
     }
 }

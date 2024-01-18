@@ -23,4 +23,11 @@ public class CustomHeaderRenderer implements TableCellRenderer {
         ((JComponent) originalComponent).setToolTipText(tooltipText);
         return originalComponent;
     }
+
+    /**
+     * Methode zum Hinzufuegen eines Tool-Tip-Textes
+     */
+    public static void toolTipMaker(JTable table, String tooltipText, int colIdx) {;
+        table.getColumnModel().getColumn(colIdx).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipText));
+    }
 }

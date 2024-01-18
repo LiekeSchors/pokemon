@@ -76,22 +76,18 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             table.setRowHeight(40);
             table.setEnabled(false);
 
-            // Füge einen TableRowSorter zum Sortieren hinzu
             TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
             table.setRowSorter(sorter);
 
-            // Tabellenkopf anzeigen
+            // Header, Schriftart, Scrollpane
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
-
-            // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
 
-            // Textgröße ändern
-            Font font = new Font("Arial", Font.PLAIN, 20); // Ändere die Schriftart und Größe nach Bedarf
-            table.setFont(font);
-            header.setFont(font);
+            table.setFont(Schrift.normal());
+            header.setFont(Schrift.normal());
 
+            // Sortieren, wenn auf Header geklickt wird
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -100,10 +96,15 @@ public class PokemonKartenSeltenheitenView extends JFrame {
                 }
             });
 
+            // Panel fuer Tabelle
             JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBackground(Color.green);
+            panel.add(scrollPane);
+
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(5, 5, 5, 5);
 
+            // Panel fuer Filter/Buttons
             JPanel filterPanel = new JPanel();
             filterPanel.setPreferredSize(new Dimension(250, 100));
             filterPanel.setBackground(Color.green);
@@ -116,10 +117,9 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             Borders.buttonBorder(seltenheitenBearbeiten, Color.black);
             filterPanel.add(seltenheitenBearbeiten);
 
-            panel.add(scrollPane);
-            panel.setBackground(Color.green);
             add(panel);
             add(filterPanel, BorderLayout.NORTH);
+
             con.close();
         } catch (SQLException e) {
             System.out.println(e);
@@ -127,9 +127,5 @@ public class PokemonKartenSeltenheitenView extends JFrame {
 
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-        new PokemonKartenSeltenheitenView().setVisible(true);
     }
 }

@@ -124,57 +124,16 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
                 column.setPreferredWidth(preferredWidth);
             }
-
-            // Tool-Tip-Texte
-            String tooltipTextID = "<html>Karten-ID<br>Fortlaufende und eindeutige Nummer für die Karte</html>";
-            table.getColumnModel().getColumn(0).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextID));
-
-            String tooltipTextErweiterung = "Abkürzung für die Erweiterung";
-            table.getColumnModel().getColumn(1).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextErweiterung));
-
-            String tooltipTextName = "Name des Pokémons";
-            table.getColumnModel().getColumn(2).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextName));
-
-            String tooltipTextEnergieTyp = "Energietyp des Pokémons";
-            table.getColumnModel().getColumn(3).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextEnergieTyp));
-
-            String tooltipTextEntwicklung = "Pokémon, aus dem sich dieses Pokémon entwickelt hat";
-            table.getColumnModel().getColumn(4).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextEntwicklung));
-
-            String tooltipTextKartenNr = "Kartennummer in der jeweiligen Erweiterung";
-            table.getColumnModel().getColumn(5).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextKartenNr));
-
-            String tooltipTextBesonderheitenID = "<html>Identifikationsnummer für die Besonderheit<br><ul><li>0: Ohne</li><li>1: Glitzer-Karte</li><li>2: Glitzer-Rand</li><li>3: Glitzer-Komplett</li><li>4: Gold-Shiny</li></ul></html>";
-            table.getColumnModel().getColumn(6).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextBesonderheitenID));
-
-            String tooltipTextSeltenheitenID = "<html>Identifikationsnummer für die Seltenheit<br><ol><li>common</li><li>uncommon</li><li>rare</li><li>holo rare</li><li>double rare</li><li>triple star</li><li>rare illustration</li><li>special illustration rare</li><li>hype rare</li><li>ultra rare</li><li>ultra rare double</li><li>shiny holo rare</li><li>ultra rare fullart</li><li>secret rare</li><li>silver star</li><li>holo rare legende</li><li>promo</li><li>amazing rare</li></ol></html>";
-            table.getColumnModel().getColumn(7).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextSeltenheitenID));
-
-            String tooltipTextWertEuro = "Wert der Karte in Euro";
-            table.getColumnModel().getColumn(8).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextWertEuro));
-
-            String tooltipTextDatumWert = "Datum, wann der Wert auf cardmarket.com abgerufen wurde";
-            table.getColumnModel().getColumn(9).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextDatumWert));
-
-            String tooltipTextZusatzName = "Namenszusätze wie 'V' und 'V Star'";
-            table.getColumnModel().getColumn(10).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzName));
-
-            String tooltipTextZusatzTrainer = "Nähere Beschreibung der 'Trainerart'";
-            table.getColumnModel().getColumn(11).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzTrainer));
-
-            String tooltipTextZusatzKartenNr = "<html>Karten mit anderer Kartennummer als gewöhnlich<br>(z.B. Kombi aus Buchstaben und Zahlen)</html>";
-            table.getColumnModel().getColumn(12).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZusatzKartenNr));
-
+            // Header, Schriftart, Scrollpane
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
-
-            // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
+            add(scrollPane);
 
-            Font font = new Font("Arial", Font.PLAIN, 20);
-            table.setFont(font);
-            header.setFont(font);
+            table.setFont(Schrift.normal());
+            header.setFont(Schrift.normal());
 
+            // Sortieren, wenn auf Header geklickt wird
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -183,25 +142,34 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
             });
 
+            // Tool-Tip-Texte
+            CustomHeaderRenderer.toolTipMaker(table, "<html>Karten-ID<br>Fortlaufende und eindeutige Nummer für die Karte</html>", 0);
+            CustomHeaderRenderer.toolTipMaker(table, "Abkürzung für die Erweiterung", 1);
+            CustomHeaderRenderer.toolTipMaker(table, "Name des Pokémons", 2);
+            CustomHeaderRenderer.toolTipMaker(table, "Energietyp des Pokémons", 3);
+            CustomHeaderRenderer.toolTipMaker(table, "Pokémon, aus dem sich dieses Pokémon entwickelt hat", 4);
+            CustomHeaderRenderer.toolTipMaker(table, "Kartennummer in der jeweiligen Erweiterung", 5);
+            CustomHeaderRenderer.toolTipMaker(table, "<html>Identifikationsnummer für die Besonderheit<br><ul><li>0: Ohne</li><li>1: Glitzer-Karte</li><li>2: Glitzer-Rand</li><li>3: Glitzer-Komplett</li><li>4: Gold-Shiny</li></ul></html>", 6);
+            CustomHeaderRenderer.toolTipMaker(table, "<html>Identifikationsnummer für die Seltenheit<br><ol><li>common</li><li>uncommon</li><li>rare</li><li>holo rare</li><li>double rare</li><li>triple star</li><li>rare illustration</li><li>special illustration rare</li><li>hype rare</li><li>ultra rare</li><li>ultra rare double</li><li>shiny holo rare</li><li>ultra rare fullart</li><li>secret rare</li><li>silver star</li><li>holo rare legende</li><li>promo</li><li>amazing rare</li></ol></html>", 7);
+            CustomHeaderRenderer.toolTipMaker(table, "Wert der Karte in Euro", 8);
+            CustomHeaderRenderer.toolTipMaker(table, "Datum, wann der Wert auf cardmarket.com abgerufen wurde", 9);
+            CustomHeaderRenderer.toolTipMaker(table, "Namenszusätze wie 'V' und 'V Star'", 10);
+            CustomHeaderRenderer.toolTipMaker(table, "Nähere Beschreibung der 'Trainerart'", 11);
+            CustomHeaderRenderer.toolTipMaker(table, "<html>Karten mit anderer Kartennummer als gewöhnlich<br>(z.B. Kombi aus Buchstaben und Zahlen)</html>", 12);
 
-            // Füge das ScrollPane zum Frame hinzu
-            add(scrollPane);
-            GridBagConstraints gbc = new GridBagConstraints();
 
-            JPanel filterPanel = new JPanel();
-            filterPanel.setPreferredSize(new Dimension(200, 100));
-            filterPanel.setBackground(JAVA_COLOR_TUERKIS);
-
+            // Filter
 
             // Filter fuer Abkuerzung der Erweiterung
+
             String[] abkuerzungErweiterungFilter = ValuesToStringForFilter.getEindeutigeErweiterungAbkuerzung();
             for (String erweiterungAbkuerzung : abkuerzungErweiterungFilter) {
             }
 
             JComboBox<String> abkuerzungErweiterungFilterComboBox = new JComboBox<>(abkuerzungErweiterungFilter);
             JLabel abkuerzungErweiterungFilterLabel = new JLabel("Abkürzung Erweiterung: ");
-            abkuerzungErweiterungFilterLabel.setFont(font);
-            abkuerzungErweiterungFilterComboBox.setFont(font);
+            abkuerzungErweiterungFilterLabel.setFont(Schrift.normal());
+            abkuerzungErweiterungFilterComboBox.setFont(Schrift.normal());
 
             abkuerzungErweiterungFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -211,19 +179,16 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
             });
 
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, abkuerzungErweiterungFilterLabel, abkuerzungErweiterungFilterComboBox, gbc, 0, 0);
-            filterPanel.add(abkuerzungErweiterungFilterComboBox);
-
-
             // Filter fuer Energie-Typ
+
             String[] energieTypFilter = ValuesToStringForFilter.getEnergieTyp();
             for (String energieTyp : energieTypFilter) {
             }
 
             JComboBox<String> energieTypFilterComboBox = new JComboBox<>(energieTypFilter);
             JLabel energieTypFilterLabel = new JLabel("Energie-Typ:");
-            energieTypFilterLabel.setFont(font);
-            energieTypFilterComboBox.setFont(font);
+            energieTypFilterLabel.setFont(Schrift.normal());
+            energieTypFilterComboBox.setFont(Schrift.normal());
 
             energieTypFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -233,15 +198,13 @@ public class PokemonKartenSammlungView extends JFrame {
                 }
             });
 
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, energieTypFilterLabel, energieTypFilterComboBox, gbc, 0, 2);
-            filterPanel.add(energieTypFilterComboBox);
-
             // Filter fuer Besonderheit
+
             Integer[] besonderheitFilter = {0, 1, 2, 3, 4};
             JComboBox<Integer> besonderheitFilterComboBox = new JComboBox<>(besonderheitFilter);
             JLabel besonderheitFilterLabel = new JLabel("Nach Besonderheit filtern: ");
-            besonderheitFilterLabel.setFont(font);
-            besonderheitFilterComboBox.setFont(font);
+            besonderheitFilterLabel.setFont(Schrift.normal());
+            besonderheitFilterComboBox.setFont(Schrift.normal());
 
             besonderheitFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -250,9 +213,6 @@ public class PokemonKartenSammlungView extends JFrame {
                     FilterView.filternNachInteger(selektierteBesonderheit, table, 6);
                 }
             });
-
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, besonderheitFilterLabel, besonderheitFilterComboBox, gbc, 0, 4);
-            filterPanel.add(besonderheitFilterComboBox);
 
             /*
 
@@ -299,6 +259,23 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter nach Wert in Euro
 
+
+            // Aufbau der Panel
+            GridBagConstraints gbc = new GridBagConstraints();
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(200, 100));
+            filterPanel.setBackground(JAVA_COLOR_TUERKIS);
+
+            // Komponenten hinzufuegen
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, abkuerzungErweiterungFilterLabel, abkuerzungErweiterungFilterComboBox, gbc, 0, 0);
+            filterPanel.add(abkuerzungErweiterungFilterComboBox);
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, energieTypFilterLabel, energieTypFilterComboBox, gbc, 0, 2);
+            filterPanel.add(energieTypFilterComboBox);
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, besonderheitFilterLabel, besonderheitFilterComboBox, gbc, 0, 4);
+            filterPanel.add(besonderheitFilterComboBox);
+
             JButton kartenHinzufuegen = Buttons.btnKartenHinzufuegen(Schrift.schriftartButtons());
             Borders.buttonBorder(kartenHinzufuegen, Color.WHITE);
             filterPanel.add(kartenHinzufuegen);
@@ -316,9 +293,5 @@ public class PokemonKartenSammlungView extends JFrame {
 
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-        new PokemonKartenSammlungView().setVisible(true);
     }
 }

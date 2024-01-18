@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,10 +33,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
-import funktionen.AddComponentsToPanel;
 import funktionen.ValuesToStringForFilter;
 import layout.Borders;
 import layout.Schrift;
@@ -94,6 +93,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             }
 
             // Erstelle die JTable mit dem Model
+
             table = new JTable(model);
             table.setRowHeight(40);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -115,45 +115,16 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 column.setPreferredWidth(preferredWidth);
             }
 
-            // Tool-Tip-Texte
-            String tooltipTextID = "ID für die Erweiterung";
-            table.getColumnModel().getColumn(0).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextID));
-
-            String tooltipTextErweiterungName = "Name der Erweiterung";
-            table.getColumnModel().getColumn(1).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextErweiterungName));
-
-            String tooltipTextZyklus = "Zyklus, in dem die Erweiterung erschienen ist";
-            table.getColumnModel().getColumn(2).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextZyklus));
-
-            String tooltipTextAbkuerzung = "Abkürzung der Erweiterung";
-            table.getColumnModel().getColumn(3).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAbkuerzung));
-
-            String tooltipTextJahr = "Jahr, in dem die Erweiterung erschienen ist";
-            table.getColumnModel().getColumn(4).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextJahr));
-
-            String tooltipTextAnzahlSammlung = "Anzahl der 'normalen' Karten in der Sammlung, ohne Extra-Karten";
-            table.getColumnModel().getColumn(5).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlSammlung));
-
-            String tooltipTextAnzahlGesammelt = "Anzahl der Karten, die bereits gesammelt wurden";
-            table.getColumnModel().getColumn(6).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextAnzahlGesammelt));
-
-            String tooltipTextHabenRelativ = "Verhältnis der gesammelten Karten zur Anzahl der Karten in der Sammlung";
-            table.getColumnModel().getColumn(7).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextHabenRelativ));
-
-            String tooltipTextOrdnerID = "Ordner, in dem sich die Erweiterung befindet";
-            table.getColumnModel().getColumn(8).setHeaderRenderer(new CustomHeaderRenderer(table.getTableHeader().getDefaultRenderer(), tooltipTextOrdnerID));
-
-
+            // Header, Schriftart, Scrollpane
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
-
-            // Setze die Tabelle in ein ScrollPane
             JScrollPane scrollPane = new JScrollPane(table);
+            add(scrollPane);
 
-            Font font = new Font("Arial", Font.PLAIN, 20);
-            table.setFont(font);
-            header.setFont(font);
+            table.setFont(Schrift.normal());
+            header.setFont(Schrift.normal());
 
+            // Sortieren, wenn auf Header geklickt wird
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -162,15 +133,23 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            // Füge das ScrollPane zum Frame hinzu
-            add(scrollPane);
 
-            JPanel filterPanel = new JPanel();
-            filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Color.yellow);
+            // Tool-Tip-Texte
 
+            CustomHeaderRenderer.toolTipMaker(table, "ID der Erweiterung", 0);
+            CustomHeaderRenderer.toolTipMaker(table, "Name der Erweiterung", 1);
+            CustomHeaderRenderer.toolTipMaker(table, "Zyklus, in dem die Erweiterung erschienen ist", 2);
+            CustomHeaderRenderer.toolTipMaker(table, "Abkürzung der Erweiterung", 3);
+            CustomHeaderRenderer.toolTipMaker(table, "Jahr, in dem die Erweiterung erschienen ist", 4);
+            CustomHeaderRenderer.toolTipMaker(table, "Anzahl der 'normalen' Karten in der Sammlung, ohne Extra-Karten", 5);
+            CustomHeaderRenderer.toolTipMaker(table, "Anzahl der Karten, die bereits gesammelt wurden", 6);
+            CustomHeaderRenderer.toolTipMaker(table, "Verhältnis der gesammelten Karten zur Anzahl der Karten in der Sammlung", 7);
+            CustomHeaderRenderer.toolTipMaker(table, "Ordner, in dem sich die Erweiterung befindet", 8);
+
+            // Filter
 
             // Filter fuer Zyklus
+
             String[] zyklusFilter = ValuesToStringForFilter.getZyklusErweiterung();
             for (String zyklus : zyklusFilter) {
             }
@@ -187,12 +166,8 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            GridBagConstraints gbc = new GridBagConstraints();
-
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
-            filterPanel.add(zyklusFilterComboBox);
-
             // Filter fuer Jahr
+
             Integer[] jahrFilter = ValuesToStringForFilter.getJahrErweiterung();
             JComboBox<Integer> jahrFilterComboBox = new JComboBox<>(jahrFilter);
             JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
@@ -207,10 +182,8 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, jahrFilterLabel, jahrFilterComboBox, gbc, 2, 0);
-            filterPanel.add(jahrFilterComboBox);
-
             // Filter fuer Ordner
+
             Integer[] ordnerFilter = ValuesToStringForFilter.getOrdnerErweiterung();
             JComboBox<Integer> ordnerFilterComboBox = new JComboBox<>(ordnerFilter);
             JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
@@ -224,6 +197,22 @@ public class PokemonKartenErweiterungenView extends JFrame {
                     FilterView.filternNachInteger(selektierterOrdner, table, 8);
                 }
             });
+
+            // Aufbau der Panel
+
+            GridBagConstraints gbc = new GridBagConstraints();
+
+            // Panel fuer die Filter
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(250, 100));
+            filterPanel.setBackground(Color.yellow);
+
+            // Komponenten hinzufuegen
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
+            filterPanel.add(zyklusFilterComboBox);
+
+            AddComponentsToPanel.addLabelAndComboBox(filterPanel, jahrFilterLabel, jahrFilterComboBox, gbc, 2, 0);
+            filterPanel.add(jahrFilterComboBox);
 
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
             filterPanel.add(ordnerFilterComboBox);
@@ -244,9 +233,5 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-        new PokemonKartenErweiterungenView().setVisible(true);
     }
 }

@@ -103,24 +103,15 @@ public class PokemonKartenOrdnerView extends JFrame {
                 column.setPreferredWidth(preferredWidth);
             }
 
-            // Tabelle fuer Query-Ergebnisse erstellen
+            // Header, Schriftart, Scrollpane
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
-
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.insets = new Insets(5, 5, 5, 5);
-
-            // Setze die Tabelle in ein ScrollPane und lege Schriftart fest
             JScrollPane scrollPane = new JScrollPane(table);
+
             table.setFont(Schrift.normal());
             header.setFont(Schrift.normal());
 
-            // Panel fuer Filter
-            JPanel filterPanel = new JPanel();
-            filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Colors.JAVA_COLOR_ORANGE);
-
-            // Listener fuer Filter
+            // Sortieren, wenn auf Header geklickt wird
             header.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -129,6 +120,10 @@ public class PokemonKartenOrdnerView extends JFrame {
                 }
             });
 
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.insets = new Insets(5, 5, 5, 5);
+
+            // Filter
 
             // Filtern nach Zyklus
             String[] zyklusFilter = ValuesToStringForFilter.getZyklusOrdner();
@@ -147,12 +142,18 @@ public class PokemonKartenOrdnerView extends JFrame {
                 }
             });
 
+            // Grosses Panel
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBackground(Colors.JAVA_COLOR_ORANGE);
+            panel.add(scrollPane);
+
+            // Panel fuer Filter
+            JPanel filterPanel = new JPanel();
+            filterPanel.setPreferredSize(new Dimension(250, 100));
+            filterPanel.setBackground(Colors.JAVA_COLOR_ORANGE);
+
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
             filterPanel.add(zyklusFilterComboBox, gbc);
-
-            JPanel panel = new JPanel(new GridBagLayout());
-
-            panel.setBackground(Colors.JAVA_COLOR_ORANGE);
 
             JButton ordnerHinzufuegen = Buttons.btnOrdnerHinzufuegen(Schrift.schriftartButtons());
             Borders.buttonBorder(ordnerHinzufuegen, Color.BLACK);
@@ -162,7 +163,6 @@ public class PokemonKartenOrdnerView extends JFrame {
             Borders.buttonBorder(ordnerBearbeiten, Color.BLACK);
             filterPanel.add(ordnerBearbeiten);
 
-            panel.add(scrollPane);
             add(panel);
             add(filterPanel, BorderLayout.NORTH);
 
@@ -173,10 +173,5 @@ public class PokemonKartenOrdnerView extends JFrame {
 
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
         setLocationRelativeTo(null);
-    }
-
-
-    public static void main(String[] args) {
-        new PokemonKartenOrdnerView().setVisible(true);
     }
 }
