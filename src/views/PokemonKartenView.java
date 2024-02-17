@@ -10,7 +10,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import funktionen.Buttons;
 
@@ -29,10 +28,6 @@ public class PokemonKartenView extends JFrame {
         add(panel);
 
         setLocationRelativeTo(null);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PokemonKartenView().setVisible(true));
     }
 }
 
