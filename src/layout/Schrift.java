@@ -32,4 +32,9 @@ public class Schrift {
         Font font = new Font("Arial", Font.PLAIN, 24);
         return font;
     }
+
+    public static Font farbigeUnicodeSymbole() {
+        Font font = new Font("Noto Color Emoji", Font.PLAIN, 20);
+        return font;
+    }
 }

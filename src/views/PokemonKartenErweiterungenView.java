@@ -37,7 +37,7 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
-import funktionen.ValuesToStringForFilter;
+import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Schrift;
 
@@ -150,7 +150,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Zyklus
 
-            String[] zyklusFilter = ValuesToStringForFilter.getZyklusErweiterung();
+            String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung();
             for (String zyklus : zyklusFilter) {
             }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
@@ -168,7 +168,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Jahr
 
-            Integer[] jahrFilter = ValuesToStringForFilter.getJahrErweiterung();
+            Integer[] jahrFilter = ValuesToStringDB.getJahrErweiterung();
             JComboBox<Integer> jahrFilterComboBox = new JComboBox<>(jahrFilter);
             JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
             jahrFilterLabel.setFont(Schrift.normal());
@@ -184,7 +184,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Ordner
 
-            Integer[] ordnerFilter = ValuesToStringForFilter.getOrdnerErweiterung();
+            Integer[] ordnerFilter = ValuesToStringDB.getOrdnerErweiterung();
             JComboBox<Integer> ordnerFilterComboBox = new JComboBox<>(ordnerFilter);
             JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
             ordnerFilterLabel.setFont(Schrift.normal());

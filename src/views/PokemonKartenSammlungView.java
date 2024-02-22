@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +20,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,11 +35,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
+import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
-import funktionen.ValuesToStringForFilter;
-import funktionen.AddComponentsToPanel;
+import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Schrift;
 
@@ -93,8 +90,8 @@ public class PokemonKartenSammlungView extends JFrame {
                         rs.getString("energie_typ"),
                         rs.getString("ursprung_name"),
                         rs.getInt("karten_nr"),
-                        rs.getInt("besonderheit_id"),
-                        rs.getInt("seltenheit_id"),
+                        rs.getString("besonderheit_id"),
+                        rs.getString("seltenheit_id"),
                         rs.getDouble("wert_in_euro"),
                         rs.getString("wert_eingegeben_am"),
                         rs.getString("name_zusatz"),
@@ -164,7 +161,7 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter fuer Abkuerzung der Erweiterung
 
-            String[] abkuerzungErweiterungFilter = ValuesToStringForFilter.getEindeutigeErweiterungAbkuerzung();
+            String[] abkuerzungErweiterungFilter = ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(true);
             for (String erweiterungAbkuerzung : abkuerzungErweiterungFilter) {
             }
 
@@ -182,10 +179,10 @@ public class PokemonKartenSammlungView extends JFrame {
             });
 
             // Filter fuer Energie-Typ
-
-            String[] energieTypFilter = ValuesToStringForFilter.getEnergieTyp();
+            String[] energieTypFilter = ValuesToStringDB.getEnergieTyp(true);
             for (String energieTyp : energieTypFilter) {
             }
+
 
             JComboBox<String> energieTypFilterComboBox = new JComboBox<>(energieTypFilter);
             JLabel energieTypFilterLabel = new JLabel("Energie-Typ:");
@@ -219,7 +216,7 @@ public class PokemonKartenSammlungView extends JFrame {
             /*
 
             // Filter fuer Seltenheit-ID
-            Integer[] seltenheitIDFilter = funktionen.ValuesToStringForFilter.getSeltenheitID();
+            Integer[] seltenheitIDFilter = funktionen.ValuesToStringDB.getSeltenheitID();
             for (Integer seltenheitID : seltenheitIDFilter) {
             }
             JComboBox<Integer> seltenheitFilterComboBox = new JComboBox<>(seltenheitIDFilter);
@@ -239,7 +236,7 @@ public class PokemonKartenSammlungView extends JFrame {
             filterPanel.add(seltenheitFilterComboBox);
 
             // Filter fuer Beschreibung Seltenheit
-            String[] beschreibungSeltenheitFilter = funktionen.ValuesToStringForFilter.getBeschreibungSeltenheit();
+            String[] beschreibungSeltenheitFilter = funktionen.ValuesToStringDB.getBeschreibungSeltenheit();
             for (String beschreibungSeltenheit : beschreibungSeltenheitFilter) {
             }
             JComboBox<String> beschreibungSeltenheitFilterComboBox = new JComboBox<>(beschreibungSeltenheitFilter);

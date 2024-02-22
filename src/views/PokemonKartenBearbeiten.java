@@ -38,8 +38,4 @@ public class PokemonKartenBearbeiten extends JFrame {
 
         setLocationRelativeTo(null);
     }
-
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> new PokemonKartenBearbeiten().setVisible(true));
-    }
 }
