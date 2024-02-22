@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pokemon_karten:jar3">
+    <output-path>$PROJECT_DIR$/out/artifacts/pokemon_karten_jar3</output-path>
+    <root id="archive" name="pokemon_karten.jar">
+      <element id="module-output" name="pokemon_karten" />
+      <element id="dir-copy" path="$PROJECT_DIR$" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/postgresql-42.7.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
