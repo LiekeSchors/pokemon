@@ -18,21 +18,24 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Colors;
 import layout.Schrift;
@@ -43,14 +46,14 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
             seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
             nameZusatzLabel, trainerZusatzLabel, kartenNummerZusatzLabel;
 
-    private JTextField kartenIDTextField, erweiterungAbkuerzungTextField, pokemonNameTextField,
-            energieTypTextField, ursprungNameTextField, kartenNummerTextField, seltenheitIDTextField,
-            wertInEuroTextField, besonderheitIDTextField, datumWertEingabeTextField,
-            nameZusatzTextField, trainerZusatzTextField, kartenNummerZusatzTextField;
+    private JTextField kartenIDTextField, pokemonNameTextField, ursprungNameTextField, kartenNummerTextField,
+            wertInEuroTextField, datumWertEingabeTextField, kartenNummerZusatzTextField;
+
+    private JComboBox<String> abkuerzungErweiterungComboBox, energieTypComboBox, trainerZusatzComboBox, nameZusatzComboBox,
+            seltenheitSymbolCombobox, besonderheitComboBox;
 
     private JButton hinzufuegenButton;
 
-    // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
     public KartenHinzufuegenGUI() {
@@ -70,12 +73,14 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         kartenIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
 
+        String[] abkuerzungErweiterungComboboxStringArray = ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(false);
+        abkuerzungErweiterungComboBox = new JComboBox<>(abkuerzungErweiterungComboboxStringArray);
+        abkuerzungErweiterungComboBox.setFont(Schrift.normal());
+
         erweiterungAbkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
         erweiterungAbkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        erweiterungAbkuerzungTextField = new JTextField();
-        erweiterungAbkuerzungTextField.setPreferredSize(new Dimension(150, 30));
-        erweiterungAbkuerzungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungTextField, gbc, 0, 2);
+        abkuerzungErweiterungComboBox.setPreferredSize(new Dimension(150, 30));
+        AddComponentsToPanel.addLabelAndComboBox(panel, erweiterungAbkuerzungLabel, abkuerzungErweiterungComboBox, gbc, 0, 2);
 
         pokemonNameLabel = new JLabel("Pokémon-Name");
         pokemonNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -84,12 +89,14 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         pokemonNameTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
 
+        String[] energieTyp = ValuesToStringDB.getEnergieTyp(false);
+        energieTypComboBox = new JComboBox<>(energieTyp);
+        energieTypComboBox.setFont(Schrift.normal());
+
         energieTypLabel = new JLabel("Energie-Typ");
         energieTypLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        energieTypTextField = new JTextField();
-        energieTypTextField.setPreferredSize(new Dimension(150, 30));
-        energieTypTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, energieTypLabel, energieTypTextField, gbc, 1, 2);
+        energieTypComboBox.setPreferredSize(new Dimension(150, 30));
+        AddComponentsToPanel.addLabelAndComboBox(panel, energieTypLabel, energieTypComboBox, gbc, 1, 2);
 
         ursprungNameLabel = new JLabel("Ursprung des Pokémons");
         ursprungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -105,19 +112,24 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         kartenNummerTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
 
+        String[] seltenheitCombobox = ValuesToStringDB.getSymbolSeltenheit();
+        seltenheitSymbolCombobox = new JComboBox<>(seltenheitCombobox);
+        seltenheitSymbolCombobox.setFont(Schrift.farbigeUnicodeSymbole());
+
         seltenheitIDLabel = new JLabel("Seltenheit-ID");
         seltenheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        seltenheitIDTextField = new JTextField();
-        seltenheitIDTextField.setPreferredSize(new Dimension(150, 30));
-        seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
+        seltenheitSymbolCombobox.setPreferredSize(new Dimension(150, 30));
+        AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
+
+
+        String[] besonderheitBeschreibung = ValuesToStringDB.getBeschreibungBesonderheit();
+        besonderheitComboBox = new JComboBox<>(besonderheitBeschreibung);
+        besonderheitComboBox.setFont(Schrift.farbigeUnicodeSymbole());
 
         besonderheitIDLabel = new JLabel("Besonderheit-ID");
         besonderheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        besonderheitIDTextField = new JTextField();
-        besonderheitIDTextField.setPreferredSize(new Dimension(150, 30));
-        besonderheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 3, 2);
+        besonderheitComboBox.setPreferredSize(new Dimension(150, 30));
+        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
 
         wertInEuroLabel = new JLabel("Wert der Karte in €");
         wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -126,26 +138,38 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
 
+
+        Date datum = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         datumWertEingabeLabel = new JLabel("Datum der Werteingabe");
         datumWertEingabeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
         datumWertEingabeTextField = new JTextField();
+        datumWertEingabeTextField.setText(dateFormat.format(datum));
         datumWertEingabeTextField.setPreferredSize(new Dimension(150, 30));
         datumWertEingabeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
+
+        String[] nameZusatz = ValuesToStringDB.getNameZusatz();
+        nameZusatzComboBox = new JComboBox<>(nameZusatz);
+        nameZusatzComboBox.setFont(Schrift.normal());
+
         nameZusatzLabel = new JLabel("Zusatz zum Namen des Pokémons (z.B. 'V' oder 'V-Star')");
         nameZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        nameZusatzTextField = new JTextField();
-        nameZusatzTextField.setPreferredSize(new Dimension(150, 30));
-        nameZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, nameZusatzLabel, nameZusatzTextField, gbc, 5, 0);
+        nameZusatzComboBox.setPreferredSize(new Dimension(150, 30));
+        nameZusatzComboBox.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddComponentsToPanel.addLabelAndComboBox(panel, nameZusatzLabel, nameZusatzComboBox, gbc, 5, 0);
+
+
+        String[] trainerZusatz = ValuesToStringDB.getTrainerZusatz();
+        trainerZusatzComboBox = new JComboBox<>(trainerZusatz);
+        trainerZusatzComboBox.setFont(Schrift.normal());
 
         trainerZusatzLabel = new JLabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
         trainerZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        trainerZusatzTextField = new JTextField();
-        trainerZusatzTextField.setPreferredSize(new Dimension(150, 30));
-        trainerZusatzTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
+        trainerZusatzComboBox.setPreferredSize(new Dimension(150, 30));
+        trainerZusatzComboBox.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddComponentsToPanel.addLabelAndComboBox(panel, trainerZusatzLabel, trainerZusatzComboBox, gbc, 5, 2);
 
         kartenNummerZusatzLabel = new JLabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
         kartenNummerZusatzLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -197,30 +221,22 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         setFocusable(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            KartenHinzufuegenGUI gui = new KartenHinzufuegenGUI();
-            gui.setVisible(true);
-        });
-    }
-
-
     private void updateDataInDatabase() {
-        String erweiterungAbkuerzung = erweiterungAbkuerzungTextField.getText();
+        String erweiterungAbkuerzung = (String) abkuerzungErweiterungComboBox.getSelectedItem();
         String pokemonName = pokemonNameTextField.getText();
-        String energieTyp = energieTypTextField.getText();
+        String energieTyp = (String) energieTypComboBox.getSelectedItem();
         String ursprungName = ursprungNameTextField.getText();
         ursprungName = (ursprungName.isEmpty()) ? null : ursprungName;
         String kartenNummer = kartenNummerTextField.getText();
-        String seltenheitID = seltenheitIDTextField.getText();
+        String symbolSeltenheit = (String) seltenheitSymbolCombobox.getSelectedItem();
         String wertInEuro = wertInEuroTextField.getText();
-        String besonderheitID = besonderheitIDTextField.getText();
+        String besonderheitID = (String) besonderheitComboBox.getSelectedItem();
         String datumWertEingabe = datumWertEingabeTextField.getText();
         datumWertEingabe = (datumWertEingabe.isEmpty()) ? null : datumWertEingabe;
-        String nameZusatz = nameZusatzTextField.getText();
+        String nameZusatz = (String) nameZusatzComboBox.getSelectedItem();
         nameZusatz = (nameZusatz.isEmpty()) ? null : nameZusatz;
-        String trainerZusatz = trainerZusatzTextField.getText();
-        trainerZusatz = (trainerZusatz.isEmpty()) ? null : trainerZusatz;
+        String trainerZusatz = (String) trainerZusatzComboBox.getSelectedItem();
+        trainerZusatz = (trainerZusatz.isEmpty()) ? " " : trainerZusatz;
         String kartenNummerZusatz = kartenNummerZusatzTextField.getText();
         kartenNummerZusatz = (kartenNummerZusatz.isEmpty()) ? null : kartenNummerZusatz;
 
@@ -234,9 +250,9 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
             preparedStatementInsert.setString(3, energieTyp);
             preparedStatementInsert.setString(4, ursprungName);
             preparedStatementInsert.setInt(5, Integer.parseInt(kartenNummer));
-            preparedStatementInsert.setInt(6, Integer.parseInt(seltenheitID));
+            preparedStatementInsert.setString(6, symbolSeltenheit);
             preparedStatementInsert.setDouble(7, Double.parseDouble(wertInEuro));
-            preparedStatementInsert.setInt(8, Integer.parseInt(besonderheitID));
+            preparedStatementInsert.setString(8, besonderheitID);
             preparedStatementInsert.setString(9, datumWertEingabe);
             preparedStatementInsert.setString(10, nameZusatz);
             preparedStatementInsert.setString(11, trainerZusatz);
@@ -266,17 +282,11 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     }
 
     private void clearFields() {
-        erweiterungAbkuerzungTextField.setText("");
         pokemonNameTextField.setText("");
-        energieTypTextField.setText("");
         ursprungNameTextField.setText("");
         kartenNummerTextField.setText("");
-        seltenheitIDTextField.setText("");
         wertInEuroTextField.setText("");
-        besonderheitIDTextField.setText("");
         datumWertEingabeTextField.setText("");
-        nameZusatzTextField.setText("");
-        trainerZusatzTextField.setText("");
         kartenNummerZusatzTextField.setText("");
     }
 }

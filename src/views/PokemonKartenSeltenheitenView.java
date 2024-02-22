@@ -8,7 +8,6 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -31,7 +30,6 @@ import javax.swing.table.TableRowSorter;
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
 import layout.Borders;
-import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenSeltenheitenView extends JFrame {
@@ -61,12 +59,12 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             model.addColumn("ID Seltenheit");
             model.addColumn("Beschreibung");
 
-
             while (rs.next()) {
                 // Füge die Zeilen zum Model hinzu
                 Object[] row = {
                         rs.getInt("id"),
-                        rs.getString("beschreibung")
+                        rs.getString("beschreibung"),
+                        rs.getString("symbol")
                 };
                 model.addRow(row);
             }
