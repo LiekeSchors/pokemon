@@ -32,7 +32,7 @@ public class LoginFormularErstellen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 500));
 
-        passWortField.setEchoChar('❤');
+        passWortField.setEchoChar('♬');
 
         anmeldenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
