@@ -38,7 +38,7 @@ import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.FilterView;
-import funktionen.ValuesToStringForFilter;
+import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Colors;
 import layout.Schrift;
@@ -126,7 +126,7 @@ public class PokemonKartenOrdnerView extends JFrame {
             // Filter
 
             // Filtern nach Zyklus
-            String[] zyklusFilter = ValuesToStringForFilter.getZyklusOrdner();
+            String[] zyklusFilter = ValuesToStringDB.getZyklusOrdner();
             for (String zyklus : zyklusFilter) {
             }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);

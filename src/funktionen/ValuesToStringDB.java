@@ -15,7 +15,7 @@ import java.util.List;
 
 import datenbank.DatenbankVerbindung;
 
-public class ValuesToStringForFilter {
+public class ValuesToStringDB {
 
 
     // Sammlung
@@ -48,10 +48,11 @@ public class ValuesToStringForFilter {
          *
          * @return
          */
-        public static String[] getEindeutigeErweiterungAbkuerzung() {
+        public static String[] getEindeutigeErweiterungAbkuerzung(boolean alle) {
             List<String> eindeutigeErweiterungAbkuerzungList = new ArrayList<>();
-
-            eindeutigeErweiterungAbkuerzungList.add("Alle");
+            if (alle) {
+                eindeutigeErweiterungAbkuerzungList.add("Alle");
+            }
 
             try (Connection con = DatenbankVerbindung.connectDB()) {
                 String sql = "SELECT DISTINCT erweiterung_abkuerzung FROM sammlung";
@@ -76,10 +77,12 @@ public class ValuesToStringForFilter {
          *
          * @return
          */
-        public static String[] getEnergieTyp() {
+        public static String[] getEnergieTyp(boolean alle) {
             List<String> energieTypList = new ArrayList<>();
 
-            energieTypList.add("Alle");
+            if (alle) {
+                energieTypList.add("Alle");
+            }
 
             try (Connection con = DatenbankVerbindung.connectDB()) {
                 String sql = "SELECT DISTINCT energie_typ FROM sammlung";
@@ -126,6 +129,111 @@ public class ValuesToStringForFilter {
 
             return beschreibungSeltenheitList.toArray(new String[0]);
         }
+
+    /**
+     * Methode, um die Symbole der Seltenheiten zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static String[] getSymbolSeltenheit() {
+        List<String> symbolSeltenheitList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT symbol FROM seltenheit";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String symbolSeltenheit = resultSet.getString("symbol");
+                    symbolSeltenheitList.add(symbolSeltenheit);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(symbolSeltenheitList);
+
+        return symbolSeltenheitList.toArray(new String[0]);
+    }
+
+    public static String[] getBeschreibungBesonderheit() {
+        List<String> beschreibungBesonderheitList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT beschreibung FROM besonderheiten";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String beschreibungBesonderheit = resultSet.getString("beschreibung");
+                    beschreibungBesonderheitList.add(beschreibungBesonderheit);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(beschreibungBesonderheitList);
+
+        return beschreibungBesonderheitList.toArray(new String[0]);
+    }
+
+        //Zusatz
+
+    /**
+     * Methode, um den Trainer-Zusatz zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static String[] getTrainerZusatz() {
+        List<String> trainerZusatzList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT trainer_zusatz FROM sammlung";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String trainerZusatz = resultSet.getString("trainer_zusatz");
+                    if (trainerZusatz == null) {
+                        trainerZusatz = "";
+                    }
+                    trainerZusatzList.add(trainerZusatz);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(trainerZusatzList);
+
+        return trainerZusatzList.toArray(new String[0]);
+    }
+
+    /**
+     * Methode, um den Trainer-Zusatz zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static String[] getNameZusatz() {
+        List<String> nameZusatzList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT name_zusatz FROM sammlung";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String nameZusatz = resultSet.getString("name_zusatz");
+                    if (nameZusatz == null) {
+                        nameZusatz = "";
+                    }
+                    nameZusatzList.add(nameZusatz);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(nameZusatzList);
+
+        return nameZusatzList.toArray(new String[0]);
+    }
+
+
 
         /**
          * Methode, um die IDs der Seltenheiten zu holen und als Liste auszugeben
