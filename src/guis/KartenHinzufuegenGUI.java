@@ -35,6 +35,7 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import layout.Borders;
 import layout.Colors;
+import layout.guitextfield.GUIIntegerTextField;
 import layout.Schrift;
 
 public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
@@ -100,9 +101,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         kartenNummerLabel = new JLabel("Kartennummer");
         kartenNummerLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        kartenNummerTextField = new JTextField();
-        kartenNummerTextField.setPreferredSize(new Dimension(150, 30));
-        kartenNummerTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        kartenNummerTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
 
         seltenheitIDLabel = new JLabel("Seltenheit-ID");
