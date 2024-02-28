@@ -16,7 +16,7 @@ public abstract class AbstractGUI<T extends JFrame> extends JFrame {
     protected void reloadPage() {
         SwingUtilities.invokeLater(() -> {
             setVisible(false);
-            T gui = null;
+            T gui;
             try {
                 gui = (T) this.getClass().newInstance();
             } catch (InstantiationException e) {
@@ -27,4 +27,5 @@ public abstract class AbstractGUI<T extends JFrame> extends JFrame {
             gui.setVisible(true);
         });
     }
+
 }

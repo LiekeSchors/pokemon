@@ -21,7 +21,7 @@ public class GUITextField extends JTextField {
     public GUITextField(String validierungsRegex) {
         super();
         setFont(Schrift.normal());
-        setPreferredSize(new Dimension(150, 30));
+        setPreferredSize(new Dimension(200, 30));
         this.validierungsRegex = validierungsRegex;
     }
 
