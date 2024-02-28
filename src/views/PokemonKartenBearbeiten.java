@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -20,6 +21,8 @@ public class PokemonKartenBearbeiten extends JFrame {
         setTitle("Sammlung bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
+        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        setIconImage(icon.getImage());
 
         JPanel grossesPanel = new JPanel(new GridLayout(1, 2));
 

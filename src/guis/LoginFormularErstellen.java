@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,13 +28,16 @@ public class LoginFormularErstellen extends JFrame {
     private JButton anmeldenButton;
     private JPanel panel;
 
+
     public LoginFormularErstellen() {
         setTitle("Login Formular");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 500));
 
-        passWortField.setEchoChar('♬');
+        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        setIconImage(icon.getImage());
 
+        passWortField.setEchoChar('♬');
         anmeldenButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 login();
@@ -76,9 +80,6 @@ public class LoginFormularErstellen extends JFrame {
             JOptionPane.showMessageDialog(LoginFormularErstellen.this, "E-Mail oder Passwort nicht korrekt.",
                     "Versuche es noch einmal", JOptionPane.ERROR_MESSAGE);
         }
-
-
-
     }
 
     public Benutzer benutzer;
