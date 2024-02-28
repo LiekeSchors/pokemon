@@ -46,4 +46,72 @@ public class SQLQuerys {
         }
         return entwicklung;
     }
+
+    public static Object getLetzteErweiterung() {
+        Connection con = DatenbankVerbindung.connectDB();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String erwAbk = null;
+        try {
+            String sql = "SELECT erweiterung_abkuerzung FROM sammlung WHERE karten_id = (SELECT MAX(karten_id) FROM sammlung)";
+            p = con.prepareStatement(sql);
+            rs = p.executeQuery();
+
+            if (rs.next()) {
+                erwAbk = rs.getString("erweiterung_abkuerzung");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (p != null) {
+                    p.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return erwAbk;
+    }
+
+    public static Object getLetzteEnergie() {
+        Connection con = DatenbankVerbindung.connectDB();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String energieTyp = null;
+        try {
+            String sql = "SELECT energie_typ FROM sammlung WHERE karten_id = (SELECT MAX(karten_id) FROM sammlung)";
+            p = con.prepareStatement(sql);
+            rs = p.executeQuery();
+
+            if (rs.next()) {
+                energieTyp = rs.getString("energie_typ");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (p != null) {
+                    p.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return energieTyp;
+    }
 }

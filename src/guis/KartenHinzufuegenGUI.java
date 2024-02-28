@@ -30,6 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
@@ -87,6 +88,10 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         erweiterungAbkuerzungLabel = new GUILabel("Abkürzung der Erweiterung");
         erweiterungAbkuerzungComboBox = new GUIComboBox<>(ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(false));
         AddComponentsToPanel.addLabelAndComboBox(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungComboBox, gbc, 0, 2);
+        Object letzteErweiterung = SQLQuerys.getLetzteErweiterung();
+        if (letzteErweiterung != null) {
+            erweiterungAbkuerzungComboBox.setSelectedItem(letzteErweiterung);
+        }
 
         pokemonNameLabel = new GUILabel("Pokémon-Name");
         pokemonNameTextField = new GUITextField();
@@ -111,6 +116,10 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         energieTypLabel = new GUILabel("Energie-Typ");
         energieTypComboBox = new GUIComboBox<>(ValuesToStringDB.getEnergieTyp(false));
         AddComponentsToPanel.addLabelAndComboBox(panel, energieTypLabel, energieTypComboBox, gbc, 1, 2);
+        Object letzteEnergie = SQLQuerys.getLetzteEnergie();
+        if (letzteEnergie != null) {
+            energieTypComboBox.setSelectedItem(letzteEnergie);
+        }
 
         ursprungNameLabel = new GUILabel("Ursprung des Pokémons");
         ursprungNameTextField = new GUITextField();
@@ -124,10 +133,12 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         seltenheitSymbolCombobox = new GUIComboBox<>(ValuesToStringDB.getSymbolSeltenheit());
         seltenheitSymbolCombobox.setFont(Schrift.farbigeUnicodeSymbole());
         AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
+        seltenheitSymbolCombobox.setSelectedItem("●");
 
         besonderheitIDLabel = new GUILabel("Besonderheit");
         besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit());
         AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
+        besonderheitComboBox.setSelectedItem("Ohne");
 
         wertInEuroLabel = new GUILabel("Wert der Karte in €");
         wertInEuroTextField = new GUIDoubleTextField();
@@ -151,6 +162,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         hinzufuegenButton = new JButton("Karte hinzufügen");
         hinzufuegenButton.setFont(new Font("Arial", Font.PLAIN, 22));
+        hinzufuegenButton.setPreferredSize(new Dimension(200, 40));
         gbc.gridwidth = 2;
         gbc.gridx = 3;
         gbc.gridy = 6;
@@ -169,7 +181,8 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         GenerateNextID.generateNextID(con, "sammlung", "karten_id", kartenIDTextField);
 
-        JButton zurueck = Buttons.buttonZurueckKarten(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckKarten(Schrift.normal());
+        zurueck.setPreferredSize(new Dimension(200, 40));
         gbc.gridwidth = 2;
         gbc.gridx = 3;
         gbc.gridy = 7;
@@ -191,6 +204,11 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         setLocationRelativeTo(null);
         setFocusable(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                erweiterungAbkuerzungComboBox.requestFocus();
+            }
+        });
 
     }
 
@@ -262,6 +280,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         datumWertEingabeTextField.setText("");
         kartenNummerZusatzTextField.setText("");
     }
+
 }
 
 

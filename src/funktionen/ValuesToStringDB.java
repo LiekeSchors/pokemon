@@ -186,7 +186,7 @@ public class ValuesToStringDB {
         List<String> trainerZusatzList = new ArrayList<>();
 
         try (Connection con = DatenbankVerbindung.connectDB()) {
-            String sql = "SELECT DISTINCT trainer_zusatz FROM sammlung";
+            String sql = "SELECT DISTINCT trainer_zusatz FROM sammlung WHERE trainer_zusatz IS NOT NULL";
             try (PreparedStatement preparedStatement = con.prepareStatement(sql);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
