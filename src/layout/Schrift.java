@@ -34,7 +34,7 @@ public class Schrift {
     }
 
     public static Font farbigeUnicodeSymbole() {
-        Font font = new Font("Noto Color Emoji", Font.PLAIN, 20);
+        Font font = new Font("NotoColorEmoji", Font.PLAIN, 20);
         return font;
     }
 }

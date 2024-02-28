@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2024.
  * Lieke Schors
  */
@@ -13,6 +13,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,6 +32,7 @@ import javax.swing.KeyStroke;
 
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
+import datenbank.SQLQuerys;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.ValuesToStringDB;
@@ -59,6 +62,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private GUIComboBox seltenheitSymbolCombobox;
     private GUIComboBox besonderheitComboBox;
 
+
     private JButton hinzufuegenButton;
 
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
@@ -84,6 +88,22 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         pokemonNameLabel = new GUILabel("Pokémon-Name");
         pokemonNameTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, pokemonNameLabel, pokemonNameTextField, gbc, 1, 0);
+
+        final String[] pokemonName = new String[1];
+        final String[] entwicklung = new String[1];
+        pokemonNameTextField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                // Get the entered Pokémon name
+                pokemonName[0] = pokemonNameTextField.getText();
+
+                // Get the evolution information based on the entered Pokémon name
+                entwicklung[0] = SQLQuerys.getEntwicklung(pokemonName[0]);
+
+                // Set the obtained evolution information in the "Ursprung des Pokémons" field
+                ursprungNameTextField.setText(entwicklung[0]);
+            }
+        });
 
         energieTypLabel = new GUILabel("Energie-Typ");
         energieTypComboBox = new GUIComboBox<>(ValuesToStringDB.getEnergieTyp(false));
@@ -115,7 +135,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         AddComponentsToPanel.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
         nameZusatzLabel = new GUILabel("Zusatz zum Namen des Pokémons (z.B. 'V' oder 'V-Star')");
-        nameZusatzComboBox = new GUIComboBox<>( ValuesToStringDB.getNameZusatz());
+        nameZusatzComboBox = new GUIComboBox<>(ValuesToStringDB.getNameZusatz());
         AddComponentsToPanel.addLabelAndComboBox(panel, nameZusatzLabel, nameZusatzComboBox, gbc, 5, 0);
 
         trainerZusatzLabel = new GUILabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
@@ -132,6 +152,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         gbc.gridx = 3;
         gbc.gridy = 6;
         panel.add(hinzufuegenButton, gbc);
+
 
         // Button zum hinzufuegen einer Karte und gleichzeitigem Neuladen mit Enter
         hinzufuegenButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
@@ -167,6 +188,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         setLocationRelativeTo(null);
         setFocusable(true);
+
     }
 
     private void updateDataInDatabase() {
@@ -213,7 +235,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
                 // Abrufen der generierten ID
                 ResultSet generatedKeys = preparedStatementInsert.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    int generatedID = generatedKeys.getInt(1);
+                    int generatedID = generatedKeys.getInt(12);
                     kartenIDTextField.setText(String.valueOf(generatedID));
                 }
 
@@ -238,6 +260,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         kartenNummerZusatzTextField.setText("");
     }
 }
+
 
 
 

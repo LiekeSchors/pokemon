@@ -18,11 +18,9 @@ public class DatenbankVerbindung {
 
             // Überprüfe, ob die Verbindung erfolgreich hergestellt wurde
             if (con != null && !con.isClosed()) {
-                System.out.println("Datenbankverbindung hergestellt.");
                 return con;
-            } else {
-                System.out.println("Datenbankverbindung fehlgeschlagen.");
             }
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
