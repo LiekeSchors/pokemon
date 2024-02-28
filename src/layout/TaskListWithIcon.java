@@ -9,7 +9,7 @@ public class TaskListWithIcon extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create an icon
-        ImageIcon icon = new ImageIcon("ultra-ball.png"); // Replace "path/to/icon.png" with the actual path to your icon image
+        ImageIcon icon = new ImageIcon("layout/ultra-ball.png"); // Replace "path/to/icon.png" with the actual path to your icon image
 
         // Set the icon for the tasklist
         setIconImage(icon.getImage());
