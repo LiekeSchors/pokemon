@@ -10,7 +10,6 @@ import static layout.Colors.JAVA_COLOR_ORANGE;
 import static layout.Colors.JAVA_COLOR_PINK;
 import static layout.Colors.JAVA_COLOR_TUERKIS;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -27,6 +26,7 @@ import guis.OrdnerBearbeitenGUI;
 import guis.OrdnerHinzufuegenGUI;
 import guis.SeltenheitenBearbeitenGUI;
 import guis.SeltenheitenHinzufuegenGUI;
+import layout.Colors;
 import layout.Schrift;
 import views.PokemonKartenBearbeiten;
 import views.PokemonKartenBesonderheitenView;
@@ -73,7 +73,7 @@ public class Buttons {
     public static JButton btnSeltenheitenHinzufuegen(Font font) {
         JButton btnSeltenheitenHinzufuegen = new JButton("Seltenheit hinzufügen");
         btnSeltenheitenHinzufuegen.addActionListener(new ButtonActionListener<>(btnSeltenheitenHinzufuegen, SeltenheitenHinzufuegenGUI.class));
-        btnSeltenheitenHinzufuegen.setBackground(Color.green);
+        btnSeltenheitenHinzufuegen.setBackground(Colors.JAVA_COLOR_GREEN);
         btnSeltenheitenHinzufuegen.setFont(font);
 
         return btnSeltenheitenHinzufuegen;
@@ -83,7 +83,7 @@ public class Buttons {
         JButton btnSeltenheitenBearbeiten = new JButton("Seltenheit bearbeiten");
         btnSeltenheitenBearbeiten.addActionListener(new ButtonActionListener<>(btnSeltenheitenBearbeiten, SeltenheitenBearbeitenGUI.class));
         btnSeltenheitenBearbeiten.setFont(font);
-        btnSeltenheitenBearbeiten.setBackground(Color.green);
+        btnSeltenheitenBearbeiten.setBackground(Colors.JAVA_COLOR_GREEN);
 
         return btnSeltenheitenBearbeiten;
     }
@@ -91,7 +91,7 @@ public class Buttons {
     public static JButton btnSeltenheitenAnzeigen(Font font) {
         JButton btnSeltenheitenView = new JButton("Seltenheiten anzeigen");
         btnSeltenheitenView.addActionListener(new ButtonActionListener<>(btnSeltenheitenView, PokemonKartenSeltenheitenView.class));
-        btnSeltenheitenView.setBackground(Color.green);
+        btnSeltenheitenView.setBackground(Colors.JAVA_COLOR_GREEN);
         btnSeltenheitenView.setFont(font);
 
         return btnSeltenheitenView;
@@ -101,7 +101,7 @@ public class Buttons {
     public static JButton btnErweiterungenHinzufuegen(Font font) {
         JButton btnErweiterungenHinzufuegen = new JButton("Erweiterung hinzufügen");
         btnErweiterungenHinzufuegen.addActionListener(new ButtonActionListener<>(btnErweiterungenHinzufuegen, ErweiterungenHinzufuegenGUI.class));
-        btnErweiterungenHinzufuegen.setBackground(Color.yellow);
+        btnErweiterungenHinzufuegen.setBackground(Colors.JAVA_COLOR_YELLOW);
         btnErweiterungenHinzufuegen.setFont(font);
 
         return btnErweiterungenHinzufuegen;
@@ -111,7 +111,7 @@ public class Buttons {
         JButton btnErweiterungenBearbeiten = new JButton("Erweiterungen bearbeiten");
         btnErweiterungenBearbeiten.addActionListener(new ButtonActionListener<>(btnErweiterungenBearbeiten, ErweiterungenBearbeitenGUI.class));
         btnErweiterungenBearbeiten.setFont(font);
-        btnErweiterungenBearbeiten.setBackground(Color.yellow);
+        btnErweiterungenBearbeiten.setBackground(Colors.JAVA_COLOR_YELLOW);
 
         return btnErweiterungenBearbeiten;
     }
@@ -119,7 +119,7 @@ public class Buttons {
     public static JButton btnErweiterungenAnzeigen(Font font) {
         JButton btnErweiterungenView = new JButton("Erweiterungen anzeigen");
         btnErweiterungenView.addActionListener(new ButtonActionListener<>(btnErweiterungenView, PokemonKartenErweiterungenView.class));
-        btnErweiterungenView.setBackground(Color.yellow);
+        btnErweiterungenView.setBackground(Colors.JAVA_COLOR_YELLOW);
         btnErweiterungenView.setFont(font);
 
         return btnErweiterungenView;

@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,6 +40,7 @@ import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
 import funktionen.ValuesToStringDB;
 import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenErweiterungenView extends JFrame {
@@ -154,7 +154,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Zyklus
 
-            String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung();
+            String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung(true);
             for (String zyklus : zyklusFilter) {
             }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
@@ -209,7 +209,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             // Panel fuer die Filter
             JPanel filterPanel = new JPanel();
             filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Color.yellow);
+            filterPanel.setBackground(Colors.JAVA_COLOR_YELLOW);
 
             // Komponenten hinzufuegen
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);

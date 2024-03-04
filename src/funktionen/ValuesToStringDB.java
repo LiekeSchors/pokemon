@@ -43,92 +43,113 @@ public class ValuesToStringDB {
         return sammlungIDList.toArray(new Integer[0]);
     }
 
-        /**
-         * Methode, um Abkürzungen der Erweiterung zu holen und als Liste zu speichern
-         *
-         * @return
-         */
-        public static String[] getEindeutigeErweiterungAbkuerzung(boolean alle) {
-            List<String> eindeutigeErweiterungAbkuerzungList = new ArrayList<>();
-            if (alle) {
-                eindeutigeErweiterungAbkuerzungList.add("Alle");
-            }
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT erweiterung_abkuerzung FROM sammlung";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String erweiterungAbkuerzung = resultSet.getString("erweiterung_abkuerzung");
-                        eindeutigeErweiterungAbkuerzungList.add(erweiterungAbkuerzung);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Collections.sort(eindeutigeErweiterungAbkuerzungList);
-
-            return eindeutigeErweiterungAbkuerzungList.toArray(new String[0]);
+    /**
+     * Methode, um Abkürzungen der Erweiterung zu holen und als Liste zu speichern
+     *
+     * @return
+     */
+    public static String[] getEindeutigeErweiterungAbkuerzung(boolean alle) {
+        List<String> eindeutigeErweiterungAbkuerzungList = new ArrayList<>();
+        if (alle) {
+            eindeutigeErweiterungAbkuerzungList.add("Alle");
         }
 
-
-        /**
-         * Methode, um Energie-Typen zu holen und als Liste auszugeben
-         *
-         * @return
-         */
-        public static String[] getEnergieTyp(boolean alle) {
-            List<String> energieTypList = new ArrayList<>();
-
-            if (alle) {
-                energieTypList.add("Alle");
-            }
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT energie_typ FROM sammlung";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String energieTyp = resultSet.getString("energie_typ");
-                        energieTypList.add(energieTyp);
-                    }
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT erweiterung_abkuerzung FROM sammlung";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String erweiterungAbkuerzung = resultSet.getString("erweiterung_abkuerzung");
+                    eindeutigeErweiterungAbkuerzungList.add(erweiterungAbkuerzung);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            Collections.sort(energieTypList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(eindeutigeErweiterungAbkuerzungList);
 
-            return energieTypList.toArray(new String[0]);
+        return eindeutigeErweiterungAbkuerzungList.toArray(new String[0]);
+    }
+
+    public static String[] getErweiterungAbkuerzungAlle() {
+        List<String> erweiterungAbkuerzungListAlle = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT abkuerzung FROM erweiterungen";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String erwAbk = resultSet.getString("abkuerzung");
+                    erweiterungAbkuerzungListAlle.add(erwAbk);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(erweiterungAbkuerzungListAlle);
+
+        return erweiterungAbkuerzungListAlle.toArray(new String[0]);
+
+    }
+
+
+    /**
+     * Methode, um Energie-Typen zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static String[] getEnergieTyp(boolean alle) {
+        List<String> energieTypList = new ArrayList<>();
+
+        if (alle) {
+            energieTypList.add("Alle");
         }
 
-        // Seltenheit
-
-        /**
-         * Methode, um die Beschreibungen der Seltenheiten zu holen und als Liste auszugeben
-         *
-         * @return
-         */
-        public static String[] getBeschreibungSeltenheit() {
-            List<String> beschreibungSeltenheitList = new ArrayList<>();
-
-            beschreibungSeltenheitList.add("Alle");
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT beschreibung FROM seltenheit";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String beschreibungSeltenheit = resultSet.getString("beschreibung");
-                        beschreibungSeltenheitList.add(beschreibungSeltenheit);
-                    }
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT energie_typ FROM sammlung";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String energieTyp = resultSet.getString("energie_typ");
+                    energieTypList.add(energieTyp);
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            Collections.sort(beschreibungSeltenheitList);
-
-            return beschreibungSeltenheitList.toArray(new String[0]);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        Collections.sort(energieTypList);
+
+        return energieTypList.toArray(new String[0]);
+    }
+
+    // Seltenheit
+
+    /**
+     * Methode, um die Beschreibungen der Seltenheiten zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static String[] getBeschreibungSeltenheit() {
+        List<String> beschreibungSeltenheitList = new ArrayList<>();
+
+        beschreibungSeltenheitList.add("Alle");
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT beschreibung FROM seltenheit";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String beschreibungSeltenheit = resultSet.getString("beschreibung");
+                    beschreibungSeltenheitList.add(beschreibungSeltenheit);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(beschreibungSeltenheitList);
+
+        return beschreibungSeltenheitList.toArray(new String[0]);
+    }
 
     /**
      * Methode, um die Symbole der Seltenheiten zu holen und als Liste auszugeben
@@ -175,7 +196,7 @@ public class ValuesToStringDB {
         return beschreibungBesonderheitList.toArray(new String[0]);
     }
 
-        //Zusatz
+    //Zusatz
 
     /**
      * Methode, um den Trainer-Zusatz zu holen und als Liste auszugeben
@@ -234,119 +255,119 @@ public class ValuesToStringDB {
     }
 
 
+    /**
+     * Methode, um die IDs der Seltenheiten zu holen und als Liste auszugeben
+     *
+     * @return
+     */
+    public static Integer[] getSeltenheitID() {
+        List<Integer> seltenheitIDList = new ArrayList<>();
 
-        /**
-         * Methode, um die IDs der Seltenheiten zu holen und als Liste auszugeben
-         *
-         * @return
-         */
-        public static Integer[] getSeltenheitID() {
-            List<Integer> seltenheitIDList = new ArrayList<>();
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT id FROM seltenheit";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String seltenheitID = resultSet.getString("id");
-                        seltenheitIDList.add(Integer.valueOf(seltenheitID));
-                    }
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT id FROM seltenheit";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String seltenheitID = resultSet.getString("id");
+                    seltenheitIDList.add(Integer.valueOf(seltenheitID));
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            Collections.sort(seltenheitIDList);
-
-            return seltenheitIDList.toArray(new Integer[0]);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        Collections.sort(seltenheitIDList);
 
-        /**
-         * Methode, um Zyklen zu holen und als Liste auszugeben für Ordner bzw. Erweiterung
-         *
-         * @return
-         */
-        public static String[] getZyklusOrdner() {
-            List<String> zyklenList = new ArrayList<>();
-
-            zyklenList.add("Alle");
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT zyklus FROM ordner";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String zyklen = resultSet.getString("zyklus");
-                        zyklenList.add(zyklen);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Collections.sort(zyklenList);
-
-            return zyklenList.toArray(new String[0]);
-        }
-
-        public static String[] getZyklusErweiterung() {
-            List<String> zyklenList = new ArrayList<>();
-
-            zyklenList.add("Alle");
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT zyklus FROM erweiterungen";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String zyklen = resultSet.getString("zyklus");
-                        zyklenList.add(zyklen);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Collections.sort(zyklenList);
-
-            return zyklenList.toArray(new String[0]);
-        }
-
-        public static Integer[] getJahrErweiterung() {
-            List<Integer> jahrList = new ArrayList<>();
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT jahr FROM erweiterungen WHERE jahr iS NOT NULL";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String jahr = resultSet.getString("jahr");
-                        jahrList.add(Integer.valueOf(jahr));
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Collections.sort(jahrList);
-
-            return jahrList.toArray(new Integer[0]);
-        }
-
-        public static Integer[] getOrdnerErweiterung() {
-            List<Integer> ordnerList = new ArrayList<>();
-
-            try (Connection con = DatenbankVerbindung.connectDB()) {
-                String sql = "SELECT DISTINCT ordner_id FROM erweiterungen WHERE ordner_id iS NOT NULL";
-                try (PreparedStatement preparedStatement = con.prepareStatement(sql);
-                     ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        String ordner = resultSet.getString("ordner_id");
-                        ordnerList.add(Integer.valueOf(ordner));
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            Collections.sort(ordnerList);
-
-            return ordnerList.toArray(new Integer[0]);
-        }
-
+        return seltenheitIDList.toArray(new Integer[0]);
     }
+
+    /**
+     * Methode, um Zyklen zu holen und als Liste auszugeben für Ordner bzw. Erweiterung
+     *
+     * @return
+     */
+    public static String[] getZyklusOrdner() {
+        List<String> zyklenList = new ArrayList<>();
+
+        zyklenList.add("Alle");
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT zyklus FROM ordner";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String zyklen = resultSet.getString("zyklus");
+                    zyklenList.add(zyklen);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(zyklenList);
+
+        return zyklenList.toArray(new String[0]);
+    }
+
+    public static String[] getZyklusErweiterung(boolean alle) {
+        List<String> zyklenList = new ArrayList<>();
+        if (alle) {
+            zyklenList.add("Alle");
+        }
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT zyklus FROM erweiterungen";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String zyklen = resultSet.getString("zyklus");
+                    zyklenList.add(zyklen);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(zyklenList);
+
+        return zyklenList.toArray(new String[0]);
+    }
+
+    public static Integer[] getJahrErweiterung() {
+        List<Integer> jahrList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT jahr FROM erweiterungen WHERE jahr iS NOT NULL";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String jahr = resultSet.getString("jahr");
+                    jahrList.add(Integer.valueOf(jahr));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(jahrList);
+
+        return jahrList.toArray(new Integer[0]);
+    }
+
+    public static Integer[] getOrdnerErweiterung() {
+        List<Integer> ordnerList = new ArrayList<>();
+
+        try (Connection con = DatenbankVerbindung.connectDB()) {
+            String sql = "SELECT DISTINCT ordner_id FROM erweiterungen WHERE ordner_id iS NOT NULL";
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    String ordner = resultSet.getString("ordner_id");
+                    ordnerList.add(Integer.valueOf(ordner));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Collections.sort(ordnerList);
+
+        return ordnerList.toArray(new Integer[0]);
+    }
+
+}

@@ -13,7 +13,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
@@ -64,7 +63,6 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private GUIComboBox nameZusatzComboBox;
     private GUIComboBox seltenheitSymbolCombobox;
     private GUIComboBox besonderheitComboBox;
-    private String selectedValue;
 
 
     private JButton hinzufuegenButton;
@@ -88,7 +86,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         AddComponentsToPanel.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
 
         erweiterungAbkuerzungLabel = new GUILabel("Abkürzung der Erweiterung");
-        erweiterungAbkuerzungComboBox = new GUIComboBox<>(ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(false));
+        erweiterungAbkuerzungComboBox = new GUIComboBox<>(ValuesToStringDB.getErweiterungAbkuerzungAlle());
         AddComponentsToPanel.addLabelAndComboBox(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungComboBox, gbc, 0, 2);
         Object letzteErweiterung = SQLQuerys.getLetzteErweiterung();
         if (letzteErweiterung != null) {

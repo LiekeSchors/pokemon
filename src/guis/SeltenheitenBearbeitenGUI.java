@@ -6,7 +6,6 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -31,6 +30,7 @@ import javax.swing.KeyStroke;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
 public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeitenGUI> {
@@ -111,7 +111,7 @@ public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeite
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
-        panel.setBackground(Color.green);
+        panel.setBackground(Colors.JAVA_COLOR_GREEN);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);

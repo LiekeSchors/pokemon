@@ -6,7 +6,6 @@
 package guis;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -31,6 +30,7 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import layout.Colors;
 import layout.Schrift;
 
 public class ErweiterungenBearbeitenGUI extends AbstractGUI<ErweiterungenBearbeitenGUI> {
@@ -139,7 +139,7 @@ public class ErweiterungenBearbeitenGUI extends AbstractGUI<ErweiterungenBearbei
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
-        panel.setBackground(Color.yellow);
+        panel.setBackground(Colors.JAVA_COLOR_YELLOW);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);

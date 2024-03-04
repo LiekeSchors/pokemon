@@ -31,6 +31,7 @@ import javax.swing.table.TableRowSorter;
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
 import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenSeltenheitenView extends JFrame {
@@ -99,7 +100,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
 
             // Panel fuer Tabelle
             JPanel panel = new JPanel(new GridBagLayout());
-            panel.setBackground(Color.green);
+            panel.setBackground(Colors.JAVA_COLOR_GREEN);
             panel.add(scrollPane);
 
             GridBagConstraints gbc = new GridBagConstraints();
@@ -108,7 +109,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             // Panel fuer Filter/Buttons
             JPanel filterPanel = new JPanel();
             filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Color.green);
+            filterPanel.setBackground(Colors.JAVA_COLOR_GREEN);
 
             JButton seltenheitenHinzufuegen = Buttons.btnSeltenheitenHinzufuegen(Schrift.schriftartButtons());
             Borders.buttonBorder(seltenheitenHinzufuegen, Color.black);
