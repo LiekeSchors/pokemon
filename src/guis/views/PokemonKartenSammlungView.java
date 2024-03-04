@@ -3,9 +3,10 @@
  * Lieke Schors
  */
 
-package views;
+package guis.views;
 
 import static layout.Colors.JAVA_COLOR_TUERKIS;
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -53,7 +54,7 @@ public class PokemonKartenSammlungView extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         // DB-Verbindung herstellen

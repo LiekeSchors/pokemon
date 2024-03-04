@@ -1,8 +1,13 @@
 package layout;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class TaskListWithIcon extends JFrame {
+    public static final String iconPfad = "src\\layout\\ultra-ball.png";
+
+
     public TaskListWithIcon() {
         // Set frame properties
         setTitle("Task List");

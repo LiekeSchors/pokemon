@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.bearbeiten;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,8 +32,12 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import guis.AbstractGUI;
 import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIIntegerTextField;
+import layout.guitextfield.GUITextField;
 
 public class OrdnerBearbeitenGUI extends AbstractGUI<OrdnerBearbeitenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
@@ -46,32 +52,23 @@ public class OrdnerBearbeitenGUI extends AbstractGUI<OrdnerBearbeitenGUI> {
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 6, 6, 6); // Abstand zwischen den Komponenten
 
-        ordnerIDLabel = new JLabel("Ordner-ID");
-        ordnerIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        ordnerIDTextField = new JTextField();
-        ordnerIDTextField.setPreferredSize(new Dimension(150, 30));
-        ordnerIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        ordnerIDLabel = new GUILabel("Ordner-ID");
+        ordnerIDTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 0, 0);
 
-        zyklusLabel = new JLabel("Zyklus");
-        zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        zyklusTextField = new JTextField();
-        zyklusTextField.setPreferredSize(new Dimension(150, 30));
-        zyklusTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        zyklusLabel = new GUILabel("Zyklus");
+        zyklusTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
 
-        farbeLabel = new JLabel("Farbe des Ordners");
-        farbeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        farbeTextField = new JTextField();
-        farbeTextField.setPreferredSize(new Dimension(150, 30));
-        farbeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        farbeLabel = new GUILabel("Farbe des Ordners");
+        farbeTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, farbeLabel, farbeTextField, gbc, 2, 0);
 
         hinzufuegenButton = new JButton("Änderungen speichern");

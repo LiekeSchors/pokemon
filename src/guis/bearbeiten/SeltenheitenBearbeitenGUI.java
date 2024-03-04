@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.bearbeiten;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,35 +32,33 @@ import javax.swing.KeyStroke;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import guis.AbstractGUI;
 import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIIntegerTextField;
+import layout.guitextfield.GUITextField;
 
-public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearbeitenGUI> {
-    private JLabel editIDLabel, beschreibungBesonderheitLabel;
-    private JTextField editIDTextField, beschreibungBesonderheitTextField;
+public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeitenGUI> {
+    private JLabel editIDLabel, beschreibungSeltenheitLabel;
+    private JTextField editIDTextField, beschreibungSeltenheitTextField;
     private JButton speichernButton;
 
     Connection con = DatenbankVerbindung.connectDB();
 
-    public BesonderheitenBearbeitenGUI() {
-        setTitle("Besonderheiten bearbeiten");
+    public SeltenheitenBearbeitenGUI() {
+        setTitle("Seltenheiten bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
-        editIDLabel = new JLabel("Besonderheit-ID");
-        editIDTextField = new JTextField();
-        editIDTextField.setPreferredSize(new Dimension(150, 50));
-        editIDLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        editIDTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        editIDLabel = new GUILabel("Seltenheit-ID");
+        editIDTextField = new GUIIntegerTextField();
 
-        beschreibungBesonderheitLabel = new JLabel("Beschreibung Besonderheit");
-        beschreibungBesonderheitTextField = new JTextField();
-        beschreibungBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
-        beschreibungBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitLabel = new GUILabel("Beschreibung Seltenheit");
+        beschreibungSeltenheitTextField = new GUITextField();
 
         speichernButton = new JButton("Änderungen speichern");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -71,7 +71,6 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
         });
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -86,11 +85,11 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        panel.add(beschreibungBesonderheitLabel, gbc);
+        panel.add(beschreibungSeltenheitLabel, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        panel.add(beschreibungBesonderheitTextField, gbc);
+        panel.add(beschreibungSeltenheitTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -106,12 +105,13 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
             }
         });
 
-        JButton zurueck = Buttons.buttonZurueckBesonderheiten(Schrift.zurueckButton());
+        JButton zurueck = Buttons.buttonZurueckSeltenheiten(Schrift.zurueckButton());
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
+        panel.setBackground(Colors.JAVA_COLOR_GREEN);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);
@@ -120,11 +120,11 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
     }
 
     private void updateExistingDataInDatabase() {
-        String neueBeschreibung = beschreibungBesonderheitTextField.getText();
+        String neueBeschreibung = beschreibungSeltenheitTextField.getText();
         int editID = Integer.parseInt(editIDTextField.getText());
 
         try {
-            String sqlUpdate = "UPDATE besonderheiten SET beschreibung = ? WHERE id = ?";
+            String sqlUpdate = "UPDATE seltenheit SET beschreibung = ? WHERE id = ?";
             PreparedStatement preparedStatementUpdate = con.prepareStatement(sqlUpdate);
             preparedStatementUpdate.setString(1, neueBeschreibung);
             preparedStatementUpdate.setInt(2, editID);
@@ -140,7 +140,7 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
     }
 
     private void clearFields() {
-        beschreibungBesonderheitTextField.setText("");
+        beschreibungSeltenheitTextField.setText("");
         editIDTextField.setText("");
     }
 }

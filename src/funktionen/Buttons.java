@@ -16,25 +16,25 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import guis.BesonderheitenBearbeitenGUI;
-import guis.BesonderheitenHinzufuegenGUI;
-import guis.ErweiterungenBearbeitenGUI;
-import guis.ErweiterungenHinzufuegenGUI;
-import guis.KartenBearbeitenGUI;
-import guis.KartenHinzufuegenGUI;
-import guis.OrdnerBearbeitenGUI;
-import guis.OrdnerHinzufuegenGUI;
-import guis.SeltenheitenBearbeitenGUI;
-import guis.SeltenheitenHinzufuegenGUI;
+import guis.bearbeiten.BesonderheitenBearbeitenGUI;
+import guis.hinzufuegen.BesonderheitenHinzufuegenGUI;
+import guis.bearbeiten.ErweiterungenBearbeitenGUI;
+import guis.hinzufuegen.ErweiterungenHinzufuegenGUI;
+import guis.bearbeiten.KartenBearbeitenGUI;
+import guis.hinzufuegen.KartenHinzufuegenGUI;
+import guis.bearbeiten.OrdnerBearbeitenGUI;
+import guis.hinzufuegen.OrdnerHinzufuegenGUI;
+import guis.bearbeiten.SeltenheitenBearbeitenGUI;
+import guis.hinzufuegen.SeltenheitenHinzufuegenGUI;
 import layout.Colors;
 import layout.Schrift;
-import views.PokemonKartenBearbeiten;
-import views.PokemonKartenBesonderheitenView;
-import views.PokemonKartenErweiterungenView;
-import views.PokemonKartenOrdnerView;
-import views.PokemonKartenSammlungView;
-import views.PokemonKartenSeltenheitenView;
-import views.PokemonKartenView;
+import guis.views.PokemonKartenBearbeiten;
+import guis.views.PokemonKartenBesonderheitenView;
+import guis.views.PokemonKartenErweiterungenView;
+import guis.views.PokemonKartenOrdnerView;
+import guis.views.PokemonKartenSammlungView;
+import guis.views.PokemonKartenSeltenheitenView;
+import guis.views.PokemonKartenView;
 
 /**
  * Diese Klasse enthaelt viel verwendete Buttons sowie Button-Panels

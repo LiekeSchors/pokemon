@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -33,12 +35,13 @@ import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.ValuesToStringDB;
+import guis.AbstractGUI;
 import layout.Colors;
 import layout.GUIComboBox;
 import layout.Schrift;
 import layout.guitextfield.GUITextField;
 
-public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
+public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
     private JTextField ordnerIDTextField, farbeTextField;
     private JButton hinzufuegenButton;
@@ -52,7 +55,7 @@ public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel panel = new JPanel(new GridBagLayout());

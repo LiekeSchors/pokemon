@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,8 +34,12 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.Buttons;
+import guis.AbstractGUI;
 import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIIntegerTextField;
+import layout.guitextfield.GUITextField;
 
 public class SeltenheitenHinzufuegenGUI extends AbstractGUI<SeltenheitenHinzufuegenGUI> {
     private JLabel idSeltenheitLabel, beschreibungSeltenheitLabel;
@@ -48,21 +54,15 @@ public class SeltenheitenHinzufuegenGUI extends AbstractGUI<SeltenheitenHinzufue
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
-        idSeltenheitLabel = new JLabel("ID Seltenheit");
-        idSeltenheitTextField = new JTextField();
+        idSeltenheitLabel = new GUILabel("ID Seltenheit");
+        idSeltenheitTextField = new GUIIntegerTextField();
         idSeltenheitTextField.setEditable(false); // Die ID ist schreibgeschützt (autoincrement)
-        idSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
-        idSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        idSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
 
-        beschreibungSeltenheitLabel = new JLabel("Beschreibung Seltenheit");
-        beschreibungSeltenheitTextField = new JTextField();
-        beschreibungSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
-        beschreibungSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        beschreibungSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitLabel = new GUILabel("Beschreibung Seltenheit");
+        beschreibungSeltenheitTextField = new GUITextField();
 
         speichernButton = new JButton("Seltenheit hinzufügen");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));

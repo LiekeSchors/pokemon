@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -33,8 +35,11 @@ import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.ValuesToStringDB;
+import guis.AbstractGUI;
+import guis.bearbeiten.ErweiterungenBearbeitenGUI;
 import layout.Colors;
 import layout.GUIComboBox;
+import layout.GUILabel;
 import layout.Schrift;
 import layout.guitextfield.GUIIntegerTextField;
 import layout.guitextfield.GUITextField;
@@ -63,48 +68,38 @@ public class ErweiterungenHinzufuegenGUI extends AbstractGUI<ErweiterungenBearbe
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(6, 6, 6, 6); // Abstand zwischen den Komponenten
 
-        erweiterungIDLabel = new JLabel("Erweiterung-ID");
-        erweiterungIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        erweiterungIDLabel = new GUILabel("Erweiterung-ID");
         erweiterungIDTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, erweiterungIDLabel, erweiterungIDTextField, gbc, 0, 0);
 
-        erweiterungNameLabel = new JLabel("Name der Erweiterung");
-        erweiterungNameLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        erweiterungNameLabel = new GUILabel("Name der Erweiterung");
         erweiterungNameTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, erweiterungNameLabel, erweiterungNameTextField, gbc, 0, 2);
 
-        zyklusLabel = new JLabel("Zyklus");
-        zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        zyklusLabel = new GUILabel("Zyklus");
         zyklusComboBox = new GUIComboBox<>(ValuesToStringDB.getZyklusErweiterung(false));
         AddComponentsToPanel.addLabelAndComboBox(panel, zyklusLabel, zyklusComboBox, gbc, 1, 0);
 
-        abkuerzungLabel = new JLabel("Abkürzung der Erweiterung");
-        abkuerzungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        abkuerzungLabel = new GUILabel("Abkürzung der Erweiterung");
         abkuerzungTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, abkuerzungLabel, abkuerzungTextField, gbc, 1, 2);
 
-        jahrLabel = new JLabel("Jahr Herausgabe");
-        jahrLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        jahrLabel = new GUILabel("Jahr Herausgabe");
         jahrTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, jahrLabel, jahrTextField, gbc, 2, 0);
 
-        anzahlKartenSammlungLabel = new JLabel("Anzahl der Karten in Erweiterung");
-        anzahlKartenSammlungLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        anzahlKartenSammlungTextField = new JTextField();
-        anzahlKartenSammlungTextField.setPreferredSize(new Dimension(150, 30));
-        anzahlKartenSammlungTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        anzahlKartenSammlungLabel = new GUILabel("Anzahl der Karten in Erweiterung");
+        anzahlKartenSammlungTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, anzahlKartenSammlungLabel, anzahlKartenSammlungTextField, gbc, 2, 2);
 
-
-        ordnerIDLabel = new JLabel("Ordner-ID");
-        ordnerIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        ordnerIDLabel = new GUILabel("Ordner-ID");
         ordnerIDTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 3, 0);
 
