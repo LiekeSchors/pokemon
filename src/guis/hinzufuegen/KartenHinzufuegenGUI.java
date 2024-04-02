@@ -1,9 +1,11 @@
-/**
+/*
  * Copyright (c) 2024.
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,7 +15,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
@@ -39,6 +40,7 @@ import datenbank.SQLQuerys;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.ValuesToStringDB;
+import guis.AbstractGUI;
 import layout.Borders;
 import layout.Colors;
 import layout.GUIComboBox;
@@ -64,7 +66,6 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private GUIComboBox nameZusatzComboBox;
     private GUIComboBox seltenheitSymbolCombobox;
     private GUIComboBox besonderheitComboBox;
-    private String selectedValue;
 
 
     private JButton hinzufuegenButton;
@@ -76,7 +77,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -88,7 +89,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         AddComponentsToPanel.addLabelAndTextField(panel, kartenIDLabel, kartenIDTextField, gbc, 0, 0);
 
         erweiterungAbkuerzungLabel = new GUILabel("Abkürzung der Erweiterung");
-        erweiterungAbkuerzungComboBox = new GUIComboBox<>(ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(false));
+        erweiterungAbkuerzungComboBox = new GUIComboBox<>(ValuesToStringDB.getErweiterungAbkuerzungAlle());
         AddComponentsToPanel.addLabelAndComboBox(panel, erweiterungAbkuerzungLabel, erweiterungAbkuerzungComboBox, gbc, 0, 2);
         Object letzteErweiterung = SQLQuerys.getLetzteErweiterung();
         if (letzteErweiterung != null) {

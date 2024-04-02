@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.bearbeiten;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,8 +32,12 @@ import javax.swing.KeyStroke;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import guis.AbstractGUI;
 import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIIntegerTextField;
+import layout.guitextfield.GUITextField;
 
 public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearbeitenGUI> {
     private JLabel editIDLabel, beschreibungBesonderheitLabel;
@@ -45,20 +51,14 @@ public class BesonderheitenBearbeitenGUI extends AbstractGUI<BesonderheitenBearb
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
-        editIDLabel = new JLabel("Besonderheit-ID");
-        editIDTextField = new JTextField();
-        editIDTextField.setPreferredSize(new Dimension(150, 50));
-        editIDLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        editIDTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        editIDLabel = new GUILabel("Besonderheit-ID");
+        editIDTextField = new GUIIntegerTextField();
 
-        beschreibungBesonderheitLabel = new JLabel("Beschreibung Besonderheit");
-        beschreibungBesonderheitTextField = new JTextField();
-        beschreibungBesonderheitTextField.setPreferredSize(new Dimension(150, 50));
-        beschreibungBesonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        beschreibungBesonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungBesonderheitLabel = new GUILabel("Beschreibung Besonderheit");
+        beschreibungBesonderheitTextField = new GUITextField();
 
         speichernButton = new JButton("Änderungen speichern");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));

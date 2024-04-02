@@ -18,6 +18,11 @@ public class Schrift {
         return font;
     }
 
+    public static Font navigationsButtonGross() {
+        Font font = new Font("Arial", Font.BOLD, 40);
+        return font;
+    }
+
     public static Font normal() {
         Font font = new Font("Arial", Font.PLAIN, 20);
         return font;

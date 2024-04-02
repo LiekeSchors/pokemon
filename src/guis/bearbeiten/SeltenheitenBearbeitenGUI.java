@@ -3,10 +3,11 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.bearbeiten;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -31,7 +32,12 @@ import javax.swing.KeyStroke;
 
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
+import guis.AbstractGUI;
+import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIIntegerTextField;
+import layout.guitextfield.GUITextField;
 
 public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeitenGUI> {
     private JLabel editIDLabel, beschreibungSeltenheitLabel;
@@ -45,20 +51,14 @@ public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeite
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
-        editIDLabel = new JLabel("Seltenheit-ID");
-        editIDTextField = new JTextField();
-        editIDTextField.setPreferredSize(new Dimension(150, 50));
-        editIDLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        editIDTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        editIDLabel = new GUILabel("Seltenheit-ID");
+        editIDTextField = new GUIIntegerTextField();
 
-        beschreibungSeltenheitLabel = new JLabel("Beschreibung Seltenheit");
-        beschreibungSeltenheitTextField = new JTextField();
-        beschreibungSeltenheitTextField.setPreferredSize(new Dimension(150, 50));
-        beschreibungSeltenheitLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        beschreibungSeltenheitTextField.setFont(new Font("Arial", Font.PLAIN, 24));
+        beschreibungSeltenheitLabel = new GUILabel("Beschreibung Seltenheit");
+        beschreibungSeltenheitTextField = new GUITextField();
 
         speichernButton = new JButton("Änderungen speichern");
         speichernButton.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -111,7 +111,7 @@ public class SeltenheitenBearbeitenGUI extends AbstractGUI<SeltenheitenBearbeite
         gbc.gridy = 5;
 
         panel.add(zurueck, gbc);
-        panel.setBackground(Color.green);
+        panel.setBackground(Colors.JAVA_COLOR_GREEN);
 
         add(panel);
         add(Buttons.buttonAnzeigen(), BorderLayout.SOUTH);

@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package views;
+package guis.views;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,7 +23,7 @@ public class PokemonKartenBearbeiten extends JFrame {
         setTitle("Sammlung bearbeiten");
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel grossesPanel = new JPanel(new GridLayout(1, 2));

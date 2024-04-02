@@ -114,4 +114,41 @@ public class SQLQuerys {
         }
         return energieTyp;
     }
+
+    public static Object getLetzteSeltenheit(String erweiterung, String kartennr) {
+        Connection con = DatenbankVerbindung.connectDB();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        String seltenheit = null;
+        try {
+            String sql = "SELECT seltenheit_id FROM sammlung WHERE karten_nr = ? AND erweiterung_abkuerzung = ?";
+            p = con.prepareStatement(sql);
+            p.setString(1, erweiterung);
+            p.setString(2, kartennr);
+
+            rs = p.executeQuery();
+
+            if (rs.next()) {
+                seltenheit = rs.getString("seltenheit_id");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (p != null) {
+                    p.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return seltenheit;
+    }
 }

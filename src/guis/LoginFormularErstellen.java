@@ -19,7 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import datenbank.DatenbankVerbindung;
-import views.PokemonKartenView;
+import guis.views.PokemonKartenView;
 
 public class LoginFormularErstellen extends JFrame {
     private JLabel benutzerNameLabel, passWortLabel;

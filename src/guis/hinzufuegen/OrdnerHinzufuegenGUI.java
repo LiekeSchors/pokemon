@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,13 +34,18 @@ import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import funktionen.ValuesToStringDB;
+import guis.AbstractGUI;
 import layout.Colors;
+import layout.GUIComboBox;
 import layout.Schrift;
+import layout.guitextfield.GUITextField;
 
-public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
+public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
-    private JTextField ordnerIDTextField, zyklusTextField, farbeTextField;
+    private JTextField ordnerIDTextField, farbeTextField;
     private JButton hinzufuegenButton;
+    private GUIComboBox zyklusComboBox;
 
     // Code zum Einfuegen der Daten in die Datenbank
     Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
@@ -48,7 +55,7 @@ public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -57,23 +64,17 @@ public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
 
         ordnerIDLabel = new JLabel("Ordner-ID");
         ordnerIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        ordnerIDTextField = new JTextField();
-        ordnerIDTextField.setPreferredSize(new Dimension(150, 30));
-        ordnerIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        ordnerIDTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, ordnerIDLabel, ordnerIDTextField, gbc, 0, 0);
 
         zyklusLabel = new JLabel("Zyklus");
         zyklusLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        zyklusTextField = new JTextField();
-        zyklusTextField.setPreferredSize(new Dimension(150, 30));
-        zyklusTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, zyklusLabel, zyklusTextField, gbc, 1, 0);
+        zyklusComboBox = new GUIComboBox<>(ValuesToStringDB.getZyklusErweiterung(false));
+        AddComponentsToPanel.addLabelAndComboBox(panel, zyklusLabel, zyklusComboBox, gbc, 1, 0);
 
         farbeLabel = new JLabel("Farbe des Ordners");
         farbeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        farbeTextField = new JTextField();
-        farbeTextField.setPreferredSize(new Dimension(150, 30));
-        farbeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        farbeTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, farbeLabel, farbeTextField, gbc, 2, 0);
 
         hinzufuegenButton = new JButton("Ordner hinzufügen");
@@ -111,7 +112,7 @@ public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
     }
 
     private void updateDataInDatabase() {
-        String zyklus = zyklusTextField.getText();
+        String zyklus = (String) zyklusComboBox.getSelectedItem();
         String farbe = farbeTextField.getText();
 
         try {
@@ -144,7 +145,6 @@ public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI>{
     }
 
     private void clearFields() {
-        zyklusTextField.setText("");
         farbeTextField.setText("");
     }
 }

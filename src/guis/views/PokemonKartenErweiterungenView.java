@@ -3,14 +3,15 @@
  * Lieke Schors
  */
 
-package views;
+package guis.views;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,6 +42,7 @@ import funktionen.CustomHeaderRenderer;
 import funktionen.FilterView;
 import funktionen.ValuesToStringDB;
 import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
 public class PokemonKartenErweiterungenView extends JFrame {
@@ -52,7 +54,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         // DB-Verbindung herstellen
@@ -154,7 +156,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Zyklus
 
-            String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung();
+            String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung(true);
             for (String zyklus : zyklusFilter) {
             }
             JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
@@ -209,7 +211,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             // Panel fuer die Filter
             JPanel filterPanel = new JPanel();
             filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Color.yellow);
+            filterPanel.setBackground(Colors.JAVA_COLOR_YELLOW);
 
             // Komponenten hinzufuegen
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);

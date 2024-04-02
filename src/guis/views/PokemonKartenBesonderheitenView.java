@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package views;
+package guis.views;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,19 +33,21 @@ import javax.swing.table.TableRowSorter;
 import datenbank.DatenbankVerbindung;
 import funktionen.Buttons;
 import layout.Borders;
+import layout.Colors;
 import layout.Schrift;
 
-public class PokemonKartenSeltenheitenView extends JFrame {
+public class PokemonKartenBesonderheitenView extends JFrame {
 
     private JTable table;
 
-    public PokemonKartenSeltenheitenView() {
-        setTitle("Erweiterungen anzeigen");
+    public PokemonKartenBesonderheitenView() {
+        setTitle("Besonderheiten anzeigen");
         setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 600));
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
+
 
         // DB-Verbindung herstellen
         Connection con = null;
@@ -53,21 +57,21 @@ public class PokemonKartenSeltenheitenView extends JFrame {
         con = DatenbankVerbindung.connectDB();
 
         try {
-            String sql = "SELECT * FROM seltenheit ORDER BY id";
+            String sql = "SELECT * FROM besonderheiten ORDER BY id";
             p = con.prepareStatement(sql);
             rs = p.executeQuery();
 
             // Erstelle ein DefaultTableModel für die JTable
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Seltenheit");
+            model.addColumn("ID Besonderheit");
             model.addColumn("Beschreibung");
 
             while (rs.next()) {
                 // Füge die Zeilen zum Model hinzu
                 Object[] row = {
                         rs.getInt("id"),
-                        rs.getString("beschreibung"),
-                        rs.getString("symbol")
+                        rs.getString("beschreibung")
+
                 };
                 model.addRow(row);
             }
@@ -99,7 +103,7 @@ public class PokemonKartenSeltenheitenView extends JFrame {
 
             // Panel fuer Tabelle
             JPanel panel = new JPanel(new GridBagLayout());
-            panel.setBackground(Color.green);
+            panel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
             panel.add(scrollPane);
 
             GridBagConstraints gbc = new GridBagConstraints();
@@ -108,15 +112,15 @@ public class PokemonKartenSeltenheitenView extends JFrame {
             // Panel fuer Filter/Buttons
             JPanel filterPanel = new JPanel();
             filterPanel.setPreferredSize(new Dimension(250, 100));
-            filterPanel.setBackground(Color.green);
+            filterPanel.setBackground(Colors.JAVA_COLOR_HELLBLAU);
 
-            JButton seltenheitenHinzufuegen = Buttons.btnSeltenheitenHinzufuegen(Schrift.schriftartButtons());
-            Borders.buttonBorder(seltenheitenHinzufuegen, Color.black);
-            filterPanel.add(seltenheitenHinzufuegen);
+            JButton besonderheitenHinzufuegen = Buttons.btnBesonderheitenHinzufuegen(Schrift.schriftartButtons());
+            Borders.buttonBorder(besonderheitenHinzufuegen, Color.WHITE);
+            filterPanel.add(besonderheitenHinzufuegen);
 
-            JButton seltenheitenBearbeiten = Buttons.btnSeltenheitenBearbeiten(Schrift.schriftartButtons());
-            Borders.buttonBorder(seltenheitenBearbeiten, Color.black);
-            filterPanel.add(seltenheitenBearbeiten);
+            JButton besonderheitenBearbeiten = Buttons.btnBesonderheitenBearbeiten(Schrift.schriftartButtons());
+            Borders.buttonBorder(besonderheitenBearbeiten, Color.WHITE);
+            filterPanel.add(besonderheitenBearbeiten);
 
             add(panel);
             add(filterPanel, BorderLayout.NORTH);

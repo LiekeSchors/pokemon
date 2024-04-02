@@ -3,7 +3,9 @@
  * Lieke Schors
  */
 
-package guis;
+package guis.hinzufuegen;
+
+import static layout.TaskListWithIcon.iconPfad;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -32,6 +34,7 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import datenbank.GenerateNextID;
 import funktionen.Buttons;
+import guis.AbstractGUI;
 import layout.Colors;
 import layout.Schrift;
 
@@ -48,7 +51,7 @@ public class BesonderheitenHinzufuegenGUI extends AbstractGUI<BesonderheitenHinz
         setExtendedState(MAXIMIZED_BOTH);
         setMinimumSize(new Dimension(800, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon icon = new ImageIcon("C:\\Users\\lieke\\IdeaProjects\\pokemon_karten\\src\\layout\\ultra-ball.png");
+        ImageIcon icon = new ImageIcon(iconPfad);
         setIconImage(icon.getImage());
 
         idBesonderheitLabel = new JLabel("ID Besonderheit");
