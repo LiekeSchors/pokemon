@@ -15,6 +15,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -33,7 +34,9 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import layout.Borders;
 import layout.Colors;
+import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIDateTextField;
 
 public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
@@ -130,11 +133,8 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
 
-        datumWertEingabeLabel = new JLabel("Datum der Werteingabe");
-        datumWertEingabeLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        datumWertEingabeTextField = new JTextField();
-        datumWertEingabeTextField.setPreferredSize(new Dimension(150, 30));
-        datumWertEingabeTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        datumWertEingabeLabel = new GUILabel("Datum der Werteingabe");
+        datumWertEingabeTextField = new GUIDateTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, datumWertEingabeLabel, datumWertEingabeTextField, gbc, 4, 2);
 
 
@@ -213,7 +213,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         String seltenheitID = seltenheitIDTextField.getText().trim();
         String wertInEuro = wertInEuroTextField.getText().trim();
         String besonderheitID = besonderheitIDTextField.getText().trim();
-        String datumWertEingabe = datumWertEingabeTextField.getText().trim();
+        Date datumWertEingabe = Date.valueOf(datumWertEingabeTextField.getText().trim());
         String nameZusatz = nameZusatzTextField.getText().trim();
         nameZusatz = (nameZusatz.isEmpty()) ? null : nameZusatz;
         String trainerZusatz = trainerZusatzTextField.getText().trim();
@@ -291,7 +291,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
                 preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(besonderheitID));
             }
             if (datumWertEingabe != null) {
-                preparedStatementUpdate.setString(parameterIndex++, datumWertEingabe);
+                preparedStatementUpdate.setDate(parameterIndex++, datumWertEingabe);
             }
             if (nameZusatz != null) {
                 preparedStatementUpdate.setString(parameterIndex++, nameZusatz);

@@ -12,7 +12,7 @@ public class GUIDateTextField extends GUITextField {
     private final static String DATE_REGEX = "^\\d{4}-\\d{2}-\\d{2}$";
 
     Date datum = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public GUIDateTextField() {
         super(DATE_REGEX);
