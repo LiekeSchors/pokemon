@@ -40,7 +40,7 @@ import javax.swing.table.TableRowSorter;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
-import funktionen.FilterView;
+import funktionen.FilterViews;
 import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Colors;
@@ -143,7 +143,7 @@ public class PokemonKartenOrdnerView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierterZyklus = (String) zyklusFilterComboBox.getSelectedItem();
-                    FilterView.filternNachString(selektierterZyklus, table, 1);
+                    FilterViews.filternNachTyp(selektierterZyklus, table, 1);
                 }
             });
 

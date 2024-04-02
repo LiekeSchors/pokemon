@@ -41,6 +41,7 @@ public class AddComponentsToPanel {
         panel.add(comboBox, gbc);
     }
 
+
     public static void addButtonToPanel(JPanel panel, JButton button, GridBagConstraints gbc, int row, int column) {
         gbc.gridx = column;
         gbc.gridy = row;

@@ -5,12 +5,14 @@
 
 package funktionen;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import datenbank.DatenbankVerbindung;
@@ -66,8 +68,18 @@ public class ValuesToStringDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Collections.sort(eindeutigeErweiterungAbkuerzungList);
 
+        eindeutigeErweiterungAbkuerzungList.sort(new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                if ("Alle".equals(s1)) {
+                    return -1; // Ensure "Alle" comes before other elements
+                } else if ("Alle".equals(s2)) {
+                    return 1; // Ensure "Alle" comes before other elements
+                }
+                return s1.compareTo(s2);
+            }
+        });
         return eindeutigeErweiterungAbkuerzungList.toArray(new String[0]);
     }
 
@@ -176,8 +188,10 @@ public class ValuesToStringDB {
         return symbolSeltenheitList.toArray(new String[0]);
     }
 
+    // Besonderheit
     public static String[] getBeschreibungBesonderheit() {
         List<String> beschreibungBesonderheitList = new ArrayList<>();
+        beschreibungBesonderheitList.add("Alle");
 
         try (Connection con = DatenbankVerbindung.connectDB()) {
             String sql = "SELECT DISTINCT beschreibung FROM besonderheiten";

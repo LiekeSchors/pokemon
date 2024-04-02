@@ -40,7 +40,7 @@ import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
-import funktionen.FilterView;
+import funktionen.FilterViews;
 import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Schrift;
@@ -178,7 +178,7 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierteAbkuerzungErweiterung = (String) abkuerzungErweiterungFilterComboBox.getSelectedItem();
-                    FilterView.filternNachString(selektierteAbkuerzungErweiterung, table, 1);
+                    FilterViews.filternNachTyp(selektierteAbkuerzungErweiterung, table, 1);
                 }
             });
 
@@ -197,14 +197,14 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierterEnergieTyp = (String) energieTypFilterComboBox.getSelectedItem();
-                    FilterView.filternNachString(selektierterEnergieTyp, table, 3);
+                    FilterViews.filternNachTyp(selektierterEnergieTyp, table, 3);
                 }
             });
 
             // Filter fuer Besonderheit
 
-            Integer[] besonderheitFilter = {0, 1, 2, 3, 4};
-            JComboBox<Integer> besonderheitFilterComboBox = new JComboBox<>(besonderheitFilter);
+            String[] besonderheitFilter = ValuesToStringDB.getBeschreibungBesonderheit();
+            JComboBox<String> besonderheitFilterComboBox = new JComboBox<>(besonderheitFilter);
             JLabel besonderheitFilterLabel = new JLabel("Nach Besonderheit filtern: ");
             besonderheitFilterLabel.setFont(Schrift.normal());
             besonderheitFilterComboBox.setFont(Schrift.normal());
@@ -212,8 +212,8 @@ public class PokemonKartenSammlungView extends JFrame {
             besonderheitFilterComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Integer selektierteBesonderheit = (Integer) besonderheitFilterComboBox.getSelectedItem();
-                    FilterView.filternNachInteger(selektierteBesonderheit, table, 6);
+                    String selektierteBesonderheit = (String) besonderheitFilterComboBox.getSelectedItem();
+                    FilterViews.filternNachTyp(selektierteBesonderheit, table, 6);
                 }
             });
 
@@ -232,7 +232,7 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Integer selektierteSeltenheit = (Integer) seltenheitFilterComboBox.getSelectedItem();
-                    funktionen.FilterView.filternNachInteger(selektierteSeltenheit, table, 4);
+                    funktionen.FilterViews.filternNachInteger(selektierteSeltenheit, table, 4);
                 }
             });
 
@@ -252,7 +252,7 @@ public class PokemonKartenSammlungView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierteBeschreibungSeltenheit = (String) beschreibungSeltenheitFilterComboBox.getSelectedItem();
-                    funktionen.FilterView.filternNachString(selektierteBeschreibungSeltenheit, table, 4);
+                    funktionen.FilterViews.filternNachString(selektierteBeschreibungSeltenheit, table, 4);
                 }
             });
 

@@ -102,7 +102,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         seltenheitSymbolCombobox = new GUIComboBox<>(ValuesToStringDB.getSymbolSeltenheit());
         seltenheitSymbolCombobox.setFont(Schrift.farbigeUnicodeSymbole());
         AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
-        seltenheitSymbolCombobox.setSelectedItem("●");
+//        seltenheitSymbolCombobox.setSelectedItem("●"); // get Item from DB
 
         //TODO: Fuer Seltenheit anpassen
 //        final String[] seltenheit = new String[1];
@@ -125,7 +125,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         besonderheitIDLabel = new GUILabel("Besonderheit");
         besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit());
         AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
-        besonderheitComboBox.setSelectedItem("Ohne");
+//        besonderheitComboBox.setSelectedItem("Ohne");
 
         wertInEuroLabel = new GUILabel("Wert der Karte in €");
         wertInEuroTextField = new GUIDoubleTextField();
@@ -142,7 +142,6 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         trainerZusatzLabel = new GUILabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
         trainerZusatzTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
-
 
         kartenNummerZusatzLabel = new GUILabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
         kartenNummerZusatzTextField = new GUITextField();

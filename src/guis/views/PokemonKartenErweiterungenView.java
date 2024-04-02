@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,7 +41,7 @@ import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
-import funktionen.FilterView;
+import funktionen.FilterViews;
 import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Colors;
@@ -168,14 +170,18 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selektierterZyklus = (String) zyklusFilterComboBox.getSelectedItem();
-                    FilterView.filternNachString(selektierterZyklus, table, 2);
+                    FilterViews.filternNachTyp(selektierterZyklus, table, 2);
                 }
             });
 
             // Filter fuer Jahr
-
             Integer[] jahrFilter = ValuesToStringDB.getJahrErweiterung();
-            JComboBox<Integer> jahrFilterComboBox = new JComboBox<>(jahrFilter);
+            JComboBox<Object> jahrFilterComboBox = new JComboBox<>();
+            jahrFilterComboBox.addItem("Alle");
+            for (Integer i : jahrFilter) {
+                jahrFilterComboBox.addItem(i);
+            }
+
             JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
             jahrFilterLabel.setFont(Schrift.normal());
             jahrFilterComboBox.setFont(Schrift.normal());
@@ -183,15 +189,32 @@ public class PokemonKartenErweiterungenView extends JFrame {
             jahrFilterComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Integer selektiertesJahr = (Integer) jahrFilterComboBox.getSelectedItem();
-                    FilterView.filternNachInteger(selektiertesJahr, table, 4);
+                    Integer selektiertesJahr;
+                    if (Objects.equals(jahrFilterComboBox.getSelectedItem(), "Alle")) { // Wenn alle gewählt wird, soll reagiert werden mit der Einstellung für null s. filterNachInteger
+                        selektiertesJahr = null;
+                    } else {
+                        selektiertesJahr = (Integer) jahrFilterComboBox.getSelectedItem();
+                    }
+                    FilterViews.filternNachTyp(selektiertesJahr, table, 4);
+                }
+            });
+
+            JButton clearFiltersButton = new JButton("Alle Filter löschen");
+            clearFiltersButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    FilterViews.clearFilters(table);
                 }
             });
 
             // Filter fuer Ordner
-
             Integer[] ordnerFilter = ValuesToStringDB.getOrdnerErweiterung();
-            JComboBox<Integer> ordnerFilterComboBox = new JComboBox<>(ordnerFilter);
+            JComboBox<Object> ordnerFilterComboBox = new JComboBox<>();
+            ordnerFilterComboBox.addItem("Alle");
+            for (Integer i : ordnerFilter) {
+                ordnerFilterComboBox.addItem(i);
+            }
+
             JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
             ordnerFilterLabel.setFont(Schrift.normal());
             ordnerFilterComboBox.setFont(Schrift.normal());
@@ -199,8 +222,13 @@ public class PokemonKartenErweiterungenView extends JFrame {
             ordnerFilterComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Integer selektierterOrdner = (Integer) ordnerFilterComboBox.getSelectedItem();
-                    FilterView.filternNachInteger(selektierterOrdner, table, 8);
+                    Integer selektierterOrdner;
+                    if (Objects.equals(ordnerFilterComboBox.getSelectedItem(), "Alle")) { // Wenn alle gewählt wird, soll reagiert werden mit der Einstellung für null s. filterNachInteger
+                        selektierterOrdner = null;
+                    } else {
+                        selektierterOrdner = (Integer) ordnerFilterComboBox.getSelectedItem();
+                    }
+                    FilterViews.filternNachTyp(selektierterOrdner, table, 8);
                 }
             });
 
@@ -209,7 +237,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             GridBagConstraints gbc = new GridBagConstraints();
 
             // Panel fuer die Filter
-            JPanel filterPanel = new JPanel();
+            JPanel filterPanel = new JPanel(new GridLayout(2, 10));
             filterPanel.setPreferredSize(new Dimension(250, 100));
             filterPanel.setBackground(Colors.JAVA_COLOR_YELLOW);
 
@@ -222,6 +250,8 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
             filterPanel.add(ordnerFilterComboBox);
+
+            AddComponentsToPanel.addButtonToPanel(filterPanel, clearFiltersButton, gbc, 6, 2);
 
             JButton erweiterungenHinzufuegen = Buttons.btnErweiterungenHinzufuegen(Schrift.schriftartButtons());
             Borders.buttonBorder(erweiterungenHinzufuegen, Color.black);
