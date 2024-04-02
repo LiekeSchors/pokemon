@@ -97,7 +97,7 @@ public class PokemonKartenSammlungView extends JFrame {
                         rs.getString("besonderheit_id"),
                         rs.getString("seltenheit_id"),
                         rs.getDouble("wert_in_euro"),
-                        rs.getString("wert_eingegeben_am"),
+                        rs.getDate("wert_eingegeben_am"),
                         rs.getString("name_zusatz"),
                         rs.getString("trainer_zusatz"),
                         rs.getString("kartennr_zusatz")

@@ -17,6 +17,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -37,9 +38,11 @@ import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import layout.Borders;
 import layout.Colors;
+import layout.GUILabel;
 import layout.GUIComboBox;
 import layout.GUILabel;
 import layout.Schrift;
+import layout.guitextfield.GUIDateTextField;
 import layout.guitextfield.GUIDateTextField;
 import layout.guitextfield.GUIDoubleTextField;
 import layout.guitextfield.GUIIntegerTextField;
@@ -58,9 +61,8 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
 
     private JButton hinzufuegenButton;
 
-    private GUIComboBox seltenheitSymbolCombobox, besonderheitComboBox;
-
-    Connection con = DatenbankVerbindung.connectDB();
+    // Code zum Einfuegen der Daten in die Datenbank
+    Connection con = DatenbankVerbindung.connectDB(); // Stelle eine Verbindung zur Datenbank her
 
     public KartenBearbeitenGUI() {
         setTitle("GUI Karten bearbeiten");
@@ -98,37 +100,25 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         kartenNummerTextField = new GUIIntegerTextField();
         AddComponentsToPanel.addLabelAndTextField(panel, kartenNummerLabel, kartenNummerTextField, gbc, 2, 2);
 
-        seltenheitIDLabel = new GUILabel("Seltenheit");
-        seltenheitSymbolCombobox = new GUIComboBox<>(ValuesToStringDB.getSymbolSeltenheit());
-        seltenheitSymbolCombobox.setFont(Schrift.farbigeUnicodeSymbole());
-        AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
-//        seltenheitSymbolCombobox.setSelectedItem("●"); // get Item from DB
+        seltenheitIDLabel = new JLabel("Seltenheit-ID");
+        seltenheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        seltenheitIDTextField = new JTextField();
+        seltenheitIDTextField.setPreferredSize(new Dimension(150, 30));
+        seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddComponentsToPanel.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
 
-        //TODO: Fuer Seltenheit anpassen
-//        final String[] seltenheit = new String[1];
-//        final String[] erweiterung = new String[1];
-//        final String[] kartennr = new String[1];
-//        seltenheitSymbolCombobox.addFocusListener(new FocusAdapter() {
-//            @Override
-//            public void focusLost(FocusEvent e) {
-//                // Get the entered Pokémon name
-//                erweiterung[0] = erweiterungAbkuerzungTextField.getText();
-//                kartennr[0] = kartenNummerTextField.getText();
-//
-//                seltenheit[0] = (String) SQLQuerys.getLetzteSeltenheit(erweiterung[0], kartennr[0]);
-//
-//                // Set the obtained evolution information in the "Ursprung des Pokémons" field
-//                seltenheitSymbolCombobox.setSelectedItem(seltenheit[0]);
-//            }
-//        });
+        besonderheitIDLabel = new JLabel("Besonderheit-ID");
+        besonderheitIDLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        besonderheitIDTextField = new JTextField();
+        besonderheitIDTextField.setPreferredSize(new Dimension(150, 30));
+        besonderheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
+        AddComponentsToPanel.addLabelAndTextField(panel, besonderheitIDLabel, besonderheitIDTextField, gbc, 3, 2);
 
-        besonderheitIDLabel = new GUILabel("Besonderheit");
-        besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit());
-        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
-//        besonderheitComboBox.setSelectedItem("Ohne");
-
-        wertInEuroLabel = new GUILabel("Wert der Karte in €");
-        wertInEuroTextField = new GUIDoubleTextField();
+        wertInEuroLabel = new JLabel("Wert der Karte in €");
+        wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
+        wertInEuroTextField = new JTextField();
+        wertInEuroTextField.setPreferredSize(new Dimension(150, 30));
+        wertInEuroTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, wertInEuroLabel, wertInEuroTextField, gbc, 4, 0);
 
         datumWertEingabeLabel = new GUILabel("Datum der Werteingabe");
@@ -142,6 +132,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         trainerZusatzLabel = new GUILabel("Zusatz zum Trainer (z.B. 'Item', 'Unterstützer')");
         trainerZusatzTextField = new GUITextField();
         AddComponentsToPanel.addLabelAndTextField(panel, trainerZusatzLabel, trainerZusatzTextField, gbc, 5, 2);
+
 
         kartenNummerZusatzLabel = new GUILabel("Zusatz zur Kartennummer bzw. nicht-regelmäßige Kartennummer");
         kartenNummerZusatzTextField = new GUITextField();
@@ -198,7 +189,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         String seltenheitID = seltenheitIDTextField.getText().trim();
         String wertInEuro = wertInEuroTextField.getText().trim();
         String besonderheitID = besonderheitIDTextField.getText().trim();
-        String datumWertEingabe = datumWertEingabeTextField.getText().trim();
+        Date datumWertEingabe = Date.valueOf(datumWertEingabeTextField.getText().trim());
         String nameZusatz = nameZusatzTextField.getText().trim();
         nameZusatz = (nameZusatz.isEmpty()) ? null : nameZusatz;
         String trainerZusatz = trainerZusatzTextField.getText().trim();
@@ -276,7 +267,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
                 preparedStatementUpdate.setInt(parameterIndex++, Integer.parseInt(besonderheitID));
             }
             if (datumWertEingabe != null) {
-                preparedStatementUpdate.setString(parameterIndex++, datumWertEingabe);
+                preparedStatementUpdate.setDate(parameterIndex++, datumWertEingabe);
             }
             if (nameZusatz != null) {
                 preparedStatementUpdate.setString(parameterIndex++, nameZusatz);
