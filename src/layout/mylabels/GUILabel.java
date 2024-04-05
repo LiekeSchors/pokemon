@@ -3,9 +3,11 @@
  * Lieke Schors
  */
 
-package layout;
+package layout.mylabels;
 
 import javax.swing.JLabel;
+
+import layout.Schrift;
 
 public class GUILabel extends JLabel {
 

@@ -11,7 +11,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,7 +38,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import datenbank.DatenbankVerbindung;
-import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import funktionen.CustomHeaderRenderer;
 import funktionen.FilterViews;
@@ -46,10 +45,24 @@ import funktionen.ValuesToStringDB;
 import layout.Borders;
 import layout.Colors;
 import layout.Schrift;
+import layout.mycomboboxes.FilterComboBox;
+import layout.mylabels.FilterLabel;
 
 public class PokemonKartenErweiterungenView extends JFrame {
 
     public JTable table;
+    private JPanel filterPanel;
+    private JComboBox zyklusFilterComboBox;
+    private JComboBox jahrFilterComboBox;
+    private JComboBox ordnerFilterComboBox;
+    private JButton erweiterungenHinzufuegen;
+    private JButton erweiterungenBearbeiten;
+    private JLabel zyklusFilterLabel;
+    private JLabel jahrFilterLabel;
+    private JLabel ordnerFilterLabel;
+    private JPanel panel;
+    private JScrollPane scrollPane;
+    private JButton clearFiltersButton;
 
     public PokemonKartenErweiterungenView() {
         setTitle("Erweiterungen anzeigen");
@@ -80,7 +93,6 @@ public class PokemonKartenErweiterungenView extends JFrame {
             model.addColumn("Jahr");
             model.addColumn("Anzahl der Karten in der Sammlung");
             model.addColumn("Anzahl Karten bereits gesammelt");
-            model.addColumn("Verhältnis gesammelt");
             model.addColumn("ID Ordner");
 
 
@@ -94,7 +106,6 @@ public class PokemonKartenErweiterungenView extends JFrame {
                         rs.getInt("jahr"),
                         rs.getInt("anzahl_karten_sammlung"),
                         rs.getInt("anzahl_karten_gesammelt"),
-                        rs.getDouble("haben_relativ"),
                         rs.getInt("ordner_id")
                 };
                 model.addRow(row);
@@ -105,7 +116,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             table = new JTable(model);
             table.setRowHeight(40);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-            table.setEnabled(false);
+            table.setEnabled(false); // TODO: Vielleicht bei bestimmten Berechtigungen?
 
             TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
             table.setRowSorter(sorter);
@@ -127,6 +138,7 @@ public class PokemonKartenErweiterungenView extends JFrame {
             JTableHeader header = table.getTableHeader();
             header.setReorderingAllowed(false);
             JScrollPane scrollPane = new JScrollPane(table);
+            scrollPane.setBorder(BorderFactory.createMatteBorder(25, 0, 0, 0, Colors.JAVA_COLOR_YELLOW));
             add(scrollPane);
 
             table.setFont(Schrift.normal());
@@ -151,20 +163,16 @@ public class PokemonKartenErweiterungenView extends JFrame {
             CustomHeaderRenderer.toolTipMaker(table, "Jahr, in dem die Erweiterung erschienen ist", 4);
             CustomHeaderRenderer.toolTipMaker(table, "Anzahl der 'normalen' Karten in der Sammlung, ohne Extra-Karten", 5);
             CustomHeaderRenderer.toolTipMaker(table, "Anzahl der Karten, die bereits gesammelt wurden", 6);
-            CustomHeaderRenderer.toolTipMaker(table, "Verhältnis der gesammelten Karten zur Anzahl der Karten in der Sammlung", 7);
-            CustomHeaderRenderer.toolTipMaker(table, "Ordner, in dem sich die Erweiterung befindet", 8);
+            CustomHeaderRenderer.toolTipMaker(table, "Ordner, in dem sich die Erweiterung befindet", 7);
+
 
             // Filter
 
             // Filter fuer Zyklus
 
             String[] zyklusFilter = ValuesToStringDB.getZyklusErweiterung(true);
-            for (String zyklus : zyklusFilter) {
-            }
-            JComboBox<String> zyklusFilterComboBox = new JComboBox<>(zyklusFilter);
-            JLabel zyklusFilterLabel = new JLabel("Zyklus: ");
-            zyklusFilterLabel.setFont(Schrift.normal());
-            zyklusFilterComboBox.setFont(Schrift.normal());
+            FilterComboBox<String> zyklusFilterComboBox = new FilterComboBox<>(zyklusFilter);
+            FilterLabel zyklusFilterLabel = new FilterLabel("Zyklus: ");
 
             zyklusFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -176,15 +184,11 @@ public class PokemonKartenErweiterungenView extends JFrame {
 
             // Filter fuer Jahr
             Integer[] jahrFilter = ValuesToStringDB.getJahrErweiterung();
-            JComboBox<Object> jahrFilterComboBox = new JComboBox<>();
-            jahrFilterComboBox.addItem("Alle");
-            for (Integer i : jahrFilter) {
-                jahrFilterComboBox.addItem(i);
-            }
+            FilterComboBox<Object> jahrFilterComboBox = new FilterComboBox<>(jahrFilter);
+            jahrFilterComboBox.insertItemAt("Alle", 0);
+            jahrFilterComboBox.setSelectedItem("Alle");
 
-            JLabel jahrFilterLabel = new JLabel("Nach Jahr filtern: ");
-            jahrFilterLabel.setFont(Schrift.normal());
-            jahrFilterComboBox.setFont(Schrift.normal());
+            FilterLabel jahrFilterLabel = new FilterLabel("Nach Jahr filtern: ");
 
             jahrFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -199,25 +203,13 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            JButton clearFiltersButton = new JButton("Alle Filter löschen");
-            clearFiltersButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    FilterViews.clearFilters(table);
-                }
-            });
-
             // Filter fuer Ordner
             Integer[] ordnerFilter = ValuesToStringDB.getOrdnerErweiterung();
-            JComboBox<Object> ordnerFilterComboBox = new JComboBox<>();
-            ordnerFilterComboBox.addItem("Alle");
-            for (Integer i : ordnerFilter) {
-                ordnerFilterComboBox.addItem(i);
-            }
+            FilterComboBox<Object> ordnerFilterComboBox = new FilterComboBox<>(ordnerFilter);
+            ordnerFilterComboBox.insertItemAt("Alle", 0);
+            ordnerFilterComboBox.setSelectedItem("Alle");
 
-            JLabel ordnerFilterLabel = new JLabel("Nach Ordner filtern: ");
-            ordnerFilterLabel.setFont(Schrift.normal());
-            ordnerFilterComboBox.setFont(Schrift.normal());
+            FilterLabel ordnerFilterLabel = new FilterLabel("Nach Ordner filtern: ");
 
             ordnerFilterComboBox.addActionListener(new ActionListener() {
                 @Override
@@ -232,31 +224,27 @@ public class PokemonKartenErweiterungenView extends JFrame {
                 }
             });
 
-            // Aufbau der Panel
-
-            GridBagConstraints gbc = new GridBagConstraints();
+            JComboBox[] comboBoxes = {jahrFilterComboBox, zyklusFilterComboBox, ordnerFilterComboBox};
 
             // Panel fuer die Filter
-            JPanel filterPanel = new JPanel(new GridLayout(2, 10));
-            filterPanel.setPreferredSize(new Dimension(250, 100));
+            JPanel filterPanel = new JPanel(new GridLayout(2, 8, 10, 5));
+            filterPanel.setPreferredSize(new Dimension(500, 80));
             filterPanel.setBackground(Colors.JAVA_COLOR_YELLOW);
 
             // Komponenten hinzufuegen
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, zyklusFilterLabel, zyklusFilterComboBox, gbc, 0, 0);
-            filterPanel.add(zyklusFilterComboBox);
-
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, jahrFilterLabel, jahrFilterComboBox, gbc, 2, 0);
-            filterPanel.add(jahrFilterComboBox);
-
-            AddComponentsToPanel.addLabelAndComboBox(filterPanel, ordnerFilterLabel, ordnerFilterComboBox, gbc, 4, 0);
-            filterPanel.add(ordnerFilterComboBox);
-
-            AddComponentsToPanel.addButtonToPanel(filterPanel, clearFiltersButton, gbc, 6, 2);
+            filterPanel.add(zyklusFilterLabel);
+            filterPanel.add(jahrFilterLabel);
+            filterPanel.add(ordnerFilterLabel);
+            filterPanel.add(new JLabel(""));
 
             JButton erweiterungenHinzufuegen = Buttons.btnErweiterungenHinzufuegen(Schrift.schriftartButtons());
             Borders.buttonBorder(erweiterungenHinzufuegen, Color.black);
             filterPanel.add(erweiterungenHinzufuegen);
 
+            filterPanel.add(zyklusFilterComboBox);
+            filterPanel.add(jahrFilterComboBox);
+            filterPanel.add(ordnerFilterComboBox);
+            filterPanel.add(Buttons.clearAllFilters(table, comboBoxes));
             JButton erweiterungenBearbeiten = Buttons.btnErweiterungenBearbeiten(Schrift.schriftartButtons());
             Borders.buttonBorder(erweiterungenBearbeiten, Color.black);
             filterPanel.add(erweiterungenBearbeiten);

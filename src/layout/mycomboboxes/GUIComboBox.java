@@ -3,11 +3,13 @@
  * Lieke Schors
  */
 
-package layout;
+package layout.mycomboboxes;
 
 import java.awt.Dimension;
 
 import javax.swing.JComboBox;
+
+import layout.Schrift;
 
 public class GUIComboBox<T> extends JComboBox<T> {
 

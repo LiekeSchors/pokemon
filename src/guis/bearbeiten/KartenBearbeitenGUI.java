@@ -34,19 +34,14 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
-import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import layout.Borders;
 import layout.Colors;
-import layout.GUILabel;
-import layout.GUIComboBox;
-import layout.GUILabel;
+import layout.mylabels.GUILabel;
 import layout.Schrift;
-import layout.guitextfield.GUIDateTextField;
-import layout.guitextfield.GUIDateTextField;
-import layout.guitextfield.GUIDoubleTextField;
-import layout.guitextfield.GUIIntegerTextField;
-import layout.guitextfield.GUITextField;
+import layout.mytextfields.GUIDateTextField;
+import layout.mytextfields.GUIIntegerTextField;
+import layout.mytextfields.GUITextField;
 
 public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,

@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package layout.guitextfield;
+package layout.mytextfields;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -166,9 +166,6 @@ public class PokemonKartenSammlungView extends JFrame {
             // Filter fuer Abkuerzung der Erweiterung
 
             String[] abkuerzungErweiterungFilter = ValuesToStringDB.getEindeutigeErweiterungAbkuerzung(true);
-            for (String erweiterungAbkuerzung : abkuerzungErweiterungFilter) {
-            }
-
             JComboBox<String> abkuerzungErweiterungFilterComboBox = new JComboBox<>(abkuerzungErweiterungFilter);
             JLabel abkuerzungErweiterungFilterLabel = new JLabel("Abkürzung Erweiterung: ");
             abkuerzungErweiterungFilterLabel.setFont(Schrift.normal());
@@ -184,10 +181,6 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter fuer Energie-Typ
             String[] energieTypFilter = ValuesToStringDB.getEnergieTyp(true);
-            for (String energieTyp : energieTypFilter) {
-            }
-
-
             JComboBox<String> energieTypFilterComboBox = new JComboBox<>(energieTypFilter);
             JLabel energieTypFilterLabel = new JLabel("Energie-Typ:");
             energieTypFilterLabel.setFont(Schrift.normal());
@@ -203,7 +196,7 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter fuer Besonderheit
 
-            String[] besonderheitFilter = ValuesToStringDB.getBeschreibungBesonderheit();
+            String[] besonderheitFilter = ValuesToStringDB.getBeschreibungBesonderheit(true);
             JComboBox<String> besonderheitFilterComboBox = new JComboBox<>(besonderheitFilter);
             JLabel besonderheitFilterLabel = new JLabel("Nach Besonderheit filtern: ");
             besonderheitFilterLabel.setFont(Schrift.normal());
@@ -262,6 +255,7 @@ public class PokemonKartenSammlungView extends JFrame {
 
             // Filter nach Wert in Euro
 
+            JComboBox[] comboBoxes = {abkuerzungErweiterungFilterComboBox, energieTypFilterComboBox, besonderheitFilterComboBox};
 
             // Aufbau der Panel
             GridBagConstraints gbc = new GridBagConstraints();
@@ -286,6 +280,7 @@ public class PokemonKartenSammlungView extends JFrame {
             JButton kartenBearbeiten = Buttons.btnKartenBearbeiten(Schrift.schriftartButtons());
             Borders.buttonBorder(kartenBearbeiten, Color.WHITE);
             filterPanel.add(kartenBearbeiten);
+            filterPanel.add(Buttons.clearAllFilters(table, comboBoxes));
 
             add(filterPanel, BorderLayout.NORTH);
 

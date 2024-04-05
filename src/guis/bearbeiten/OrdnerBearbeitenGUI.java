@@ -34,10 +34,10 @@ import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
 import guis.AbstractGUI;
 import layout.Colors;
-import layout.GUILabel;
+import layout.mylabels.GUILabel;
 import layout.Schrift;
-import layout.guitextfield.GUIIntegerTextField;
-import layout.guitextfield.GUITextField;
+import layout.mytextfields.GUIIntegerTextField;
+import layout.mytextfields.GUITextField;
 
 public class OrdnerBearbeitenGUI extends AbstractGUI<OrdnerBearbeitenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;

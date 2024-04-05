@@ -4,6 +4,7 @@
  */
 
 package funktionen;import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,10 +35,12 @@ public class AddComponentsToPanel {
     public static void addLabelAndComboBox(JPanel panel, JLabel label, JComboBox comboBox, GridBagConstraints gbc, int row, int column) {
         gbc.gridx = column;
         gbc.gridy = row;
+        gbc.insets = new Insets(0, 5, 0, 5);
         panel.add(label, gbc);
 
         gbc.gridx = column + 1;
         gbc.gridy = row;
+        gbc.insets = new Insets(0, 0, 0, 0);
         panel.add(comboBox, gbc);
     }
 

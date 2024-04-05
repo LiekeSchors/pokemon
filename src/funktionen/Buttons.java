@@ -12,22 +12,24 @@ import static layout.Colors.JAVA_COLOR_TUERKIS;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import guis.bearbeiten.BesonderheitenBearbeitenGUI;
-import guis.hinzufuegen.BesonderheitenHinzufuegenGUI;
 import guis.bearbeiten.ErweiterungenBearbeitenGUI;
-import guis.hinzufuegen.ErweiterungenHinzufuegenGUI;
 import guis.bearbeiten.KartenBearbeitenGUI;
-import guis.hinzufuegen.KartenHinzufuegenGUI;
 import guis.bearbeiten.OrdnerBearbeitenGUI;
-import guis.hinzufuegen.OrdnerHinzufuegenGUI;
 import guis.bearbeiten.SeltenheitenBearbeitenGUI;
+import guis.hinzufuegen.BesonderheitenHinzufuegenGUI;
+import guis.hinzufuegen.ErweiterungenHinzufuegenGUI;
+import guis.hinzufuegen.KartenHinzufuegenGUI;
+import guis.hinzufuegen.OrdnerHinzufuegenGUI;
 import guis.hinzufuegen.SeltenheitenHinzufuegenGUI;
-import layout.Colors;
-import layout.Schrift;
 import guis.views.PokemonKartenBearbeiten;
 import guis.views.PokemonKartenBesonderheitenView;
 import guis.views.PokemonKartenErweiterungenView;
@@ -35,6 +37,8 @@ import guis.views.PokemonKartenOrdnerView;
 import guis.views.PokemonKartenSammlungView;
 import guis.views.PokemonKartenSeltenheitenView;
 import guis.views.PokemonKartenView;
+import layout.Colors;
+import layout.Schrift;
 
 /**
  * Diese Klasse enthaelt viel verwendete Buttons sowie Button-Panels
@@ -293,5 +297,21 @@ public class Buttons {
         btnBack.setFont(font);
 
         return btnBack;
+    }
+
+    // Filter bereinigen
+    public static JButton clearAllFilters(JTable table, JComboBox... comboBoxes) {
+        JButton clearFiltersButton = new JButton("Alle Filter löschen");
+        clearFiltersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FilterViews.clearFilters(table);
+                for (JComboBox cb : comboBoxes) {
+                    cb.setSelectedItem("Alle");
+                }
+            }
+        });
+        clearFiltersButton.setFont(Schrift.schriftartButtons());
+        return clearFiltersButton;
     }
 }

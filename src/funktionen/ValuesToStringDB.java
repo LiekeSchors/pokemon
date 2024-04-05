@@ -189,9 +189,11 @@ public class ValuesToStringDB {
     }
 
     // Besonderheit
-    public static String[] getBeschreibungBesonderheit() {
+    public static String[] getBeschreibungBesonderheit(boolean alle) {
         List<String> beschreibungBesonderheitList = new ArrayList<>();
-        beschreibungBesonderheitList.add("Alle");
+        if (alle) {
+            beschreibungBesonderheitList.add("Alle");
+        }
 
         try (Connection con = DatenbankVerbindung.connectDB()) {
             String sql = "SELECT DISTINCT beschreibung FROM besonderheiten";
@@ -359,8 +361,18 @@ public class ValuesToStringDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Collections.sort(jahrList);
-
+        jahrList.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer int1, Integer int2) {
+                if (int1 == 0 && int2 != 0) {
+                    return -1; // "Alle" comes before other years
+                } else if (int1 != 0 && int2 == 0) {
+                    return 1; // "Alle" comes before other years
+                } else {
+                    return int1.compareTo(int2); // Numerical comparison for non-"Alle" years
+                }
+            }
+        });
         return jahrList.toArray(new Integer[0]);
     }
 

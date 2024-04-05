@@ -38,11 +38,11 @@ import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import guis.bearbeiten.ErweiterungenBearbeitenGUI;
 import layout.Colors;
-import layout.GUIComboBox;
-import layout.GUILabel;
+import layout.mycomboboxes.GUIComboBox;
+import layout.mylabels.GUILabel;
 import layout.Schrift;
-import layout.guitextfield.GUIIntegerTextField;
-import layout.guitextfield.GUITextField;
+import layout.mytextfields.GUIIntegerTextField;
+import layout.mytextfields.GUITextField;
 
 public class ErweiterungenHinzufuegenGUI extends AbstractGUI<ErweiterungenBearbeitenGUI> {
     // Code zum Einfuegen der Daten in die Datenbank

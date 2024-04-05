@@ -3,7 +3,7 @@
  * Lieke Schors
  */
 
-package layout.guitextfield;
+package layout.mytextfields;
 
 public class GUIIntegerTextField extends GUITextField {
     private final static String INTEGER_REGEX = "[1-9][0-9]*";

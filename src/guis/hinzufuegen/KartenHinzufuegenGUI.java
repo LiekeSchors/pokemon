@@ -43,13 +43,13 @@ import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import layout.Borders;
 import layout.Colors;
-import layout.GUIComboBox;
-import layout.GUILabel;
+import layout.mycomboboxes.GUIComboBox;
+import layout.mylabels.GUILabel;
 import layout.Schrift;
-import layout.guitextfield.GUIDateTextField;
-import layout.guitextfield.GUIDoubleTextField;
-import layout.guitextfield.GUIIntegerTextField;
-import layout.guitextfield.GUITextField;
+import layout.mytextfields.GUIDateTextField;
+import layout.mytextfields.GUIDoubleTextField;
+import layout.mytextfields.GUIIntegerTextField;
+import layout.mytextfields.GUITextField;
 
 public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
@@ -139,7 +139,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         seltenheitSymbolCombobox.setSelectedItem("●");
 
         besonderheitIDLabel = new GUILabel("Besonderheit");
-        besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit());
+        besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit(false));
         AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
         besonderheitComboBox.setSelectedItem("Ohne");
 

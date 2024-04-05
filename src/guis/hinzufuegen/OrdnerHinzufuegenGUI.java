@@ -37,9 +37,9 @@ import funktionen.Buttons;
 import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import layout.Colors;
-import layout.GUIComboBox;
+import layout.mycomboboxes.GUIComboBox;
 import layout.Schrift;
-import layout.guitextfield.GUITextField;
+import layout.mytextfields.GUITextField;
 
 public class OrdnerHinzufuegenGUI extends AbstractGUI<OrdnerHinzufuegenGUI> {
     private JLabel ordnerIDLabel, zyklusLabel, farbeLabel;
