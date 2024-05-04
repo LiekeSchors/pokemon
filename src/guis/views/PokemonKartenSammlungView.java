@@ -77,7 +77,7 @@ public class PokemonKartenSammlungView extends JFrame {
             model.addColumn("Energie-Typ");
             model.addColumn("Entwicklung von");
             model.addColumn("Kartennr.");
-            model.addColumn("Besonderheit-ID");
+            model.addColumn("Besonderheit");
             model.addColumn("Seltenheit-ID");
             model.addColumn("Wert in €");
             model.addColumn("Datum Werteingabe");
@@ -94,7 +94,7 @@ public class PokemonKartenSammlungView extends JFrame {
                         rs.getString("energie_typ"),
                         rs.getString("ursprung_name"),
                         rs.getInt("karten_nr"),
-                        rs.getString("besonderheit_id"),
+                        rs.getString("besonderheit"),
                         rs.getString("seltenheit_id"),
                         rs.getDouble("wert_in_euro"),
                         rs.getDate("wert_eingegeben_am"),

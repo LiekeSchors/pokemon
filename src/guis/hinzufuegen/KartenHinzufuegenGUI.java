@@ -54,7 +54,7 @@ import layout.mytextfields.GUITextField;
 public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
             pokemonNameLabel, energieTypLabel, ursprungNameLabel, kartenNummerLabel,
-            seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
+            seltenheitIDLabel, wertInEuroLabel, besonderheitLabel, datumWertEingabeLabel,
             nameZusatzLabel, trainerZusatzLabel, kartenNummerZusatzLabel;
 
     private JTextField kartenIDTextField, pokemonNameTextField, ursprungNameTextField, kartenNummerTextField,
@@ -138,9 +138,9 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
         seltenheitSymbolCombobox.setSelectedItem("●");
 
-        besonderheitIDLabel = new GUILabel("Besonderheit");
+        besonderheitLabel = new GUILabel("Besonderheit");
         besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit(false));
-        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
+        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitLabel, besonderheitComboBox, gbc, 3, 2);
         besonderheitComboBox.setSelectedItem("Ohne");
 
         wertInEuroLabel = new GUILabel("Wert der Karte in €");
@@ -237,7 +237,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         try {
             // Einfuegen der Daten mit automatisch inkrementierter ID
-            String sqlInsert = "INSERT INTO sammlung (erweiterung_abkuerzung, pokemon_name, energie_typ, ursprung_name, karten_nr, seltenheit_id, wert_in_euro, besonderheit_id, wert_eingegeben_am, name_zusatz, trainer_zusatz, kartennr_zusatz) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlInsert = "INSERT INTO sammlung (erweiterung_abkuerzung, pokemon_name, energie_typ, ursprung_name, karten_nr, seltenheit_id, wert_in_euro, besonderheit, wert_eingegeben_am, name_zusatz, trainer_zusatz, kartennr_zusatz) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatementInsert.setString(1, erweiterungAbkuerzung);
             preparedStatementInsert.setString(2, pokemonName);
