@@ -19,6 +19,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,7 +55,7 @@ import layout.mytextfields.GUITextField;
 public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
     private JLabel kartenIDLabel, erweiterungAbkuerzungLabel,
             pokemonNameLabel, energieTypLabel, ursprungNameLabel, kartenNummerLabel,
-            seltenheitIDLabel, wertInEuroLabel, besonderheitIDLabel, datumWertEingabeLabel,
+            seltenheitIDLabel, wertInEuroLabel, besonderheitLabel, datumWertEingabeLabel,
             nameZusatzLabel, trainerZusatzLabel, kartenNummerZusatzLabel;
 
     private JTextField kartenIDTextField, pokemonNameTextField, ursprungNameTextField, kartenNummerTextField,
@@ -138,9 +139,9 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         AddComponentsToPanel.addLabelAndComboBox(panel, seltenheitIDLabel, seltenheitSymbolCombobox, gbc, 3, 0);
         seltenheitSymbolCombobox.setSelectedItem("●");
 
-        besonderheitIDLabel = new GUILabel("Besonderheit");
+        besonderheitLabel = new GUILabel("Besonderheit");
         besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit(false));
-        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitIDLabel, besonderheitComboBox, gbc, 3, 2);
+        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitLabel, besonderheitComboBox, gbc, 3, 2);
         besonderheitComboBox.setSelectedItem("Ohne");
 
         wertInEuroLabel = new GUILabel("Wert der Karte in €");
@@ -224,7 +225,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
         String kartenNummer = kartenNummerTextField.getText();
         String symbolSeltenheit = (String) seltenheitSymbolCombobox.getSelectedItem();
         String wertInEuro = wertInEuroTextField.getText();
-        String besonderheitID = (String) besonderheitComboBox.getSelectedItem();
+        String besonderheit = (String) besonderheitComboBox.getSelectedItem();
         String datumWertEingabe = datumWertEingabeTextField.getText();
         datumWertEingabe = (datumWertEingabe.isEmpty()) ? null : datumWertEingabe;
         String nameZusatz = (String) nameZusatzComboBox.getSelectedItem();
@@ -237,7 +238,7 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
 
         try {
             // Einfuegen der Daten mit automatisch inkrementierter ID
-            String sqlInsert = "INSERT INTO sammlung (erweiterung_abkuerzung, pokemon_name, energie_typ, ursprung_name, karten_nr, seltenheit_id, wert_in_euro, besonderheit_id, wert_eingegeben_am, name_zusatz, trainer_zusatz, kartennr_zusatz) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sqlInsert = "INSERT INTO sammlung (erweiterung_abkuerzung, pokemon_name, energie_typ, ursprung_name, karten_nr, seltenheit_id, wert_in_euro, besonderheit, wert_eingegeben_am, name_zusatz, trainer_zusatz, kartennr_zusatz) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatementInsert = con.prepareStatement(sqlInsert, PreparedStatement.RETURN_GENERATED_KEYS);
             preparedStatementInsert.setString(1, erweiterungAbkuerzung);
             preparedStatementInsert.setString(2, pokemonName);
@@ -246,8 +247,8 @@ public class KartenHinzufuegenGUI extends AbstractGUI<KartenHinzufuegenGUI> {
             preparedStatementInsert.setInt(5, Integer.parseInt(kartenNummer));
             preparedStatementInsert.setString(6, symbolSeltenheit);
             preparedStatementInsert.setDouble(7, Double.parseDouble(wertInEuro));
-            preparedStatementInsert.setString(8, besonderheitID);
-            preparedStatementInsert.setString(9, datumWertEingabe);
+            preparedStatementInsert.setString(8, besonderheit);
+            preparedStatementInsert.setDate(9, Date.valueOf(datumWertEingabe));
             preparedStatementInsert.setString(10, nameZusatz);
             preparedStatementInsert.setString(11, trainerZusatz);
             preparedStatementInsert.setString(12, kartenNummerZusatz);

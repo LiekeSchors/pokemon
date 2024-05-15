@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import datenbank.DatenbankVerbindung;
 import guis.views.PokemonKartenView;
 
-public class LoginFormularErstellen extends JFrame {
+public class LoginFormular extends JFrame {
     private JLabel benutzerNameLabel, passWortLabel;
     private JTextField benutzerNameTextField;
     private JPasswordField passWortField;
@@ -29,7 +29,7 @@ public class LoginFormularErstellen extends JFrame {
     private JPanel panel;
 
 
-    public LoginFormularErstellen() {
+    public LoginFormular() {
         setTitle("Login Formular");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(800, 500));
@@ -77,7 +77,7 @@ public class LoginFormularErstellen extends JFrame {
             pokemonKartenView.setVisible(true);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(LoginFormularErstellen.this, "E-Mail oder Passwort nicht korrekt.",
+            JOptionPane.showMessageDialog(LoginFormular.this, "E-Mail oder Passwort nicht korrekt.",
                     "Versuche es noch einmal", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -113,7 +113,7 @@ public class LoginFormularErstellen extends JFrame {
 
     public static void main(String[] args) {
         try {
-            LoginFormularErstellen login = new LoginFormularErstellen();
+            LoginFormular login = new LoginFormular();
             login.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
