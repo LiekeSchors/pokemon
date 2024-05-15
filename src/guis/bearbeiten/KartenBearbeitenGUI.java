@@ -34,11 +34,13 @@ import javax.swing.KeyStroke;
 import datenbank.DatenbankVerbindung;
 import funktionen.AddComponentsToPanel;
 import funktionen.Buttons;
+import funktionen.ValuesToStringDB;
 import guis.AbstractGUI;
 import layout.Borders;
 import layout.Colors;
-import layout.mylabels.GUILabel;
 import layout.Schrift;
+import layout.mycomboboxes.GUIComboBox;
+import layout.mylabels.GUILabel;
 import layout.mytextfields.GUIDateTextField;
 import layout.mytextfields.GUIIntegerTextField;
 import layout.mytextfields.GUITextField;
@@ -53,6 +55,8 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
             energieTypTextField, ursprungNameTextField, kartenNummerTextField, seltenheitIDTextField,
             wertInEuroTextField, besonderheitTextField, datumWertEingabeTextField,
             nameZusatzTextField, trainerZusatzTextField, kartenNummerZusatzTextField;
+
+    private GUIComboBox<String> besonderheitComboBox;
 
     private JButton hinzufuegenButton;
 
@@ -102,12 +106,12 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         seltenheitIDTextField.setFont(new Font("Arial", Font.PLAIN, 22));
         AddComponentsToPanel.addLabelAndTextField(panel, seltenheitIDLabel, seltenheitIDTextField, gbc, 3, 0);
 
-        besonderheitLabel = new JLabel("Besonderheit");
-        besonderheitLabel.setFont(new Font("Arial", Font.PLAIN, 22));
-        besonderheitTextField = new JTextField();
-        besonderheitTextField.setPreferredSize(new Dimension(150, 30));
-        besonderheitTextField.setFont(new Font("Arial", Font.PLAIN, 22));
-        AddComponentsToPanel.addLabelAndTextField(panel, besonderheitLabel, besonderheitTextField, gbc, 3, 2);
+        besonderheitLabel = new GUILabel("Besonderheit");
+        besonderheitComboBox = new GUIComboBox<>(ValuesToStringDB.getBeschreibungBesonderheit(false));
+        AddComponentsToPanel.addLabelAndComboBox(panel, besonderheitLabel, besonderheitComboBox, gbc, 3, 2);
+
+        // TODO: Aendern in zugehoeriger Typ zu Erweiterung und ID
+        besonderheitComboBox.setSelectedItem("Ohne");
 
         wertInEuroLabel = new JLabel("Wert der Karte in €");
         wertInEuroLabel.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -183,7 +187,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         String ursprungName = ursprungNameTextField.getText().trim();
         String seltenheitID = seltenheitIDTextField.getText().trim();
         String wertInEuro = wertInEuroTextField.getText().trim();
-        String besonderheit = besonderheitTextField.getText().trim();
+        String besonderheit = (String) besonderheitComboBox.getSelectedItem();
         Date datumWertEingabe = Date.valueOf(datumWertEingabeTextField.getText().trim());
         String nameZusatz = nameZusatzTextField.getText().trim();
         nameZusatz = (nameZusatz.isEmpty()) ? null : nameZusatz;
@@ -215,6 +219,7 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
                 sqlUpdate.append("wert_in_euro = ?, ");
                 isFieldAdded = true;
             }
+            assert besonderheit != null;
             if (!besonderheit.isEmpty()) {
                 sqlUpdate.append("besonderheit = ?, ");
                 isFieldAdded = true;
@@ -298,7 +303,6 @@ public class KartenBearbeitenGUI extends AbstractGUI<KartenBearbeitenGUI> {
         kartenNummerTextField.setText("");
         seltenheitIDTextField.setText("");
         wertInEuroTextField.setText("");
-        besonderheitTextField.setText("");
         datumWertEingabeTextField.setText("");
         nameZusatzTextField.setText("");
         trainerZusatzTextField.setText("");
